@@ -4,7 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#064e3b">
+<meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Bintang Tani">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
 <title>Bintang Tani - Keuangan CCR & Bimo</title>
 <style>
 :root{--bg:#f2f6f3;--card:#fff;--ink:#0f2419;--muted:#64748b;--line:#e2ebe5;--brand:#065f46;--brand2:#059669;--mint:#ecfdf5;--blu:#2563eb;--amb:#d97706;--red:#dc2626}
@@ -67,6 +73,7 @@ th{background:#f8faf9;color:#475569;font-weight:700;font-size:11.5px;text-transf
 .cline{display:flex;align-items:center;gap:8px;margin-top:10px;font-size:13px;font-weight:600;cursor:pointer;color:#065f46}
 .filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:11px}.filters input,.filters select{max-width:210px}.hidden{display:none!important}
 .green{color:#059669}.red{color:var(--red)}
+.apk-box{border:1px solid #a7f3d0;background:linear-gradient(135deg,#ecfdf5,#fff)}
 .toast{position:fixed;top:72px;left:50%;transform:translateX(-50%) translateY(-14px);background:#065f46;color:#fff;padding:10px 18px;border-radius:99px;font-size:13px;font-weight:700;box-shadow:0 8px 22px rgba(6,78,59,.28);opacity:0;pointer-events:none;transition:.2s;z-index:99}.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 footer{text-align:center;color:var(--muted);font-size:12px;margin-top:8px}
 @media(max-width:760px){
@@ -86,7 +93,7 @@ footer{text-align:center;color:var(--muted);font-size:12px;margin-top:8px}
       <div class="logo">
         <svg width="21" height="21" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.6 5.4 6 .8-4.3 4.2 1 6-5.3-2.8-5.3 2.8 1-6L3.4 8.2l6-.8z"/></svg>
       </div>
-      <div><h1>BINTANG TANI</h1><div class="brand-sub"><small>Keuangan CCR &amp; Bimo</small><span class="ver">V6</span></div></div>
+      <div><h1>BINTANG TANI</h1><div class="brand-sub"><small>Keuangan CCR &amp; Bimo</small><span class="ver">V7</span></div></div>
     </div>
     <div class="dpill" id="today"></div>
   </div>
@@ -232,6 +239,17 @@ footer{text-align:center;color:var(--muted);font-size:12px;margin-top:8px}
       <div class="filters no-print"><input type="month" id="reportMonth"><button type="button" class="btn primary" id="makeReport">Tampilkan</button></div>
       <div id="reportResult"></div>
     </div>
+
+    <div class="card apk-box no-print">
+      <div class="sh" style="border-bottom-color:#a7f3d0"><h3>📱 Identitas APK &amp; Mode Offline</h3><span class="pgreen" id="swStatus">Online</span></div>
+      <p class="note" style="margin-top:0">Pasang <b>Bintang Tani</b> ke layar utama HP agar tampil penuh tanpa bar browser dan bisa dibuka saat offline. Untuk melengkapi ikon APK di GitHub / PWABuilder, unduh 2 file ikon PNG di bawah lalu upload ke repository GitHub Anda.</p>
+      <div class="actions">
+        <button type="button" class="btn primary" id="btnInstall" onclick="installApp()">Pasang ke Layar Utama</button>
+        <button type="button" class="btn gray" onclick="dlIcon(192)">Unduh icon-192.png</button>
+        <button type="button" class="btn gray" onclick="dlIcon(512)">Unduh icon-512.png</button>
+      </div>
+    </div>
+
     <div class="card no-print">
       <h3>Backup &amp; Pulihkan Data</h3>
       <p class="note">Simpan file backup JSON secara berkala agar data usaha Anda tetap aman.</p>
@@ -258,7 +276,7 @@ const formatRp=v=>{const d=String(v??'').replace(/\D/g,'').replace(/^0+(?=\d)/,'
 const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,7);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const DB_KEY='bintangtani_data';
-let db=load(),editId=null,unchecked=new Set(),toastT;
+let db=load(),editId=null,unchecked=new Set(),toastT,defPrompt=null;
 
 function toast(msg){const t=$('toast');if(!t)return;t.textContent=msg;t.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('show'),2200)}
 function blank(){return {transactions:[],employees:[],payroll:[],loans:[],repayments:[],sackWork:[],sackPayments:[]}}
@@ -301,12 +319,18 @@ function workTotal(w){return w.amount!=null?Number(w.amount):Math.round(Number(w
 function workPaid(id){return db.sackPayments.filter(p=>p.workId===id).reduce((a,p)=>a+Number(p.amount||0),0)}
 function addTx(type,date,category,amount,note,ref,id,unit){db.transactions.push({id:id||uid(),unit:unit||'CCR',type,date,category,amount:Math.round(Number(amount||0)),note:note||'',ref:ref||''})}
 
-function openTab(t){
+function openTab(t,fromPop){
+  if(!$(t))t='dashboard';
   document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('active',b.dataset.tab===t));
   document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('active',p.id===t));
   window.scrollTo({top:0,behavior:'instant'});
+  if(!fromPop&&location.hash!=='#'+t){try{history.pushState({tab:t},'','#'+t)}catch(e){}}
   render();
 }
+window.addEventListener('popstate',e=>{
+  const t=e.state?.tab||(location.hash?location.hash.slice(1):'dashboard');
+  if($(t))openTab(t,true);
+});
 
 function buildUnitPanel(u){
   const badge=u==='CCR'?'blu':'amb';
@@ -538,13 +562,36 @@ $('exportCsv').onclick=()=>{
   const b=new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8'}),a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='transaksi-bintang-tani.csv';a.click();URL.revokeObjectURL(a.href);
 };
 
-function weekRange(){const d=new Date(),day=(d.getDay()+6)%7,mon=new Date(d);mon.setDate(d.getDate()-day);const sun=new Date(mon);sun.setDate(mon.getDate()+6);return [localISO(mon),localISO(sun)]}
-
-function setBar(id1,id2,v1,v2){
-  const tot=v1+v2;
-  $(id1).style.width=tot?(v1/tot*100).toFixed(1)+'%':'0%';
-  $(id2).style.width=tot?(v2/tot*100).toFixed(1)+'%':'0%';
+function dlIcon(sz){
+  const c=document.createElement('canvas');c.width=sz;c.height=sz;
+  const ctx=c.getContext('2d'),g=ctx.createLinearGradient(0,0,sz,sz);
+  g.addColorStop(0,'#064e3b');g.addColorStop(1,'#059669');
+  ctx.fillStyle=g;ctx.fillRect(0,0,sz,sz);
+  ctx.beginPath();ctx.arc(sz/2,sz/2,sz*0.36,0,Math.PI*2);
+  ctx.fillStyle='rgba(255,255,255,0.09)';ctx.fill();
+  const cx=sz/2,cy=sz*0.48,R=sz*0.25,r=sz*0.108;
+  ctx.beginPath();
+  for(let i=0;i<10;i++){const rad=i%2===0?R:r,a=-Math.PI/2+i*Math.PI/5;if(i===0)ctx.moveTo(cx+Math.cos(a)*rad,cy+Math.sin(a)*rad);else ctx.lineTo(cx+Math.cos(a)*rad,cy+Math.sin(a)*rad)}
+  ctx.closePath();
+  const sg=ctx.createLinearGradient(0,cy-R,0,cy+R);sg.addColorStop(0,'#fde68a');sg.addColorStop(1,'#f59e0b');
+  ctx.fillStyle=sg;ctx.fill();
+  ctx.beginPath();ctx.arc(sz/2,sz*0.52,sz*0.30,0.22*Math.PI,0.78*Math.PI);
+  ctx.lineWidth=sz*0.032;ctx.lineCap='round';ctx.strokeStyle='#a7f3d0';ctx.stroke();
+  c.toBlob(b=>{const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=`icon-${sz}.png`;a.click();URL.revokeObjectURL(a.href);toast(`icon-${sz}.png diunduh`)},'image/png');
 }
+
+function installApp(){
+  if(defPrompt){defPrompt.prompt();return}
+  alert('Untuk memasang seperti APK: buka menu browser (⋮ di Chrome Android / Share di Safari iPhone) lalu pilih "Install Aplikasi" atau "Tambahkan ke Layar utama".');
+}
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();defPrompt=e});
+window.addEventListener('appinstalled',()=>{defPrompt=null;toast('Bintang Tani berhasil dipasang!')});
+if('serviceWorker' in navigator){
+  window.addEventListener('load',()=>{navigator.serviceWorker.register('./sw.js').then(()=>{$('swStatus').textContent='Siap Offline'}).catch(()=>{})});
+}
+
+function weekRange(){const d=new Date(),day=(d.getDay()+6)%7,mon=new Date(d);mon.setDate(d.getDate()-day);const sun=new Date(mon);sun.setDate(mon.getDate()+6);return [localISO(mon),localISO(sun)]}
+function setBar(id1,id2,v1,v2){const tot=v1+v2;$(id1).style.width=tot?(v1/tot*100).toFixed(1)+'%':'0%';$(id2).style.width=tot?(v2/tot*100).toFixed(1)+'%':'0%'}
 
 function renderEmpGroup(grp,rowId,unpaidId,cntId){
   const emps=db.employees.filter(e=>empGroup(e)===grp);
