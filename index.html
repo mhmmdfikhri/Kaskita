@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#070d0a">
-<title>Bintang Tani - Keuangan Usaha</title>
+<title>Bintang Tani - Keuangan CCR & Bimo</title>
 <style>
 :root{--bg:#070d0a;--card:#0f1914;--ink:#eef7f2;--muted:#8fa89b;--line:#1d3328;--g1:#22c55e;--g2:#10b981;--g3:#059669;--red:#f87171;--amb:#fbbf24;--blu:#60a5fa}
 *{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top right,#0d271b 0%,#070d0a 48%);background-color:var(--bg);color:var(--ink);font:14.5px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;min-height:100vh}
@@ -28,7 +28,7 @@ nav button.active{background:linear-gradient(135deg,var(--g1),var(--g2));color:#
 .dpill{background:#122019;border:1px solid #244032;padding:6px 12px;border-radius:10px;font-size:12.5px;color:#d1fae5;font-weight:600}
 .sgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px;margin-bottom:13px}
 .stat{margin:0;background:linear-gradient(180deg,#111d17 0%,#0b1410 100%)}.stat.full{grid-column:1/-1}
-.stat small{color:var(--muted);font-size:12.5px;display:block}.stat strong{font-size:21px;display:block;margin-top:6px;font-variant-numeric:tabular-nums;color:#4ade80}
+.stat small{color:var(--muted);font-size:12.5px;display:block}.stat strong{font-size:20px;display:block;margin-top:6px;font-variant-numeric:tabular-nums;color:#4ade80}
 .stat strong.red{color:var(--red)}.stat strong.amb{color:var(--amb)}.stat strong.blu{color:var(--blu)}
 .sh{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:10px;padding-bottom:9px;border-bottom:1px solid var(--line)}.sh h3{margin:0;font-size:15px}
 .pgreen{background:rgba(16,185,129,.16);border:1px solid rgba(16,185,129,.35);color:#34d399;padding:3px 10px;border-radius:99px;font-size:11.5px;font-weight:700}
@@ -42,20 +42,20 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--g1);box-
 textarea{min-height:58px;resize:vertical}input[type="checkbox"]{width:auto;margin:0;accent-color:var(--g1)}
 .actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:13px}
 .tw{overflow:auto;border:1px solid var(--line);border-radius:12px;background:#0a120e}
-table{width:100%;border-collapse:collapse;min-width:450px}th,td{text-align:left;padding:10px 11px;border-bottom:1px solid var(--line);font-size:13px;font-variant-numeric:tabular-nums}
+table{width:100%;border-collapse:collapse;min-width:460px}th,td{text-align:left;padding:10px 11px;border-bottom:1px solid var(--line);font-size:13px;font-variant-numeric:tabular-nums}
 th{background:#101c16;color:#8fa89b;font-weight:700;font-size:11.5px;text-transform:uppercase}tbody tr:last-child td{border-bottom:0}
 .empty{text-align:center;color:var(--muted);padding:18px}
 .badge{display:inline-block;padding:3px 8px;border-radius:99px;font-size:11px;font-weight:700;background:rgba(34,197,94,.16);color:#4ade80}
-.badge.red{background:rgba(248,113,113,.16);color:#fca5a5}.badge.blu{background:rgba(96,165,250,.16);color:#93c5fd}.badge.amb{background:rgba(251,191,36,.16);color:#fcd34d}
+.badge.red{background:rgba(248,113,113,.16);color:#fca5a5}.badge.blu{background:rgba(96,165,250,.16);color:#93c5fd}.badge.amb{background:rgba(251,191,36,.16);color:#fcd34d}.badge.gray{background:rgba(148,163,184,.16);color:#cbd5e1}
 .note{font-size:12px;color:var(--muted);line-height:1.45}.sbox{margin-top:13px;padding:13px;border:1px solid #1f4d37;border-radius:13px;background:#0b1712}
 .split{display:grid;grid-template-columns:1fr 1fr;gap:12px}.ucard{border:1px solid var(--line);border-radius:12px;padding:11px;background:#0d1913;margin-top:10px}
 .rbox{background:#09110d;border:1px solid var(--line);border-radius:10px;padding:10px}.rhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:7px;font-weight:700;font-size:13px;color:#d1fae5}
 .clist{display:flex;flex-direction:column;gap:6px;max-height:160px;overflow:auto}
 .citem{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:7px 9px;border:1px solid #1e3329;border-radius:8px;font-size:13px;cursor:pointer;background:#0e1914}
 .prev{margin-top:11px;padding:11px;background:#09110d;border:1px dashed var(--g1);border-radius:10px;font-size:13px}
-.prow{display:flex;justify-content:space-between;gap:8px;padding:4px 0;border-bottom:1px solid #182a21}.prow:last-child{border-bottom:0}
+.prow{display:flex;justify-content:space-between;gap:8px;padding:5px 0;border-bottom:1px solid #182a21;align-items:center}.prow:last-child{border-bottom:0}
 .cline{display:flex;align-items:center;gap:8px;margin-top:10px;font-size:13px;font-weight:600;cursor:pointer;color:#86efac}
-.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:11px}.filters input,.filters select{max-width:210px}.hidden{display:none!important}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:11px}.filters input,.filters select{max-width:200px}.hidden{display:none!important}
 .green{color:#4ade80}.red{color:var(--red)}
 .toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%) translateY(16px);background:#16a34a;color:#fff;padding:10px 18px;border-radius:99px;font-size:13px;font-weight:700;box-shadow:0 8px 24px rgba(0,0,0,.45);opacity:0;pointer-events:none;transition:.2s;z-index:99}.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 footer{text-align:center;color:var(--muted);font-size:12px;margin-top:8px}
@@ -68,7 +68,7 @@ footer{text-align:center;color:var(--muted);font-size:12px;margin-top:8px}
   <div class="hi">
     <div class="brand">
       <div class="logo">🌾</div>
-      <div><h1>BINTANG TANI</h1><div class="brand-sub"><small>KEUANGAN CCR &amp; BIMO</small><span class="ver">V2</span></div></div>
+      <div><h1>BINTANG TANI</h1><div class="brand-sub"><small>KEUANGAN CCR &amp; BIMO</small><span class="ver">V3</span></div></div>
     </div>
     <div class="dpill" id="today"></div>
   </div>
@@ -86,22 +86,26 @@ footer{text-align:center;color:var(--muted);font-size:12px;margin-top:8px}
   <section id="dashboard" class="panel active">
     <div class="card tbar"><div class="tleft"><div class="ico">🏠</div><span>Dashboard</span></div><div class="dpill" id="dashDate"></div></div>
     <div class="sgrid">
-      <div class="card stat"><small>Total Pemasukan</small><strong id="sIn">Rp0</strong></div>
-      <div class="card stat"><small>Total Pengeluaran</small><strong class="red" id="sOut">Rp0</strong></div>
+      <div class="card stat"><small>Pemasukan CCR</small><strong class="blu" id="sInCCR">Rp0</strong><span class="note" id="sOutCCR">Keluar: Rp0</span></div>
+      <div class="card stat"><small>Pemasukan Bimo</small><strong class="amb" id="sInBimo">Rp0</strong><span class="note" id="sOutBimo">Keluar: Rp0</span></div>
+      <div class="card stat"><small>Saldo CCR</small><strong id="sBalCCR">Rp0</strong></div>
+      <div class="card stat"><small>Saldo Bimo</small><strong id="sBalBimo">Rp0</strong></div>
       <div class="card stat"><small>Upah Belum Dibayar</small><strong class="amb" id="sUnpaid">Rp0</strong><span class="note" id="sUnpaidSplit">CCR: Rp0 • Bimo: Rp0</span></div>
       <div class="card stat"><small>Pinjaman Belum Lunas</small><strong class="blu" id="sLoan">Rp0</strong></div>
-      <div class="card stat full"><small>Saldo Keseluruhan</small><strong id="sBal">Rp0</strong></div>
+      <div class="card stat full"><small>Total Saldo Keseluruhan (CCR + Bimo + Umum)</small><strong id="sBal">Rp0</strong><span class="note" id="sTotSub">Total Masuk: Rp0 • Total Keluar: Rp0</span></div>
     </div>
     <div class="card">
       <div class="sh"><h3>📅 Ringkasan Minggu Ini</h3><span class="pgreen" id="wkCount">0 transaksi</span></div>
-      <div class="srow"><span>Pemasukan Minggu Ini</span><b id="wkIn">Rp0</b></div>
-      <div class="srow"><span>Pengeluaran Minggu Ini</span><b id="wkOut">Rp0</b></div>
+      <div class="srow"><span>Pemasukan CCR</span><b class="blu" id="wkInCCR">Rp0</b></div>
+      <div class="srow"><span>Pemasukan Bimo</span><b class="amb" id="wkInBimo">Rp0</b></div>
+      <div class="srow"><span>Total Pengeluaran</span><b class="red" id="wkOut">Rp0</b></div>
       <div class="sbar bright"><span>Saldo Minggu Ini</span><span id="wkNet">Rp0</span></div>
     </div>
     <div class="card">
       <div class="sh"><h3>📅 Ringkasan Bulan Ini</h3><span class="pgreen" id="moCount">0 transaksi</span></div>
-      <div class="srow"><span>Pemasukan Bulan Ini</span><b id="moIn">Rp0</b></div>
-      <div class="srow"><span>Pengeluaran Bulan Ini</span><b id="moOut">Rp0</b></div>
+      <div class="srow"><span>Pemasukan CCR</span><b class="blu" id="moInCCR">Rp0</b></div>
+      <div class="srow"><span>Pemasukan Bimo</span><b class="amb" id="moInBimo">Rp0</b></div>
+      <div class="srow"><span>Total Pengeluaran</span><b class="red" id="moOut">Rp0</b></div>
       <div class="sbar deep"><span>Saldo Bulan Ini</span><span id="moNet">Rp0</span></div>
     </div>
     <div class="card"><h3>Transaksi Terbaru</h3><div id="recent"></div></div>
@@ -112,20 +116,21 @@ footer{text-align:center;color:var(--muted);font-size:12px;margin-top:8px}
       <h3>Catat Pemasukan / Pengeluaran</h3>
       <form id="txForm">
         <div class="fg">
+          <div class="fd"><label>Bagian Keuangan</label><select id="txUnit"><option value="CCR">Keuangan CCR</option><option value="Bimo">Keuangan Bimo</option><option value="Umum">Umum / Gabungan</option></select></div>
           <div class="fd"><label>Jenis Transaksi</label><select id="txType"><option value="in">Pemasukan</option><option value="out">Pengeluaran</option></select></div>
           <div class="fd"><label>Tanggal</label><input id="txDate" type="date" required></div>
           <div class="fd"><label>Kategori</label><input id="txCategory" placeholder="Contoh: Penjualan, Giling, Operasional" required></div>
-          <div class="fd"><label>Jumlah Uang (Rp)</label><input id="txAmount" type="text" inputmode="numeric" autocomplete="off" placeholder="Contoh: 100.000" required></div>
+          <div class="fd full"><label>Jumlah Uang (Rp)</label><input id="txAmount" type="text" inputmode="numeric" autocomplete="off" placeholder="Contoh: 100.000" required></div>
           <div class="fd full"><label>Keterangan (Opsional)</label><textarea id="txNote" placeholder="Catatan tambahan"></textarea></div>
         </div>
         <div id="txSackBox" class="sbox">
           <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap">
-            <strong>🌾 Hitung Upah Karung Otomatis (CCR / Bimo)</strong>
+            <strong>🌾 Hitung Upah Karung Otomatis</strong>
             <button type="button" class="btn gray sm" onclick="openTab('pegawai')">+ Isi / Kelola Pegawai</button>
           </div>
-          <p class="note" style="margin:4px 0 10px">Pilih bagian pegawai (CCR / Bimo) dan isi jumlah karung jika pemasukan hari ini disertai pengerjaan karung.</p>
+          <p class="note" style="margin:4px 0 10px">Isi jumlah karung jika pemasukan hari ini disertai pengerjaan karung.</p>
           <div class="fg">
-            <div class="fd"><label>Bagian Pegawai</label><select id="txGroup"><option value="CCR">Pegawai CCR</option><option value="Bimo">Pegawai Bimo</option><option value="ALL">Semua (CCR &amp; Bimo)</option></select></div>
+            <div class="fd"><label>Pegawai Yang Dihitung</label><select id="txGroup"><option value="CCR">Pegawai CCR</option><option value="Bimo">Pegawai Bimo</option><option value="ALL">Semua (CCR &amp; Bimo)</option></select></div>
             <div class="fd"><label>Jumlah Karung Hari Ini</label><input id="txSacks" type="number" min="0" step="1" placeholder="Contoh: 100"></div>
             <div class="fd full"><label>Hitungan Jika &gt;1 Orang Per Jenis</label><select id="txSplit"><option value="full">Penuh per orang (masing-masing × jumlah karung)</option><option value="equal">Bagi rata per jenis (karung ÷ jumlah orang terpilih)</option></select></div>
           </div>
@@ -138,8 +143,13 @@ footer{text-align:center;color:var(--muted);font-size:12px;margin-top:8px}
     </div>
     <div class="card">
       <h3>Riwayat Transaksi</h3>
-      <div class="filters"><input id="txSearch" placeholder="Cari kategori / keterangan"><select id="txFilter"><option value="all">Semua</option><option value="in">Pemasukan</option><option value="out">Pengeluaran</option></select></div>
-      <div class="tw"><table><thead><tr><th>Tanggal</th><th>Jenis</th><th>Kategori</th><th>Keterangan</th><th>Jumlah</th><th>Aksi</th></tr></thead><tbody id="txRows"></tbody></table></div>
+      <div class="filters">
+        <input id="txSearch" placeholder="Cari kategori / keterangan">
+        <select id="txUnitFilter"><option value="all">Semua Bagian</option><option value="CCR">CCR</option><option value="Bimo">Bimo</option><option value="Umum">Umum</option></select>
+        <select id="txFilter"><option value="all">Semua Jenis</option><option value="in">Pemasukan</option><option value="out">Pengeluaran</option></select>
+      </div>
+      <div id="txSumLine" class="note" style="margin-bottom:8px"></div>
+      <div class="tw"><table><thead><tr><th>Tanggal</th><th>Bagian</th><th>Jenis</th><th>Kategori</th><th>Keterangan</th><th>Jumlah</th><th>Aksi</th></tr></thead><tbody id="txRows"></tbody></table></div>
     </div>
   </section>
 
@@ -184,7 +194,7 @@ footer{text-align:center;color:var(--muted);font-size:12px;margin-top:8px}
           </div>
           <div class="actions"><button type="submit" class="btn primary">Catat Pinjaman</button></div>
         </form>
-        <p class="note">Pencairan pinjaman otomatis tercatat sebagai pengeluaran.</p>
+        <p class="note">Pencairan pinjaman otomatis tercatat sebagai pengeluaran pada bagian pegawai tersebut.</p>
       </div>
       <div class="card">
         <h3>Bayar Angsuran / Pelunasan</h3>
@@ -204,7 +214,7 @@ footer{text-align:center;color:var(--muted);font-size:12px;margin-top:8px}
 
   <section id="laporan" class="panel">
     <div class="card">
-      <div class="sh"><h3>Rekap Bulanan</h3><button class="btn gray no-print sm" onclick="print()">🖨️ Cetak</button></div>
+      <div class="sh"><h3>Rekap Bulanan (CCR vs Bimo)</h3><button class="btn gray no-print sm" onclick="print()">🖨️ Cetak</button></div>
       <div class="filters no-print"><input type="month" id="reportMonth"><button class="btn primary" id="makeReport">Tampilkan</button></div>
       <div id="reportResult"></div>
     </div>
@@ -261,9 +271,11 @@ function empObj(id){return db.employees.find(e=>e.id===id)}
 function empName(id){return empObj(id)?.name||'Pegawai dihapus'}
 function empGroup(e){return e?.group==='Bimo'?'Bimo':'CCR'}
 function empRate(e){return Number(e?.ratePerSack??e?.salary??0)}
+function txUnitVal(x){if(x?.unit)return x.unit;const s=((x?.category||'')+' '+(x?.note||'')).toLowerCase();if(s.includes('bimo'))return 'Bimo';if(s.includes('ccr'))return 'CCR';return 'Umum'}
+function unitBadge(u){return u==='CCR'?'blu':(u==='Bimo'?'amb':'gray')}
 function workTotal(w){return w.amount!=null?Number(w.amount):Math.round(Number(w.count)*Number(w.rate))}
 function workPaid(id){return db.sackPayments.filter(p=>p.workId===id).reduce((a,p)=>a+Number(p.amount),0)}
-function addTx(type,date,category,amount,note,ref,id){db.transactions.push({id:id||uid(),type,date,category,amount:Math.round(Number(amount)),note:note||'',ref:ref||''})}
+function addTx(type,date,category,amount,note,ref,id,unit){db.transactions.push({id:id||uid(),unit:unit||'Umum',type,date,category,amount:Math.round(Number(amount)),note:note||'',ref:ref||''})}
 
 function openTab(t){
   document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('active',b.dataset.tab===t));
@@ -279,11 +291,17 @@ document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>openTab(b.datas
 
 bindRp('txAmount',updatePreview);bindRp('empRate');bindRp('loanAmount');bindRp('repayAmount');
 
+function syncUnitToGroup(){
+  const u=$('txUnit').value;
+  $('txGroup').value=u==='Umum'?'ALL':u;
+  renderPickers();updatePreview();
+}
 function toggleSackBox(){$('txSackBox').classList.toggle('hidden',$('txType').value!=='in');updatePreview()}
+$('txUnit').onchange=syncUnitToGroup;
 $('txType').onchange=toggleSackBox;
 $('txGroup').onchange=()=>{renderPickers();updatePreview()};
 $('txSacks').oninput=updatePreview;$('txSplit').onchange=updatePreview;
-$('txForm').onreset=()=>setTimeout(()=>{$('txDate').value=today;toggleSackBox()},0);
+$('txForm').onreset=()=>setTimeout(()=>{$('txDate').value=today;syncUnitToGroup();toggleSackBox()},0);
 
 function activeGroups(){const g=$('txGroup').value;return g==='ALL'?['CCR','Bimo']:[g]}
 function onCheckEmp(el){if(el.checked)unchecked.delete(el.value);else unchecked.add(el.value);updatePreview()}
@@ -342,23 +360,23 @@ function updatePreview(){
 
 $('txForm').onsubmit=e=>{
   e.preventDefault();
-  const type=$('txType').value,date=$('txDate').value,cat=$('txCategory').value.trim(),amt=parseRp($('txAmount').value),note=$('txNote').value.trim();
+  const unit=$('txUnit').value,type=$('txType').value,date=$('txDate').value,cat=$('txCategory').value.trim(),amt=parseRp($('txAmount').value),note=$('txNote').value.trim();
   if(amt<=0)return alert('Masukkan jumlah uang lebih dari 0.');
-  const sacks=type==='in'?Number($('txSacks').value||0):0,wages=sacks>0?calcWages():[],grpLabel=$('txGroup').value==='ALL'?'CCR & Bimo':$('txGroup').value;
+  const sacks=type==='in'?Number($('txSacks').value||0):0,wages=sacks>0?calcWages():[];
   if(sacks>0&&!wages.length)return alert('Centang minimal 1 Operator atau Buruh, atau kosongkan jumlah karung.');
-  const txId=uid(),txNote=sacks>0?(note?note+' ('+grpLabel+' • '+fmtNum(sacks)+' krg)':grpLabel+' • '+fmtNum(sacks)+' karung'):note;
-  addTx(type,date,cat,amt,txNote,'',txId);
+  const txId=uid(),txNote=sacks>0?(note?note+' ('+fmtNum(sacks)+' karung)':fmtNum(sacks)+' karung'):note;
+  addTx(type,date,cat,amt,txNote,'',txId,unit);
   const payNow=sacks>0&&$('txPayNow').checked;
   wages.forEach(x=>{
-    const w={id:uid(),date,empId:x.emp.id,group:x.grp,count:x.sacks,rate:x.rate,amount:x.wage,note:'Pemasukan: '+cat+' ('+x.grp+')',txId};
+    const w={id:uid(),date,empId:x.emp.id,group:x.grp,count:x.sacks,rate:x.rate,amount:x.wage,note:'Pemasukan '+unit+': '+cat,txId};
     db.sackWork.push(w);
     if(payNow&&x.wage>0){
       db.sackPayments.push({id:uid(),workId:w.id,empId:x.emp.id,date,amount:x.wage});
       db.payroll.push({id:uid(),empId:x.emp.id,period:date.slice(0,7),date,amount:x.wage,note:'Upah '+x.grp+' '+x.role+' ('+fmtNum(x.sacks)+' krg)'});
-      addTx('out',date,'Upah '+x.grp+' - '+x.emp.name,x.wage,'Upah otomatis: '+cat,'sackpay:'+w.id);
+      addTx('out',date,'Upah '+x.grp+' - '+x.emp.name,x.wage,'Upah otomatis: '+cat,'sackpay:'+w.id,null,x.grp);
     }
   });
-  e.target.reset();$('txDate').value=today;toggleSackBox();save('Transaksi tersimpan');
+  e.target.reset();$('txUnit').value=unit;$('txDate').value=today;syncUnitToGroup();toggleSackBox();save('Transaksi '+unit+' tersimpan');
 };
 
 function delTx(id){
@@ -393,8 +411,8 @@ function paySack(empId){
   if(!confirm('Bayar sisa upah '+money(due)+' untuk '+empName(empId)+' ('+grp+')?'))return;
   works.forEach(w=>{const rem=workTotal(w)-workPaid(w.id);if(rem>0)db.sackPayments.push({id:uid(),workId:w.id,empId,date:today,amount:rem})});
   db.payroll.push({id:uid(),empId,period:today.slice(0,7),date:today,amount:due,note:'Pembayaran upah karung ('+grp+')'});
-  addTx('out',today,'Upah '+grp+' - '+empName(empId),due,'Pembayaran upah karung','sackpay:'+uid());
-  save('Upah dibayar');
+  addTx('out',today,'Upah '+grp+' - '+empName(empId),due,'Pembayaran upah karung','sackpay:'+uid(),null,grp);
+  save('Upah '+grp+' dibayar');
 }
 function delWork(id){
   if(workPaid(id)>0)return alert('Upah ini sudah dibayar.');
@@ -405,8 +423,8 @@ $('loanForm').onsubmit=e=>{
   e.preventDefault();
   const emp=empObj($('loanEmp').value);if(!emp)return alert('Isi data pegawai terlebih dahulu.');
   const amt=parseRp($('loanAmount').value);if(amt<=0)return alert('Masukkan jumlah pinjaman lebih dari 0.');
-  const l={id:uid(),empId:emp.id,date:$('loanDate').value,amount:amt,note:$('loanNote').value.trim()};
-  db.loans.push(l);addTx('out',l.date,'Pinjaman - '+emp.name+' ('+empGroup(emp)+')',l.amount,l.note||'Pencairan pinjaman','loan:'+l.id);
+  const grp=empGroup(emp),l={id:uid(),empId:emp.id,date:$('loanDate').value,amount:amt,note:$('loanNote').value.trim()};
+  db.loans.push(l);addTx('out',l.date,'Pinjaman - '+emp.name,l.amount,l.note||'Pencairan pinjaman','loan:'+l.id,null,grp);
   e.target.reset();$('loanDate').value=today;save('Pinjaman dicatat');
 };
 $('repayForm').onsubmit=e=>{
@@ -414,22 +432,31 @@ $('repayForm').onsubmit=e=>{
   const l=db.loans.find(x=>x.id===$('repayLoan').value);if(!l)return alert('Tidak ada pinjaman aktif.');
   const paid=db.repayments.filter(r=>r.loanId===l.id).reduce((a,r)=>a+Number(r.amount),0),amt=parseRp($('repayAmount').value);
   if(amt<=0||amt>l.amount-paid)return alert('Jumlah pembayaran tidak valid atau melebihi sisa pinjaman.');
-  const r={id:uid(),loanId:l.id,empId:l.empId,date:$('repayDate').value,amount:amt};
-  db.repayments.push(r);addTx('in',r.date,'Angsuran - '+empName(l.empId),amt,'Angsuran pinjaman','repay:'+r.id);
+  const grp=empGroup(empObj(l.empId)),r={id:uid(),loanId:l.id,empId:l.empId,date:$('repayDate').value,amount:amt};
+  db.repayments.push(r);addTx('in',r.date,'Angsuran - '+empName(l.empId),amt,'Angsuran pinjaman','repay:'+r.id,null,grp);
   e.target.reset();$('repayDate').value=today;save('Angsuran tersimpan');
 };
 
 function renderTx(){
-  const q=$('txSearch').value.toLowerCase(),f=$('txFilter').value;
-  const arr=db.transactions.filter(x=>(f==='all'||x.type===f)&&[x.category,x.note,x.date].join(' ').toLowerCase().includes(q)).slice().sort((a,b)=>(b.date||'').localeCompare(a.date||''));
-  $('txRows').innerHTML=arr.map(x=>`<tr><td>${esc(x.date)}</td><td><span class="badge ${x.type==='out'?'red':''}">${x.type==='in'?'Pemasukan':'Pengeluaran'}</span></td><td>${esc(x.category)}</td><td>${esc(x.note)}</td><td class="${x.type==='in'?'green':'red'}"><b>${money(x.amount)}</b></td><td>${x.ref?'<small>Otomatis</small>':`<button class="btn red sm" onclick="delTx('${x.id}')">Hapus</button>`}</td></tr>`).join('')||'<tr><td colspan="6" class="empty">Belum ada transaksi.</td></tr>';
+  const q=$('txSearch').value.toLowerCase(),uf=$('txUnitFilter').value,f=$('txFilter').value;
+  const arr=db.transactions.filter(x=>(uf==='all'||txUnitVal(x)===uf)&&(f==='all'||x.type===f)&&[x.category,x.note,x.date,txUnitVal(x)].join(' ').toLowerCase().includes(q)).slice().sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+  const fi=arr.filter(x=>x.type==='in').reduce((a,x)=>a+x.amount,0),fo=arr.filter(x=>x.type==='out').reduce((a,x)=>a+x.amount,0);
+  $('txSumLine').innerHTML=`${arr.length} transaksi • Pemasukan: <b class="green">${money(fi)}</b> • Pengeluaran: <b class="red">${money(fo)}</b>`;
+  $('txRows').innerHTML=arr.map(x=>{const u=txUnitVal(x);return `<tr><td>${esc(x.date)}</td><td><span class="badge ${unitBadge(u)}">${esc(u)}</span></td><td><span class="badge ${x.type==='out'?'red':''}">${x.type==='in'?'Pemasukan':'Pengeluaran'}</span></td><td>${esc(x.category)}</td><td>${esc(x.note)}</td><td class="${x.type==='in'?'green':'red'}"><b>${money(x.amount)}</b></td><td>${x.ref?'<small>Otomatis</small>':`<button class="btn red sm" onclick="delTx('${x.id}')">Hapus</button>`}</td></tr>`}).join('')||'<tr><td colspan="7" class="empty">Belum ada transaksi.</td></tr>';
 }
-$('txSearch').oninput=renderTx;$('txFilter').onchange=renderTx;$('workGroupFilter').onchange=render;
+$('txSearch').oninput=renderTx;$('txUnitFilter').onchange=renderTx;$('txFilter').onchange=renderTx;$('workGroupFilter').onchange=render;
 
 function makeReport(){
   const m=$('reportMonth').value,arr=db.transactions.filter(x=>(x.date||'').startsWith(m));
-  const i=arr.filter(x=>x.type==='in').reduce((a,x)=>a+x.amount,0),o=arr.filter(x=>x.type==='out').reduce((a,x)=>a+x.amount,0);
-  $('reportResult').innerHTML=`<div class="sgrid"><div class="card stat"><small>Pemasukan (${esc(m)})</small><strong>${money(i)}</strong></div><div class="card stat"><small>Pengeluaran (${esc(m)})</small><strong class="red">${money(o)}</strong></div><div class="card stat full"><small>Selisih</small><strong>${money(i-o)}</strong></div></div><p class="note">${arr.length} transaksi tercatat pada bulan ini.</p>`;
+  const sum=(u,t)=>arr.filter(x=>(u==='ALL'||txUnitVal(x)===u)&&x.type===t).reduce((a,x)=>a+x.amount,0);
+  const ic=sum('CCR','in'),oc=sum('CCR','out'),ib=sum('Bimo','in'),ob=sum('Bimo','out'),it=sum('ALL','in'),ot=sum('ALL','out');
+  $('reportResult').innerHTML=`<div class="sgrid">
+    <div class="card stat"><small>Pemasukan CCR (${esc(m)})</small><strong class="blu">${money(ic)}</strong><span class="note">Keluar: ${money(oc)} • Sisa: ${money(ic-oc)}</span></div>
+    <div class="card stat"><small>Pemasukan Bimo (${esc(m)})</small><strong class="amb">${money(ib)}</strong><span class="note">Keluar: ${money(ob)} • Sisa: ${money(ib-ob)}</span></div>
+    <div class="card stat"><small>Total Pemasukan</small><strong>${money(it)}</strong></div>
+    <div class="card stat"><small>Total Pengeluaran</small><strong class="red">${money(ot)}</strong></div>
+    <div class="card stat full"><small>Selisih Bersih Bulan Ini</small><strong>${money(it-ot)}</strong></div>
+  </div><p class="note">${arr.length} transaksi tercatat pada bulan ini.</p>`;
 }
 $('makeReport').onclick=makeReport;
 
@@ -441,7 +468,7 @@ $('importFile').onchange=async e=>{
   e.target.value='';
 };
 $('exportCsv').onclick=()=>{
-  const rows=[['Tanggal','Jenis','Kategori','Keterangan','Jumlah'],...db.transactions.map(x=>[x.date,x.type==='in'?'Pemasukan':'Pengeluaran',x.category,x.note,x.amount])];
+  const rows=[['Tanggal','Bagian','Jenis','Kategori','Keterangan','Jumlah'],...db.transactions.map(x=>[x.date,txUnitVal(x),x.type==='in'?'Pemasukan':'Pengeluaran',x.category,x.note,x.amount])];
   const csv=rows.map(r=>r.map(v=>'"'+String(v??'').replace(/"/g,'""')+'"').join(';')).join('\n');
   const b=new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8'}),a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='transaksi-bintang-tani.csv';a.click();URL.revokeObjectURL(a.href);
 };
@@ -463,25 +490,30 @@ function renderEmpGroup(grp,rowId,unpaidId,cntId){
 }
 
 function render(){
-  const ins=db.transactions.filter(x=>x.type==='in').reduce((a,x)=>a+x.amount,0);
-  const outs=db.transactions.filter(x=>x.type==='out').reduce((a,x)=>a+x.amount,0);
+  const sumUnit=(arr,u,t)=>arr.filter(x=>(u==='ALL'||txUnitVal(x)===u)&&x.type===t).reduce((a,x)=>a+x.amount,0);
+  const inCCR=sumUnit(db.transactions,'CCR','in'),outCCR=sumUnit(db.transactions,'CCR','out');
+  const inBimo=sumUnit(db.transactions,'Bimo','in'),outBimo=sumUnit(db.transactions,'Bimo','out');
+  const ins=sumUnit(db.transactions,'ALL','in'),outs=sumUnit(db.transactions,'ALL','out');
   let unpaidCCR=0,unpaidBimo=0;
   db.sackWork.forEach(w=>{const rem=Math.max(0,workTotal(w)-workPaid(w.id));if((w.group||empGroup(empObj(w.empId)))==='Bimo')unpaidBimo+=rem;else unpaidCCR+=rem});
   const loanLeft=db.loans.reduce((a,l)=>a+l.amount-db.repayments.filter(r=>r.loanId===l.id).reduce((b,r)=>b+r.amount,0),0);
 
-  $('sIn').textContent=money(ins);$('sOut').textContent=money(outs);$('sBal').textContent=money(ins-outs);
+  $('sInCCR').textContent=money(inCCR);$('sOutCCR').textContent='Keluar: '+money(outCCR);
+  $('sInBimo').textContent=money(inBimo);$('sOutBimo').textContent='Keluar: '+money(outBimo);
+  $('sBalCCR').textContent=money(inCCR-outCCR);$('sBalBimo').textContent=money(inBimo-outBimo);
   $('sUnpaid').textContent=money(unpaidCCR+unpaidBimo);$('sUnpaidSplit').textContent=`CCR: ${money(unpaidCCR)} • Bimo: ${money(unpaidBimo)}`;
   $('sLoan').textContent=money(loanLeft);
+  $('sBal').textContent=money(ins-outs);$('sTotSub').textContent=`Total Masuk: ${money(ins)} • Total Keluar: ${money(outs)}`;
 
   const [ws,we]=weekRange(),wk=db.transactions.filter(x=>x.date>=ws&&x.date<=we);
-  const wi=wk.filter(x=>x.type==='in').reduce((a,x)=>a+x.amount,0),wo=wk.filter(x=>x.type==='out').reduce((a,x)=>a+x.amount,0);
-  $('wkCount').textContent=wk.length+' transaksi';$('wkIn').textContent=money(wi);$('wkOut').textContent=money(wo);$('wkNet').textContent=money(wi-wo);
+  const wic=sumUnit(wk,'CCR','in'),wib=sumUnit(wk,'Bimo','in'),wi=sumUnit(wk,'ALL','in'),wo=sumUnit(wk,'ALL','out');
+  $('wkCount').textContent=wk.length+' transaksi';$('wkInCCR').textContent=money(wic);$('wkInBimo').textContent=money(wib);$('wkOut').textContent=money(wo);$('wkNet').textContent=money(wi-wo);
 
   const ym=today.slice(0,7),mo=db.transactions.filter(x=>(x.date||'').startsWith(ym));
-  const mi=mo.filter(x=>x.type==='in').reduce((a,x)=>a+x.amount,0),moo=mo.filter(x=>x.type==='out').reduce((a,x)=>a+x.amount,0);
-  $('moCount').textContent=mo.length+' transaksi';$('moIn').textContent=money(mi);$('moOut').textContent=money(moo);$('moNet').textContent=money(mi-moo);
+  const mic=sumUnit(mo,'CCR','in'),mib=sumUnit(mo,'Bimo','in'),mi=sumUnit(mo,'ALL','in'),moo=sumUnit(mo,'ALL','out');
+  $('moCount').textContent=mo.length+' transaksi';$('moInCCR').textContent=money(mic);$('moInBimo').textContent=money(mib);$('moOut').textContent=money(moo);$('moNet').textContent=money(mi-moo);
 
-  $('recent').innerHTML=db.transactions.slice().sort((a,b)=>(b.date||'').localeCompare(a.date||'')).slice(0,6).map(x=>`<div class="prow"><span><b>${esc(x.category)}</b> <small>(${esc(x.date)})</small></span><span class="${x.type==='in'?'green':'red'}"><b>${x.type==='in'?'+':'−'}${money(x.amount)}</b></span></div>`).join('')||'<div class="empty">Belum ada transaksi.</div>';
+  $('recent').innerHTML=db.transactions.slice().sort((a,b)=>(b.date||'').localeCompare(a.date||'')).slice(0,6).map(x=>{const u=txUnitVal(x);return `<div class="prow"><span><span class="badge ${unitBadge(u)}">${esc(u)}</span> <b>${esc(x.category)}</b> <small>(${esc(x.date)})</small></span><span class="${x.type==='in'?'green':'red'}"><b>${x.type==='in'?'+':'−'}${money(x.amount)}</b></span></div>`}).join('')||'<div class="empty">Belum ada transaksi.</div>';
 
   renderEmpGroup('CCR','empCCR','unpaidCCR','cntCCR');
   renderEmpGroup('Bimo','empBimo','unpaidBimo','cntBimo');
