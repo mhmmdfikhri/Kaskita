@@ -74,6 +74,8 @@ th{background:#f8faf9;color:#475569;font-weight:700;font-size:11.5px;text-transf
 .filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:11px}.filters input,.filters select{max-width:210px}.hidden{display:none!important}
 .green{color:#059669}.red{color:var(--red)}
 .apk-box{border:1px solid #a7f3d0;background:linear-gradient(135deg,#ecfdf5,#fff)}
+.apk-row{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.apk-img{width:56px;height:56px;border-radius:14px;border:1px solid #a7f3d0;box-shadow:0 4px 12px rgba(6,78,59,.15);flex-shrink:0}
 .toast{position:fixed;top:72px;left:50%;transform:translateX(-50%) translateY(-14px);background:#065f46;color:#fff;padding:10px 18px;border-radius:99px;font-size:13px;font-weight:700;box-shadow:0 8px 22px rgba(6,78,59,.28);opacity:0;pointer-events:none;transition:.2s;z-index:99}.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 footer{text-align:center;color:var(--muted);font-size:12px;margin-top:8px}
 @media(max-width:760px){
@@ -93,7 +95,7 @@ footer{text-align:center;color:var(--muted);font-size:12px;margin-top:8px}
       <div class="logo">
         <svg width="21" height="21" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.6 5.4 6 .8-4.3 4.2 1 6-5.3-2.8-5.3 2.8 1-6L3.4 8.2l6-.8z"/></svg>
       </div>
-      <div><h1>BINTANG TANI</h1><div class="brand-sub"><small>Keuangan CCR &amp; Bimo</small><span class="ver">V7</span></div></div>
+      <div><h1>BINTANG TANI</h1><div class="brand-sub"><small>Keuangan CCR &amp; Bimo</small><span class="ver">V8</span></div></div>
     </div>
     <div class="dpill" id="today"></div>
   </div>
@@ -234,20 +236,23 @@ footer{text-align:center;color:var(--muted);font-size:12px;margin-top:8px}
   </section>
 
   <section id="laporan" class="panel">
-    <div class="card">
-      <div class="sh"><h3>Rekap Bulanan (CCR vs Bimo)</h3><button type="button" class="btn gray no-print sm" onclick="print()">Cetak</button></div>
-      <div class="filters no-print"><input type="month" id="reportMonth"><button type="button" class="btn primary" id="makeReport">Tampilkan</button></div>
-      <div id="reportResult"></div>
-    </div>
-
     <div class="card apk-box no-print">
-      <div class="sh" style="border-bottom-color:#a7f3d0"><h3>📱 Identitas APK &amp; Mode Offline</h3><span class="pgreen" id="swStatus">Online</span></div>
-      <p class="note" style="margin-top:0">Pasang <b>Bintang Tani</b> ke layar utama HP agar tampil penuh tanpa bar browser dan bisa dibuka saat offline. Untuk melengkapi ikon APK di GitHub / PWABuilder, unduh 2 file ikon PNG di bawah lalu upload ke repository GitHub Anda.</p>
-      <div class="actions">
+      <div class="sh" style="border-bottom-color:#a7f3d0"><h3>📱 Identitas APK &amp; Ikon</h3><span class="pgreen" id="swStatus">Online</span></div>
+      <div class="apk-row">
+        <img id="iconPreview" class="apk-img" alt="Ikon Bintang Tani">
+        <div class="note">Unduh kedua ikon PNG di bawah lalu upload ke GitHub (sejajar dengan <code>index.html</code>). Jika tombol unduh tidak jalan di HP, tekan tahan gambar ikon di samping lalu pilih <b>Download/Simpan gambar</b>.</div>
+      </div>
+      <div class="actions" style="margin-top:8px">
         <button type="button" class="btn primary" id="btnInstall" onclick="installApp()">Pasang ke Layar Utama</button>
         <button type="button" class="btn gray" onclick="dlIcon(192)">Unduh icon-192.png</button>
         <button type="button" class="btn gray" onclick="dlIcon(512)">Unduh icon-512.png</button>
       </div>
+    </div>
+
+    <div class="card">
+      <div class="sh"><h3>Rekap Bulanan (CCR vs Bimo)</h3><button type="button" class="btn gray no-print sm" onclick="print()">Cetak</button></div>
+      <div class="filters no-print"><input type="month" id="reportMonth"><button type="button" class="btn primary" id="makeReport">Tampilkan</button></div>
+      <div id="reportResult"></div>
     </div>
 
     <div class="card no-print">
@@ -549,128 +554,7 @@ function makeReport(){
 }
 $('makeReport').onclick=makeReport;
 
-$('exportData').onclick=()=>{const b=new Blob([JSON.stringify(db,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='backup-bintang-tani-'+today+'.json';a.click();URL.revokeObjectURL(a.href)};
+$('exportData').onclick=()=>{const b=new Blob([JSON.stringify(db,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='backup-bintang-tani-'+today+'.json';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),1500)};
 $('importFile').onchange=async e=>{
   const f=e.target.files[0];if(!f)return;
-  try{const d=JSON.parse(await f.text());if(!d.transactions||!d.employees)throw Error();if(confirm('Pulihkan backup? Data saat ini akan diganti.')){db={...blank(),...d};save('Backup berhasil dipulihkan')}}
-  catch(err){alert('File backup tidak valid.')}
-  e.target.value='';
-};
-$('exportCsv').onclick=()=>{
-  const rows=[['Tanggal','Bagian','Jenis','Kategori','Keterangan','Jumlah'],...db.transactions.map(x=>[x.date,txUnitVal(x),x.type==='in'?'Pemasukan':'Pengeluaran',x.category,x.note,x.amount])];
-  const csv=rows.map(r=>r.map(v=>'"'+String(v??'').replace(/"/g,'""')+'"').join(';')).join('\n');
-  const b=new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8'}),a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='transaksi-bintang-tani.csv';a.click();URL.revokeObjectURL(a.href);
-};
-
-function dlIcon(sz){
-  const c=document.createElement('canvas');c.width=sz;c.height=sz;
-  const ctx=c.getContext('2d'),g=ctx.createLinearGradient(0,0,sz,sz);
-  g.addColorStop(0,'#064e3b');g.addColorStop(1,'#059669');
-  ctx.fillStyle=g;ctx.fillRect(0,0,sz,sz);
-  ctx.beginPath();ctx.arc(sz/2,sz/2,sz*0.36,0,Math.PI*2);
-  ctx.fillStyle='rgba(255,255,255,0.09)';ctx.fill();
-  const cx=sz/2,cy=sz*0.48,R=sz*0.25,r=sz*0.108;
-  ctx.beginPath();
-  for(let i=0;i<10;i++){const rad=i%2===0?R:r,a=-Math.PI/2+i*Math.PI/5;if(i===0)ctx.moveTo(cx+Math.cos(a)*rad,cy+Math.sin(a)*rad);else ctx.lineTo(cx+Math.cos(a)*rad,cy+Math.sin(a)*rad)}
-  ctx.closePath();
-  const sg=ctx.createLinearGradient(0,cy-R,0,cy+R);sg.addColorStop(0,'#fde68a');sg.addColorStop(1,'#f59e0b');
-  ctx.fillStyle=sg;ctx.fill();
-  ctx.beginPath();ctx.arc(sz/2,sz*0.52,sz*0.30,0.22*Math.PI,0.78*Math.PI);
-  ctx.lineWidth=sz*0.032;ctx.lineCap='round';ctx.strokeStyle='#a7f3d0';ctx.stroke();
-  c.toBlob(b=>{const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=`icon-${sz}.png`;a.click();URL.revokeObjectURL(a.href);toast(`icon-${sz}.png diunduh`)},'image/png');
-}
-
-function installApp(){
-  if(defPrompt){defPrompt.prompt();return}
-  alert('Untuk memasang seperti APK: buka menu browser (⋮ di Chrome Android / Share di Safari iPhone) lalu pilih "Install Aplikasi" atau "Tambahkan ke Layar utama".');
-}
-window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();defPrompt=e});
-window.addEventListener('appinstalled',()=>{defPrompt=null;toast('Bintang Tani berhasil dipasang!')});
-if('serviceWorker' in navigator){
-  window.addEventListener('load',()=>{navigator.serviceWorker.register('./sw.js').then(()=>{$('swStatus').textContent='Siap Offline'}).catch(()=>{})});
-}
-
-function weekRange(){const d=new Date(),day=(d.getDay()+6)%7,mon=new Date(d);mon.setDate(d.getDate()-day);const sun=new Date(mon);sun.setDate(mon.getDate()+6);return [localISO(mon),localISO(sun)]}
-function setBar(id1,id2,v1,v2){const tot=v1+v2;$(id1).style.width=tot?(v1/tot*100).toFixed(1)+'%':'0%';$(id2).style.width=tot?(v2/tot*100).toFixed(1)+'%':'0%'}
-
-function renderEmpGroup(grp,rowId,unpaidId,cntId){
-  const emps=db.employees.filter(e=>empGroup(e)===grp);
-  $(cntId).textContent=emps.length+' orang';
-  $(rowId).innerHTML=emps.map(e=>`<tr><td><b>${esc(e.name)}</b></td><td><span class="badge blu">${esc(e.role)}</span></td><td>${money(empRate(e))}</td><td style="white-space:nowrap"><button type="button" class="btn gray sm" onclick="editEmp('${e.id}')">Edit</button> <button type="button" class="btn red sm" onclick="delEmp('${e.id}')">Hapus</button></td></tr>`).join('')||`<tr><td colspan="4" class="empty">Belum ada pegawai ${grp}.</td></tr>`;
-  $(unpaidId).innerHTML=emps.map(e=>{
-    const ws=db.sackWork.filter(w=>w.empId===e.id),cnt=ws.reduce((a,w)=>a+Number(w.count||0),0),tot=ws.reduce((a,w)=>a+workTotal(w),0),due=tot-ws.reduce((a,w)=>a+workPaid(w.id),0);
-    return `<tr><td><b>${esc(e.name)}</b> <small>(${esc(e.role)})</small></td><td>${fmtNum(cnt)}</td><td>${money(tot)}</td><td><b class="${due>0?'red':''}">${money(due)}</b></td><td><button type="button" class="btn green sm" onclick="paySack('${e.id}')" ${due<=0?'disabled':''}>Bayar</button></td></tr>`;
-  }).join('')||`<tr><td colspan="5" class="empty">Belum ada pegawai ${grp}.</td></tr>`;
-}
-
-function renderRecent(u,elId){
-  const arr=db.transactions.filter(x=>txUnitVal(x)===u).slice().sort((a,b)=>(b.date||'').localeCompare(a.date||'')).slice(0,5);
-  $(elId).innerHTML=arr.map(x=>`<div class="prow"><span><b>${esc(x.category)}</b> <small>(${esc(x.date)})</small></span><span class="${x.type==='in'?'green':'red'}"><b>${x.type==='in'?'+':'−'}${money(x.amount)}</b></span></div>`).join('')||`<div class="empty">Belum ada transaksi ${u}.</div>`;
-}
-
-function render(){
-  const sumUnit=(arr,u,t)=>arr.filter(x=>(u==='ALL'||txUnitVal(x)===u)&&x.type===t).reduce((a,x)=>a+Number(x.amount||0),0);
-  const inCCR=sumUnit(db.transactions,'CCR','in'),outCCR=sumUnit(db.transactions,'CCR','out');
-  const inBimo=sumUnit(db.transactions,'Bimo','in'),outBimo=sumUnit(db.transactions,'Bimo','out');
-  const ins=sumUnit(db.transactions,'ALL','in'),outs=sumUnit(db.transactions,'ALL','out');
-  let upCCR=0,upBimo=0;
-  db.sackWork.forEach(w=>{const rem=Math.max(0,workTotal(w)-workPaid(w.id));if((w.group||empGroup(empObj(w.empId)))==='Bimo')upBimo+=rem;else upCCR+=rem});
-  const loanLeft=db.loans.reduce((a,l)=>a+Number(l.amount||0)-db.repayments.filter(r=>r.loanId===l.id).reduce((b,r)=>b+Number(r.amount||0),0),0);
-
-  $('sBal').textContent=money(ins-outs);$('hBalCCR').textContent=money(inCCR-outCCR);$('hBalBimo').textContent=money(inBimo-outBimo);
-  $('dInCCR').textContent=money(inCCR);$('dOutCCR').textContent=money(outCCR);$('dBalCCR').textContent=money(inCCR-outCCR);$('dUpCCR').textContent=money(upCCR);
-  $('dInBimo').textContent=money(inBimo);$('dOutBimo').textContent=money(outBimo);$('dBalBimo').textContent=money(inBimo-outBimo);$('dUpBimo').textContent=money(upBimo);
-  $('sIn').textContent=money(ins);$('sOut').textContent=money(outs);$('sLoan').textContent=money(loanLeft);
-
-  ['CCR','Bimo'].forEach(u=>{
-    const ui=u==='CCR'?inCCR:inBimo,uo=u==='CCR'?outCCR:outBimo;
-    $(u+'_in').textContent=money(ui);$(u+'_out').textContent=money(uo);$(u+'_bal').textContent=money(ui-uo);
-    renderUnitPickers(u);toggleUnitSack(u);renderUnitTx(u);
-  });
-
-  const [ws,we]=weekRange(),wk=db.transactions.filter(x=>(x.date||'')>=ws&&(x.date||'')<=we);
-  const wic=sumUnit(wk,'CCR','in'),wib=sumUnit(wk,'Bimo','in');
-  $('wkCount').textContent=wk.length+' transaksi';
-  $('wkInCCR').textContent=money(wic);$('wkOutCCR').textContent=money(sumUnit(wk,'CCR','out'));
-  $('wkInBimo').textContent=money(wib);$('wkOutBimo').textContent=money(sumUnit(wk,'Bimo','out'));
-  setBar('wkBarCCR','wkBarBimo',wic,wib);
-  $('wkNet').textContent=money(sumUnit(wk,'ALL','in')-sumUnit(wk,'ALL','out'));
-
-  const ym=today.slice(0,7),mo=db.transactions.filter(x=>(x.date||'').startsWith(ym));
-  const mic=sumUnit(mo,'CCR','in'),mib=sumUnit(mo,'Bimo','in');
-  $('moCount').textContent=mo.length+' transaksi';
-  $('moInCCR').textContent=money(mic);$('moOutCCR').textContent=money(sumUnit(mo,'CCR','out'));
-  $('moInBimo').textContent=money(mib);$('moOutBimo').textContent=money(sumUnit(mo,'Bimo','out'));
-  setBar('moBarCCR','moBarBimo',mic,mib);
-  $('moNet').textContent=money(sumUnit(mo,'ALL','in')-sumUnit(mo,'ALL','out'));
-
-  renderRecent('CCR','recentCCR');renderRecent('Bimo','recentBimo');
-  renderEmpGroup('CCR','empCCR','unpaidCCR','cntCCR');
-  renderEmpGroup('Bimo','empBimo','unpaidBimo','cntBimo');
-
-  const wf=$('workGroupFilter').value;
-  const works=db.sackWork.filter(w=>wf==='all'||(w.group||empGroup(empObj(w.empId)))===wf).slice().sort((a,b)=>(b.date||'').localeCompare(a.date||''));
-  $('workRows').innerHTML=works.map(w=>{
-    const tot=workTotal(w),rem=tot-workPaid(w.id),grp=w.group||empGroup(empObj(w.empId));
-    return `<tr><td>${esc(w.date)}</td><td><span class="badge ${grp==='CCR'?'blu':'amb'}">${esc(grp)}</span></td><td>${esc(empName(w.empId))}</td><td>${fmtNum(w.count)}</td><td>${money(w.rate)}</td><td><b>${money(tot)}</b></td><td>${esc(w.note||'-')}</td><td><span class="badge ${rem?'red':''}">${rem?'Belum lunas':'Lunas'}</span></td><td><button type="button" class="btn red sm" onclick="delWork('${w.id}')">Hapus</button></td></tr>`;
-  }).join('')||'<tr><td colspan="9" class="empty">Belum ada catatan upah karung.</td></tr>';
-
-  $('loanEmp').innerHTML=db.employees.map(e=>`<option value="${e.id}">${esc(e.name)} (${empGroup(e)} - ${esc(e.role)})</option>`).join('')||'<option value="">Belum ada pegawai</option>';
-  const openLoans=db.loans.filter(l=>Number(l.amount||0)-db.repayments.filter(r=>r.loanId===l.id).reduce((a,r)=>a+Number(r.amount||0),0)>0);
-  $('repayLoan').innerHTML=openLoans.map(l=>{const rem=Number(l.amount||0)-db.repayments.filter(r=>r.loanId===l.id).reduce((a,r)=>a+Number(r.amount||0),0);return `<option value="${l.id}">${esc(empName(l.empId))} (${empGroup(empObj(l.empId))}) • sisa ${money(rem)}</option>`}).join('')||'<option value="">Tidak ada pinjaman aktif</option>';
-  $('loanRows').innerHTML=db.loans.slice().reverse().map(l=>{const pd=db.repayments.filter(r=>r.loanId===l.id).reduce((a,r)=>a+Number(r.amount||0),0),rem=Number(l.amount||0)-pd,grp=empGroup(empObj(l.empId));return `<tr><td>${esc(l.date)}</td><td><span class="badge ${grp==='CCR'?'blu':'amb'}">${grp}</span></td><td>${esc(empName(l.empId))}</td><td>${money(l.amount)}</td><td>${money(pd)}</td><td>${money(rem)}</td><td><span class="badge ${rem?'red':''}">${rem?'Belum lunas':'Lunas'}</span></td></tr>`}).join('')||'<tr><td colspan="7" class="empty">Belum ada pinjaman.</td></tr>';
-
-  makeReport();
-}
-
-$('today').textContent=new Date().toLocaleDateString('id-ID',{day:'numeric',month:'short',year:'numeric'});
-['loanDate','repayDate'].forEach(id=>$(id).value=today);
-$('reportMonth').value=today.slice(0,7);
-bindRp('empRate');bindRp('loanAmount');bindRp('repayAmount');
-$('workGroupFilter').onchange=render;
-
-buildUnitPanel('CCR');
-buildUnitPanel('Bimo');
-render();
-</script>
-</body></html>
+  try{const d=JSON
