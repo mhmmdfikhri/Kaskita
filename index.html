@@ -2,73 +2,91 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#070d0a">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#064e3b">
+<meta name="apple-mobile-web-app-capable" content="yes">
 <title>Bintang Tani - Keuangan CCR & Bimo</title>
 <style>
-:root{--bg:#070d0a;--card:#0f1914;--ink:#eef7f2;--muted:#8fa89b;--line:#1d3328;--g1:#22c55e;--g2:#10b981;--g3:#059669;--red:#f87171;--amb:#fbbf24;--blu:#60a5fa}
-*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top right,#0d271b 0%,#070d0a 48%);background-color:var(--bg);color:var(--ink);font:14.5px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;min-height:100vh}
-header{background:rgba(9,18,14,.94);border-bottom:1px solid var(--line);padding:13px 16px;position:sticky;top:0;z-index:20;backdrop-filter:blur(8px)}
-.hi{max-width:1060px;margin:auto;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+:root{--bg:#f2f6f3;--card:#fff;--ink:#0f2419;--muted:#64748b;--line:#e2ebe5;--brand:#065f46;--brand2:#059669;--mint:#ecfdf5;--blu:#2563eb;--amb:#d97706;--red:#dc2626}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:14.5px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;-webkit-font-smoothing:antialiased}
+header{background:linear-gradient(135deg,#064e3b 0%,#047857 100%);color:#fff;padding:14px 16px;position:sticky;top:0;z-index:20;box-shadow:0 4px 16px rgba(6,78,59,.16)}
+.hi{max-width:1060px;margin:auto;display:flex;justify-content:space-between;align-items:center;gap:10px}
 .brand{display:flex;align-items:center;gap:10px}
-.logo{width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg,var(--g1),var(--g3));color:#042012;display:grid;place-items:center;font-size:19px;font-weight:800;box-shadow:0 4px 14px rgba(34,197,94,.28);flex-shrink:0}
-.brand h1{margin:0;font-size:17px;letter-spacing:.5px;color:#f0fdf4}.brand-sub{display:flex;align-items:center;gap:6px;margin-top:1px}
-.brand small{color:var(--muted);font-size:11.5px}.ver{background:rgba(34,197,94,.14);border:1px solid rgba(34,197,94,.35);color:#4ade80;padding:1px 7px;border-radius:99px;font-size:10px;font-weight:700}
-.wrap{max-width:1060px;margin:auto;padding:14px 14px 36px}
-nav{display:flex;gap:8px;overflow:auto;padding:2px 0 14px;scrollbar-width:none}nav::-webkit-scrollbar{display:none}
-nav button,.btn{border:1px solid var(--line);border-radius:12px;padding:10px 14px;background:var(--card);color:#cbd5e1;font-weight:650;cursor:pointer;white-space:nowrap;font-size:13px;transition:.15s}
-nav button.active{background:linear-gradient(135deg,var(--g1),var(--g2));color:#042012;border-color:transparent;box-shadow:0 4px 14px rgba(34,197,94,.28)}
-.btn{background:#16261f;color:#e2e8f0}.btn:disabled{opacity:.4;cursor:not-allowed}.btn.primary{background:linear-gradient(135deg,var(--g1),var(--g3));color:#042012;border-color:transparent}
-.btn.green{background:#16a34a;color:#fff;border-color:transparent}.btn.red{background:rgba(239,68,68,.16);color:#fca5a5;border-color:rgba(239,68,68,.35)}.btn.gray{background:#15221c;color:#cbd5e1}.btn.sm{padding:6px 10px;font-size:12px;border-radius:8px}
-.panel{display:none}.panel.active{display:block}
-.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:15px;margin-bottom:13px;box-shadow:0 6px 20px rgba(0,0,0,.26)}
-.card h3{margin:0 0 11px;font-size:15.5px;color:#f0fdf4}
-.tbar{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;padding:12px 14px}
-.tleft{display:flex;align-items:center;gap:10px;font-weight:700;font-size:16px}.ico{width:34px;height:34px;border-radius:10px;background:#162820;border:1px solid #264536;display:grid;place-items:center}
-.dpill{background:#122019;border:1px solid #244032;padding:6px 12px;border-radius:10px;font-size:12.5px;color:#d1fae5;font-weight:600}
-.sgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-bottom:12px}
-.stat{margin:0;padding:12px;border:1px solid var(--line);border-radius:13px;background:linear-gradient(180deg,#111d17 0%,#0b1410 100%)}.stat.full{grid-column:1/-1}
-.stat small{color:var(--muted);font-size:12px;display:block}.stat strong{font-size:19px;display:block;margin-top:5px;font-variant-numeric:tabular-nums;color:#4ade80}
+.logo{width:38px;height:38px;border-radius:12px;background:linear-gradient(135deg,#fbbf24,#f59e0b);color:#064e3b;display:grid;place-items:center;box-shadow:0 3px 10px rgba(245,158,11,.35);flex-shrink:0}
+.brand h1{margin:0;font-size:17px;letter-spacing:.3px;font-weight:800}.brand-sub{display:flex;align-items:center;gap:6px;margin-top:1px}
+.brand small{color:#a7f3d0;font-size:11.5px}.ver{background:rgba(255,255,255,.18);color:#fff;padding:1px 7px;border-radius:99px;font-size:10px;font-weight:700}
+.dpill{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.22);padding:6px 11px;border-radius:99px;font-size:12px;color:#ecfdf5;font-weight:600;white-space:nowrap}
+.wrap{max-width:1060px;margin:auto;padding:14px 14px 32px}
+nav{display:flex;gap:8px;overflow:auto;padding:6px;background:#fff;border:1px solid var(--line);border-radius:16px;margin-bottom:14px;box-shadow:0 2px 10px rgba(6,78,59,.05)}
+nav button{border:0;border-radius:11px;padding:9px 13px;background:transparent;color:#475569;font-weight:650;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;white-space:nowrap;font-size:13px;transition:.15s}
+nav button svg{width:17px;height:17px;flex-shrink:0}
+nav button.active{background:var(--mint);color:var(--brand);box-shadow:inset 0 0 0 1px #a7f3d0}
+.btn{border:1px solid transparent;border-radius:11px;padding:10px 14px;background:#e2e8f0;color:#1e293b;font-weight:650;cursor:pointer;white-space:nowrap;font-size:13.5px;transition:.15s}
+.btn:disabled{opacity:.42;cursor:not-allowed}.btn.primary{background:linear-gradient(135deg,#10b981,#059669);color:#fff;box-shadow:0 3px 10px rgba(5,150,105,.24)}
+.btn.green{background:#16a34a;color:#fff}.btn.red{background:#fee2e2;color:#b91c1c;border-color:#fecaca}.btn.gray{background:#f1f5f9;color:#334155;border-color:#e2e8f0}.btn.sm{padding:6px 10px;font-size:12px;border-radius:8px}
+.panel{display:none}.panel.active{display:block;animation:fade .16s ease}
+@keyframes fade{from{opacity:0;transform:translateY(3px)}to{opacity:1;transform:none}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;margin-bottom:13px;box-shadow:0 4px 16px rgba(6,78,59,.04)}
+.card h3{margin:0 0 11px;font-size:15.5px;color:#0f2419}
+.hero{background:linear-gradient(135deg,#059669 0%,#047857 55%,#064e3b 100%);color:#fff;border:0;box-shadow:0 10px 26px rgba(6,95,70,.24)}
+.hero small{color:#a7f3d0;font-size:12.5px;font-weight:600}.hero .big{font-size:27px;font-weight:800;margin:4px 0 12px;letter-spacing:-.3px;font-variant-numeric:tabular-nums}
+.hero-pills{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.hpill{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.18);border-radius:12px;padding:9px 11px}
+.hpill span{display:block;font-size:11px;color:#d1fae5}.hpill b{font-size:14.5px;font-variant-numeric:tabular-nums}
+.sgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.stat{padding:11px 12px;border:1px solid var(--line);border-radius:13px;background:#fafdfb}.stat.full{grid-column:1/-1}
+.stat small{color:var(--muted);font-size:12px;display:block;font-weight:600}.stat strong{font-size:18px;display:block;margin-top:4px;font-variant-numeric:tabular-nums;color:#059669}
 .stat strong.red{color:var(--red)}.stat strong.amb{color:var(--amb)}.stat strong.blu{color:var(--blu)}
 .sh{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:10px;padding-bottom:9px;border-bottom:1px solid var(--line)}.sh h3{margin:0;font-size:15px}
-.pgreen{background:rgba(16,185,129,.16);border:1px solid rgba(16,185,129,.35);color:#34d399;padding:3px 10px;border-radius:99px;font-size:11.5px;font-weight:700}
-.srow{display:flex;justify-content:space-between;align-items:center;padding:5px 0;font-size:13px;color:#cbd5e1;gap:8px}
-.sbar{margin-top:10px;padding:11px 14px;border-radius:12px;display:flex;justify-content:space-between;align-items:center;font-weight:800;font-size:14.5px}
-.sbar.bright{background:linear-gradient(135deg,var(--g1),var(--g2));color:#042012}.sbar.deep{background:linear-gradient(135deg,var(--g3),#047857);color:#ecfdf5}
+.pgreen{background:#dcfce7;color:#166534;padding:3px 10px;border-radius:99px;font-size:11.5px;font-weight:700}
+.srow{display:flex;justify-content:space-between;align-items:center;padding:5px 0;font-size:13px;color:#334155;gap:8px}
+.pbar-wrap{margin:8px 0 4px}.pbar{height:8px;background:#e2e8f0;border-radius:99px;overflow:hidden;display:flex}
+.pbar-ccr{background:#2563eb;transition:.3s}.pbar-bimo{background:#f59e0b;transition:.3s}
+.sbar{margin-top:10px;padding:11px 13px;border-radius:12px;display:flex;justify-content:space-between;align-items:center;font-weight:800;font-size:14px}
+.sbar.bright{background:#ecfdf5;color:#065f46;border:1px solid #a7f3d0}.sbar.deep{background:linear-gradient(135deg,#059669,#047857);color:#fff}
 .fg{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}.fd{display:flex;flex-direction:column;gap:5px}.fd.full{grid-column:1/-1}
-label{font-size:12.5px;font-weight:650;color:#a7c4b5}
-input,select,textarea{width:100%;border:1px solid #243d31;border-radius:10px;padding:10px 12px;font:inherit;background:#0a120e;color:#f0fdf4}
-input:focus,select:focus,textarea:focus{outline:none;border-color:var(--g1);box-shadow:0 0 0 3px rgba(34,197,94,.18)}
-textarea{min-height:58px;resize:vertical}input[type="checkbox"]{width:auto;margin:0;accent-color:var(--g1)}
+label{font-size:12.5px;font-weight:650;color:#334155}
+input,select,textarea{width:100%;border:1px solid #cbd5e1;border-radius:10px;padding:10px 12px;font:inherit;background:#fff;color:var(--ink)}
+input:focus,select:focus,textarea:focus{outline:none;border-color:#10b981;box-shadow:0 0 0 3px rgba(16,185,129,.15)}
+textarea{min-height:58px;resize:vertical}input[type="checkbox"]{width:auto;margin:0;accent-color:var(--brand2)}
 .actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:13px}
-.tw{overflow:auto;border:1px solid var(--line);border-radius:12px;background:#0a120e}
+.tw{overflow:auto;border:1px solid var(--line);border-radius:12px;background:#fff}
 table{width:100%;border-collapse:collapse;min-width:440px}th,td{text-align:left;padding:10px 11px;border-bottom:1px solid var(--line);font-size:13px;font-variant-numeric:tabular-nums}
-th{background:#101c16;color:#8fa89b;font-weight:700;font-size:11.5px;text-transform:uppercase}tbody tr:last-child td{border-bottom:0}
+th{background:#f8faf9;color:#475569;font-weight:700;font-size:11.5px;text-transform:uppercase}tbody tr:last-child td{border-bottom:0}
 .empty{text-align:center;color:var(--muted);padding:18px}
-.badge{display:inline-block;padding:3px 8px;border-radius:99px;font-size:11px;font-weight:700;background:rgba(34,197,94,.16);color:#4ade80}
-.badge.red{background:rgba(248,113,113,.16);color:#fca5a5}.badge.blu{background:rgba(96,165,250,.16);color:#93c5fd}.badge.amb{background:rgba(251,191,36,.16);color:#fcd34d}
-.note{font-size:12px;color:var(--muted);line-height:1.45}.sbox{margin-top:13px;padding:13px;border:1px solid #1f4d37;border-radius:13px;background:#0b1712}
+.badge{display:inline-block;padding:3px 9px;border-radius:99px;font-size:11px;font-weight:700;background:#dcfce7;color:#166534}
+.badge.red{background:#fee2e2;color:#b91c1c}.badge.blu{background:#dbeafe;color:#1d4ed8}.badge.amb{background:#fef3c7;color:#b45309}
+.note{font-size:12px;color:var(--muted);line-height:1.45}.sbox{margin-top:13px;padding:13px;border:1px solid #a7f3d0;border-radius:14px;background:#f4fbf7}
 .split{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.rbox{background:#09110d;border:1px solid var(--line);border-radius:10px;padding:10px}.rhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:7px;font-weight:700;font-size:13px;color:#d1fae5}
+.rbox{background:#fff;border:1px solid var(--line);border-radius:11px;padding:10px}.rhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:7px;font-weight:700;font-size:13px;color:#0f2419}
 .clist{display:flex;flex-direction:column;gap:6px;max-height:160px;overflow:auto}
-.citem{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:7px 9px;border:1px solid #1e3329;border-radius:8px;font-size:13px;cursor:pointer;background:#0e1914}
-.prev{margin-top:11px;padding:11px;background:#09110d;border:1px dashed var(--g1);border-radius:10px;font-size:13px}
-.prow{display:flex;justify-content:space-between;gap:8px;padding:5px 0;border-bottom:1px solid #182a21;align-items:center}.prow:last-child{border-bottom:0}
-.cline{display:flex;align-items:center;gap:8px;margin-top:10px;font-size:13px;font-weight:600;cursor:pointer;color:#86efac}
+.citem{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:7px 9px;border:1px solid #e2e8f0;border-radius:9px;font-size:13px;cursor:pointer;background:#fafdfb}
+.prev{margin-top:11px;padding:11px;background:#fff;border:1.5px dashed #10b981;border-radius:11px;font-size:13px}
+.prow{display:flex;justify-content:space-between;gap:8px;padding:5px 0;border-bottom:1px solid #f1f5f9;align-items:center}.prow:last-child{border-bottom:0}
+.cline{display:flex;align-items:center;gap:8px;margin-top:10px;font-size:13px;font-weight:600;cursor:pointer;color:#065f46}
 .filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:11px}.filters input,.filters select{max-width:210px}.hidden{display:none!important}
-.green{color:#4ade80}.red{color:var(--red)}
-.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%) translateY(16px);background:#16a34a;color:#fff;padding:10px 18px;border-radius:99px;font-size:13px;font-weight:700;box-shadow:0 8px 24px rgba(0,0,0,.45);opacity:0;pointer-events:none;transition:.2s;z-index:99}.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.green{color:#059669}.red{color:var(--red)}
+.toast{position:fixed;top:72px;left:50%;transform:translateX(-50%) translateY(-14px);background:#065f46;color:#fff;padding:10px 18px;border-radius:99px;font-size:13px;font-weight:700;box-shadow:0 8px 22px rgba(6,78,59,.28);opacity:0;pointer-events:none;transition:.2s;z-index:99}.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 footer{text-align:center;color:var(--muted);font-size:12px;margin-top:8px}
-@media(max-width:720px){.fg,.split{grid-template-columns:1fr}.fd.full{grid-column:auto}.stat strong{font-size:17.5px}}
-@media print{header,nav,.no-print,.actions,.filters,footer,.toast{display:none!important}.panel{display:none!important}.panel.active{display:block!important}body{background:#fff;color:#000}.card,.stat{background:#fff;color:#000;border-color:#ccc;box-shadow:none}}
+@media(max-width:760px){
+  .wrap{padding:12px 11px 88px}
+  nav{position:fixed;bottom:0;left:0;right:0;margin:0;border-radius:18px 18px 0 0;border:0;border-top:1px solid #d5e2da;background:rgba(255,255,255,.97);backdrop-filter:blur(10px);display:grid;grid-template-columns:repeat(6,1fr);gap:2px;padding:6px 4px calc(6px + env(safe-area-inset-bottom));z-index:40;box-shadow:0 -4px 20px rgba(6,78,59,.08)}
+  nav button{flex-direction:column;gap:3px;padding:6px 2px;font-size:10.5px;border-radius:10px}
+  nav button svg{width:19px;height:19px}
+  .fg,.split{grid-template-columns:1fr}.fd.full{grid-column:auto}.stat strong{font-size:16.5px}.hero .big{font-size:24px}
+}
+@media print{header,nav,.no-print,.actions,.filters,footer,.toast{display:none!important}.panel{display:none!important}.panel.active{display:block!important}.wrap{padding:0}body{background:#fff}.card,.hero{box-shadow:none;background:#fff;color:#000;border:1px solid #ccc}.hero small,.hpill span{color:#444}}
 </style>
 </head>
 <body>
 <header>
   <div class="hi">
     <div class="brand">
-      <div class="logo">🌾</div>
-      <div><h1>BINTANG TANI</h1><div class="brand-sub"><small>KEUANGAN CCR &amp; BIMO</small><span class="ver">V5</span></div></div>
+      <div class="logo">
+        <svg width="21" height="21" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.6 5.4 6 .8-4.3 4.2 1 6-5.3-2.8-5.3 2.8 1-6L3.4 8.2l6-.8z"/></svg>
+      </div>
+      <div><h1>BINTANG TANI</h1><div class="brand-sub"><small>Keuangan CCR &amp; Bimo</small><span class="ver">V6</span></div></div>
     </div>
     <div class="dpill" id="today"></div>
   </div>
@@ -76,31 +94,37 @@ footer{text-align:center;color:var(--muted);font-size:12px;margin-top:8px}
 
 <div class="wrap">
   <nav class="no-print">
-    <button type="button" class="active" data-tab="dashboard" onclick="openTab('dashboard')">🏠 Dashboard</button>
-    <button type="button" data-tab="ccr" onclick="openTab('ccr')">📘 Kas CCR</button>
-    <button type="button" data-tab="bimo" onclick="openTab('bimo')">📙 Kas Bimo</button>
-    <button type="button" data-tab="pegawai" onclick="openTab('pegawai')">👷 Pegawai</button>
-    <button type="button" data-tab="pinjaman" onclick="openTab('pinjaman')">🤝 Pinjaman</button>
-    <button type="button" data-tab="laporan" onclick="openTab('laporan')">📑 Laporan</button>
+    <button type="button" class="active" data-tab="dashboard" onclick="openTab('dashboard')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 10.5L12 3l9 7.5V21a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg><span>Home</span></button>
+    <button type="button" data-tab="ccr" onclick="openTab('ccr')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M7 10h10M7 14h6"/></svg><span>Kas CCR</span></button>
+    <button type="button" data-tab="bimo" onclick="openTab('bimo')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M7 10h10M7 14h10"/></svg><span>Kas Bimo</span></button>
+    <button type="button" data-tab="pegawai" onclick="openTab('pegawai')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="8" r="3.5"/><path d="M3 20c0-3.3 2.7-5 6-5s6 1.7 6 5"/><circle cx="17.5" cy="9.5" r="2.5"/><path d="M16 15.2c2.8.4 5 1.8 5 4.8"/></svg><span>Pegawai</span></button>
+    <button type="button" data-tab="pinjaman" onclick="openTab('pinjaman')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/></svg><span>Pinjam</span></button>
+    <button type="button" data-tab="laporan" onclick="openTab('laporan')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19h16M7 15V9M12 15V5M17 15v-3"/></svg><span>Laporan</span></button>
   </nav>
 
   <section id="dashboard" class="panel active">
-    <div class="card tbar"><div class="tleft"><div class="ico">🏠</div><span>Dashboard Keuangan</span></div><div class="dpill" id="dashDate"></div></div>
+    <div class="card hero">
+      <small>TOTAL SALDO USAHA (CCR + BIMO)</small>
+      <div class="big" id="sBal">Rp 0</div>
+      <div class="hero-pills">
+        <div class="hpill"><span>Saldo CCR</span><b id="hBalCCR">Rp 0</b></div>
+        <div class="hpill"><span>Saldo Bimo</span><b id="hBalBimo">Rp 0</b></div>
+      </div>
+    </div>
 
     <div class="split">
       <div class="card">
-        <div class="sh"><h3>📘 Keuangan CCR</h3><button type="button" class="btn gray sm no-print" onclick="openTab('ccr')">Buka Kas CCR</button></div>
-        <div class="sgrid" style="margin-bottom:0">
+        <div class="sh"><h3>📘 Kas CCR</h3><button type="button" class="btn gray sm no-print" onclick="openTab('ccr')">Catat CCR</button></div>
+        <div class="sgrid">
           <div class="stat"><small>Pemasukan CCR</small><strong id="dInCCR">Rp 0</strong></div>
           <div class="stat"><small>Pengeluaran CCR</small><strong class="red" id="dOutCCR">Rp 0</strong></div>
           <div class="stat"><small>Saldo CCR</small><strong class="blu" id="dBalCCR">Rp 0</strong></div>
           <div class="stat"><small>Upah Belum Bayar</small><strong class="amb" id="dUpCCR">Rp 0</strong></div>
         </div>
       </div>
-
       <div class="card">
-        <div class="sh"><h3>📙 Keuangan Bimo</h3><button type="button" class="btn gray sm no-print" onclick="openTab('bimo')">Buka Kas Bimo</button></div>
-        <div class="sgrid" style="margin-bottom:0">
+        <div class="sh"><h3>📙 Kas Bimo</h3><button type="button" class="btn gray sm no-print" onclick="openTab('bimo')">Catat Bimo</button></div>
+        <div class="sgrid">
           <div class="stat"><small>Pemasukan Bimo</small><strong id="dInBimo">Rp 0</strong></div>
           <div class="stat"><small>Pengeluaran Bimo</small><strong class="red" id="dOutBimo">Rp 0</strong></div>
           <div class="stat"><small>Saldo Bimo</small><strong class="amb" id="dBalBimo">Rp 0</strong></div>
@@ -110,26 +134,26 @@ footer{text-align:center;color:var(--muted);font-size:12px;margin-top:8px}
     </div>
 
     <div class="card">
-      <h3>🏦 Total Gabungan Keseluruhan</h3>
-      <div class="sgrid" style="margin-bottom:0">
+      <div class="sgrid">
         <div class="stat"><small>Total Pemasukan</small><strong id="sIn">Rp 0</strong></div>
         <div class="stat"><small>Total Pengeluaran</small><strong class="red" id="sOut">Rp 0</strong></div>
-        <div class="stat"><small>Total Saldo (CCR + Bimo)</small><strong id="sBal">Rp 0</strong></div>
-        <div class="stat"><small>Pinjaman Belum Lunas</small><strong class="blu" id="sLoan">Rp 0</strong></div>
+        <div class="stat full"><small>Pinjaman Pegawai Belum Lunas</small><strong class="blu" id="sLoan">Rp 0</strong></div>
       </div>
     </div>
 
     <div class="split">
       <div class="card">
-        <div class="sh"><h3>📅 Minggu Ini</h3><span class="pgreen" id="wkCount">0 transaksi</span></div>
-        <div class="srow"><span>CCR (Masuk / Keluar)</span><span><b class="green" id="wkInCCR">Rp 0</b> / <b class="red" id="wkOutCCR">Rp 0</b></span></div>
-        <div class="srow"><span>Bimo (Masuk / Keluar)</span><span><b class="green" id="wkInBimo">Rp 0</b> / <b class="red" id="wkOutBimo">Rp 0</b></span></div>
+        <div class="sh"><h3>Minggu Ini</h3><span class="pgreen" id="wkCount">0 transaksi</span></div>
+        <div class="srow"><span>Pemasukan CCR / Bimo</span><span><b class="blu" id="wkInCCR">Rp 0</b> / <b class="amb" id="wkInBimo">Rp 0</b></span></div>
+        <div class="srow"><span>Pengeluaran CCR / Bimo</span><span><b class="red" id="wkOutCCR">Rp 0</b> / <b class="red" id="wkOutBimo">Rp 0</b></span></div>
+        <div class="pbar-wrap"><div class="pbar"><div class="pbar-ccr" id="wkBarCCR" style="width:50%"></div><div class="pbar-bimo" id="wkBarBimo" style="width:50%"></div></div></div>
         <div class="sbar bright"><span>Saldo Minggu Ini</span><span id="wkNet">Rp 0</span></div>
       </div>
       <div class="card">
-        <div class="sh"><h3>📅 Bulan Ini</h3><span class="pgreen" id="moCount">0 transaksi</span></div>
-        <div class="srow"><span>CCR (Masuk / Keluar)</span><span><b class="green" id="moInCCR">Rp 0</b> / <b class="red" id="moOutCCR">Rp 0</b></span></div>
-        <div class="srow"><span>Bimo (Masuk / Keluar)</span><span><b class="green" id="moInBimo">Rp 0</b> / <b class="red" id="moOutBimo">Rp 0</b></span></div>
+        <div class="sh"><h3>Bulan Ini</h3><span class="pgreen" id="moCount">0 transaksi</span></div>
+        <div class="srow"><span>Pemasukan CCR / Bimo</span><span><b class="blu" id="moInCCR">Rp 0</b> / <b class="amb" id="moInBimo">Rp 0</b></span></div>
+        <div class="srow"><span>Pengeluaran CCR / Bimo</span><span><b class="red" id="moOutCCR">Rp 0</b> / <b class="red" id="moOutBimo">Rp 0</b></span></div>
+        <div class="pbar-wrap"><div class="pbar"><div class="pbar-ccr" id="moBarCCR" style="width:50%"></div><div class="pbar-bimo" id="moBarBimo" style="width:50%"></div></div></div>
         <div class="sbar deep"><span>Saldo Bulan Ini</span><span id="moNet">Rp 0</span></div>
       </div>
     </div>
@@ -204,7 +228,7 @@ footer{text-align:center;color:var(--muted);font-size:12px;margin-top:8px}
 
   <section id="laporan" class="panel">
     <div class="card">
-      <div class="sh"><h3>Rekap Bulanan (CCR vs Bimo)</h3><button type="button" class="btn gray no-print sm" onclick="print()">🖨️ Cetak</button></div>
+      <div class="sh"><h3>Rekap Bulanan (CCR vs Bimo)</h3><button type="button" class="btn gray no-print sm" onclick="print()">Cetak</button></div>
       <div class="filters no-print"><input type="month" id="reportMonth"><button type="button" class="btn primary" id="makeReport">Tampilkan</button></div>
       <div id="reportResult"></div>
     </div>
@@ -212,14 +236,14 @@ footer{text-align:center;color:var(--muted);font-size:12px;margin-top:8px}
       <h3>Backup &amp; Pulihkan Data</h3>
       <p class="note">Simpan file backup JSON secara berkala agar data usaha Anda tetap aman.</p>
       <div class="actions">
-        <button type="button" class="btn green" id="exportData">⬇️ Unduh Backup JSON</button>
-        <label class="btn gray" for="importFile" style="cursor:pointer">⬆️ Pulihkan Backup JSON</label>
+        <button type="button" class="btn green" id="exportData">Unduh Backup JSON</button>
+        <label class="btn gray" for="importFile" style="cursor:pointer">Pulihkan Backup JSON</label>
         <input class="hidden" id="importFile" type="file" accept=".json,application/json">
-        <button type="button" class="btn gray" id="exportCsv">📄 Ekspor Transaksi CSV</button>
+        <button type="button" class="btn gray" id="exportCsv">Ekspor Transaksi CSV</button>
       </div>
     </div>
   </section>
-  <footer>🌾 <b>Bintang Tani</b> • Keuangan CCR &amp; Bimo • Data tersimpan lokal di perangkat ini.</footer>
+  <footer><b>Bintang Tani</b> • Keuangan CCR &amp; Bimo • Data tersimpan lokal di perangkat ini.</footer>
 </div>
 <div id="toast" class="toast"></div>
 
@@ -280,20 +304,20 @@ function addTx(type,date,category,amount,note,ref,id,unit){db.transactions.push(
 function openTab(t){
   document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('active',b.dataset.tab===t));
   document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('active',p.id===t));
+  window.scrollTo({top:0,behavior:'instant'});
   render();
 }
 
 function buildUnitPanel(u){
-  const ico=u==='CCR'?'📘':'📙',badge=u==='CCR'?'blu':'amb';
+  const badge=u==='CCR'?'blu':'amb';
   $(u.toLowerCase()).innerHTML=`
-    <div class="card tbar">
-      <div class="tleft"><div class="ico">${ico}</div><span>Keuangan ${u}</span></div>
-      <span class="badge ${badge}">Khusus ${u}</span>
-    </div>
-    <div class="sgrid">
-      <div class="stat"><small>Pemasukan ${u}</small><strong id="${u}_in">Rp 0</strong></div>
-      <div class="stat"><small>Pengeluaran ${u}</small><strong class="red" id="${u}_out">Rp 0</strong></div>
-      <div class="stat full"><small>Saldo ${u}</small><strong class="${badge}" id="${u}_bal">Rp 0</strong></div>
+    <div class="card hero" style="padding:14px 16px">
+      <div style="display:flex;justify-content:space-between;align-items:center"><small>SALDO KAS ${u}</small><span class="badge ${badge}">${u}</span></div>
+      <div class="big" id="${u}_bal" style="margin-bottom:8px">Rp 0</div>
+      <div class="hero-pills">
+        <div class="hpill"><span>Pemasukan ${u}</span><b id="${u}_in">Rp 0</b></div>
+        <div class="hpill"><span>Pengeluaran ${u}</span><b id="${u}_out">Rp 0</b></div>
+      </div>
     </div>
     <div class="card">
       <h3>Catat Pemasukan / Pengeluaran ${u}</h3>
@@ -307,7 +331,7 @@ function buildUnitPanel(u){
         </div>
         <div id="${u}_sbox" class="sbox">
           <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap">
-            <strong>🌾 Hitung Upah Karung Pegawai ${u}</strong>
+            <strong>Hitung Upah Karung Pegawai ${u}</strong>
             <button type="button" class="btn gray sm" onclick="openTab('pegawai')">+ Isi Pegawai ${u}</button>
           </div>
           <p class="note" style="margin:4px 0 10px">Opsional: isi jumlah karung jika pemasukan ${u} disertai pengerjaan karung oleh Operator &amp; Buruh ${u}.</p>
@@ -388,7 +412,7 @@ function updateUnitPreview(u){
   const tot=items.reduce((a,x)=>a+x.wage,0),op=items.filter(x=>x.role==='Operator').reduce((a,x)=>a+x.wage,0),br=items.filter(x=>x.role==='Buruh').reduce((a,x)=>a+x.wage,0),amt=parseRp($(u+'_amt').value);
   box.innerHTML=`<b>Rincian Upah ${u} (${fmtNum(sacks)} karung):</b>`
     +items.map(x=>`<div class="prow"><span><b>${esc(x.emp.name)}</b> <small>(${x.role}) ${fmtNum(x.sacks)} krg × ${money(x.rate)}</small></span><span>${money(x.wage)}</span></div>`).join('')
-    +`<div class="prow" style="font-weight:700;border-top:1px solid #1f4d37;padding-top:6px"><span>Operator: ${money(op)} • Buruh: ${money(br)}</span><span class="red">Total: ${money(tot)}</span></div>`
+    +`<div class="prow" style="font-weight:700;border-top:1px solid #d1fae5;padding-top:6px"><span>Operator: ${money(op)} • Buruh: ${money(br)}</span><span class="red">Total: ${money(tot)}</span></div>`
     +(amt>0?`<div class="note" style="margin-top:4px">Sisa pemasukan bersih ${u}: <b class="${amt-tot>=0?'green':'red'}">${money(amt-tot)}</b></div>`:'');
 }
 
@@ -489,15 +513,15 @@ function makeReport(){
     <div class="card" style="margin:0"><h3 style="margin-bottom:8px">📘 CCR (${esc(m)})</h3>
       <div class="srow"><span>Pemasukan</span><b class="green">${money(ic)}</b></div>
       <div class="srow"><span>Pengeluaran</span><b class="red">${money(oc)}</b></div>
-      <div class="srow" style="border-top:1px solid var(--line);padding-top:6px"><b>Selisih CCR</b><b class="blu">${money(ic-oc)}</b></div>
+      <div class="srow" style="border-top:1px solid var(--line);padding-top:6px"><b>Selisih CCR</b><b style="color:var(--blu)">${money(ic-oc)}</b></div>
     </div>
     <div class="card" style="margin:0"><h3 style="margin-bottom:8px">📙 Bimo (${esc(m)})</h3>
       <div class="srow"><span>Pemasukan</span><b class="green">${money(ib)}</b></div>
       <div class="srow"><span>Pengeluaran</span><b class="red">${money(ob)}</b></div>
-      <div class="srow" style="border-top:1px solid var(--line);padding-top:6px"><b>Selisih Bimo</b><b class="amb">${money(ib-ob)}</b></div>
+      <div class="srow" style="border-top:1px solid var(--line);padding-top:6px"><b>Selisih Bimo</b><b style="color:var(--amb)">${money(ib-ob)}</b></div>
     </div>
   </div>
-  <div class="sbar bright" style="margin-top:12px"><span>Total Selisih (${arr.length} transaksi)</span><span>${money(it-ot)}</span></div>`;
+  <div class="sbar deep" style="margin-top:12px"><span>Total Selisih (${arr.length} transaksi)</span><span>${money(it-ot)}</span></div>`;
 }
 $('makeReport').onclick=makeReport;
 
@@ -515,6 +539,12 @@ $('exportCsv').onclick=()=>{
 };
 
 function weekRange(){const d=new Date(),day=(d.getDay()+6)%7,mon=new Date(d);mon.setDate(d.getDate()-day);const sun=new Date(mon);sun.setDate(mon.getDate()+6);return [localISO(mon),localISO(sun)]}
+
+function setBar(id1,id2,v1,v2){
+  const tot=v1+v2;
+  $(id1).style.width=tot?(v1/tot*100).toFixed(1)+'%':'0%';
+  $(id2).style.width=tot?(v2/tot*100).toFixed(1)+'%':'0%';
+}
 
 function renderEmpGroup(grp,rowId,unpaidId,cntId){
   const emps=db.employees.filter(e=>empGroup(e)===grp);
@@ -540,9 +570,10 @@ function render(){
   db.sackWork.forEach(w=>{const rem=Math.max(0,workTotal(w)-workPaid(w.id));if((w.group||empGroup(empObj(w.empId)))==='Bimo')upBimo+=rem;else upCCR+=rem});
   const loanLeft=db.loans.reduce((a,l)=>a+Number(l.amount||0)-db.repayments.filter(r=>r.loanId===l.id).reduce((b,r)=>b+Number(r.amount||0),0),0);
 
+  $('sBal').textContent=money(ins-outs);$('hBalCCR').textContent=money(inCCR-outCCR);$('hBalBimo').textContent=money(inBimo-outBimo);
   $('dInCCR').textContent=money(inCCR);$('dOutCCR').textContent=money(outCCR);$('dBalCCR').textContent=money(inCCR-outCCR);$('dUpCCR').textContent=money(upCCR);
   $('dInBimo').textContent=money(inBimo);$('dOutBimo').textContent=money(outBimo);$('dBalBimo').textContent=money(inBimo-outBimo);$('dUpBimo').textContent=money(upBimo);
-  $('sIn').textContent=money(ins);$('sOut').textContent=money(outs);$('sBal').textContent=money(ins-outs);$('sLoan').textContent=money(loanLeft);
+  $('sIn').textContent=money(ins);$('sOut').textContent=money(outs);$('sLoan').textContent=money(loanLeft);
 
   ['CCR','Bimo'].forEach(u=>{
     const ui=u==='CCR'?inCCR:inBimo,uo=u==='CCR'?outCCR:outBimo;
@@ -551,15 +582,19 @@ function render(){
   });
 
   const [ws,we]=weekRange(),wk=db.transactions.filter(x=>(x.date||'')>=ws&&(x.date||'')<=we);
+  const wic=sumUnit(wk,'CCR','in'),wib=sumUnit(wk,'Bimo','in');
   $('wkCount').textContent=wk.length+' transaksi';
-  $('wkInCCR').textContent=money(sumUnit(wk,'CCR','in'));$('wkOutCCR').textContent=money(sumUnit(wk,'CCR','out'));
-  $('wkInBimo').textContent=money(sumUnit(wk,'Bimo','in'));$('wkOutBimo').textContent=money(sumUnit(wk,'Bimo','out'));
+  $('wkInCCR').textContent=money(wic);$('wkOutCCR').textContent=money(sumUnit(wk,'CCR','out'));
+  $('wkInBimo').textContent=money(wib);$('wkOutBimo').textContent=money(sumUnit(wk,'Bimo','out'));
+  setBar('wkBarCCR','wkBarBimo',wic,wib);
   $('wkNet').textContent=money(sumUnit(wk,'ALL','in')-sumUnit(wk,'ALL','out'));
 
   const ym=today.slice(0,7),mo=db.transactions.filter(x=>(x.date||'').startsWith(ym));
+  const mic=sumUnit(mo,'CCR','in'),mib=sumUnit(mo,'Bimo','in');
   $('moCount').textContent=mo.length+' transaksi';
-  $('moInCCR').textContent=money(sumUnit(mo,'CCR','in'));$('moOutCCR').textContent=money(sumUnit(mo,'CCR','out'));
-  $('moInBimo').textContent=money(sumUnit(mo,'Bimo','in'));$('moOutBimo').textContent=money(sumUnit(mo,'Bimo','out'));
+  $('moInCCR').textContent=money(mic);$('moOutCCR').textContent=money(sumUnit(mo,'CCR','out'));
+  $('moInBimo').textContent=money(mib);$('moOutBimo').textContent=money(sumUnit(mo,'Bimo','out'));
+  setBar('moBarCCR','moBarBimo',mic,mib);
   $('moNet').textContent=money(sumUnit(mo,'ALL','in')-sumUnit(mo,'ALL','out'));
 
   renderRecent('CCR','recentCCR');renderRecent('Bimo','recentBimo');
@@ -582,7 +617,6 @@ function render(){
 }
 
 $('today').textContent=new Date().toLocaleDateString('id-ID',{day:'numeric',month:'short',year:'numeric'});
-$('dashDate').textContent='📅 '+$('today').textContent;
 ['loanDate','repayDate'].forEach(id=>$(id).value=today);
 $('reportMonth').value=today.slice(0,7);
 bindRp('empRate');bindRp('loanAmount');bindRp('repayAmount');
