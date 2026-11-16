@@ -73,7 +73,7 @@ table{width:100%;border-collapse:collapse;min-width:460px}th,td{text-align:left;
           <div class="field"><label>Jenis Transaksi</label><select id="txType"><option value="in">Pemasukan</option><option value="out">Pengeluaran</option></select></div>
           <div class="field"><label>Tanggal</label><input id="txDate" type="date" required></div>
           <div class="field"><label>Kategori</label><input id="txCategory" placeholder="Contoh: Penjualan, Operasional" required></div>
-          <div class="field"><label>Jumlah Uang (Rp)</label><input id="txAmount" type="number" min="1" step="1" placeholder="0" required></div>
+          <div class="field"><label>Jumlah Uang (Rp)</label><input id="txAmount" type="text" inputmode="numeric" placeholder="0" required></div>
           <div class="field full"><label>Keterangan (Opsional)</label><textarea id="txNote" placeholder="Catatan tambahan"></textarea></div>
         </div>
         <div id="txSackBox" class="sack-box">
@@ -115,13 +115,13 @@ table{width:100%;border-collapse:collapse;min-width:460px}th,td{text-align:left;
   <section id="pegawai" class="panel">
     <div class="card">
       <h3 style="margin-top:0">Isi Data Pegawai (CCR & Bimo)</h3>
-      <p class="note" style="margin-top:0">Isi sendiri nama pegawai, pilih bagiannya (**CCR** atau **Bimo**), jenis (**Operator** atau **Buruh**), dan upah per karungnya.</p>
+      <p class="note" style="margin-top:0">Isi sendiri nama pegawai, pilih bagiannya (<b>CCR</b> atau <b>Bimo</b>), jenis (<b>Operator</b> atau <b>Buruh</b>), dan upah per karungnya.</p>
       <form id="empForm">
         <div class="formgrid">
           <div class="field"><label>Nama Pegawai</label><input id="empName" placeholder="Isi nama pegawai" required></div>
           <div class="field"><label>Bagian Pegawai</label><select id="empGroup"><option value="CCR">Pegawai CCR</option><option value="Bimo">Pegawai Bimo</option></select></div>
           <div class="field"><label>Jenis Pegawai</label><select id="empRole"><option value="Operator">Operator</option><option value="Buruh">Buruh</option></select></div>
-          <div class="field"><label>Upah per Karung (Rp)</label><input id="empRate" type="number" min="0" step="1" placeholder="Contoh: 1500" required></div>
+          <div class="field"><label>Upah per Karung (Rp)</label><input id="empRate" type="text" inputmode="numeric" placeholder="Contoh: 1.500" required></div>
         </div>
         <div class="actions">
           <button type="submit" class="btn primary" id="empSubmit">Simpan Pegawai</button>
@@ -168,7 +168,7 @@ table{width:100%;border-collapse:collapse;min-width:460px}th,td{text-align:left;
         <div class="formgrid">
           <div class="field"><label>Pegawai</label><select id="loanEmp" required></select></div>
           <div class="field"><label>Tanggal</label><input id="loanDate" type="date" required></div>
-          <div class="field"><label>Jumlah Pinjaman (Rp)</label><input id="loanAmount" type="number" min="1" step="1" placeholder="0" required></div>
+          <div class="field"><label>Jumlah Pinjaman (Rp)</label><input id="loanAmount" type="text" inputmode="numeric" placeholder="0" required></div>
           <div class="field"><label>Catatan</label><input id="loanNote" placeholder="Keperluan (opsional)"></div>
         </div>
         <div class="actions"><button type="submit" class="btn primary">Catat Pinjaman</button></div>
@@ -181,7 +181,7 @@ table{width:100%;border-collapse:collapse;min-width:460px}th,td{text-align:left;
         <div class="formgrid">
           <div class="field"><label>Pilih Pinjaman</label><select id="repayLoan" required></select></div>
           <div class="field"><label>Tanggal Bayar</label><input id="repayDate" type="date" required></div>
-          <div class="field"><label>Jumlah Dibayar (Rp)</label><input id="repayAmount" type="number" min="1" step="1" placeholder="0" required></div>
+          <div class="field"><label>Jumlah Dibayar (Rp)</label><input id="repayAmount" type="text" inputmode="numeric" placeholder="0" required></div>
         </div>
         <div class="actions"><button type="submit" class="btn green">Simpan Angsuran</button></div>
       </form>
@@ -219,9 +219,24 @@ table{width:100%;border-collapse:collapse;min-width:460px}th,td{text-align:left;
 const $=id=>document.getElementById(id);
 const today=new Date().toISOString().slice(0,10);
 const money=n=>'Rp'+Math.round(Number(n||0)).toLocaleString('id-ID');
+const parseRp=v=>Number(String(v??'').replace(/\D/g,''))||0;
+const formatRp=v=>{const d=String(v??'').replace(/\D/g,'');return d?Number(d).toLocaleString('id-ID'):''};
 const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,7);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 let db=load(),editId=null,unchecked=new Set();
+
+function bindRp(id,onVal){
+  const el=$(id);
+  el.addEventListener('input',()=>{
+    const pos=el.selectionStart||0;
+    const before=el.value.slice(0,pos).replace(/\D/g,'').length;
+    el.value=formatRp(el.value);
+    let cur=0,seen=0;
+    while(cur<el.value.length&&seen<before){if(/\d/.test(el.value[cur]))seen++;cur++}
+    if(document.activeElement===el)try{el.setSelectionRange(cur,cur)}catch(e){}
+    if(onVal)onVal();
+  });
+}
 
 function blank(){return {transactions:[],employees:[],payroll:[],loans:[],repayments:[],sackWork:[],sackPayments:[]}}
 function load(){try{return {...blank(),...JSON.parse(localStorage.getItem('kaskita_data')||'{}')}}catch(e){return blank()}}
@@ -245,10 +260,15 @@ $('today').textContent=new Date().toLocaleDateString('id-ID',{weekday:'long',day
 $('reportMonth').value=today.slice(0,7);
 document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>openTab(b.dataset.tab));
 
+bindRp('txAmount',updatePreview);
+bindRp('empRate');
+bindRp('loanAmount');
+bindRp('repayAmount');
+
 function toggleSackBox(){$('txSackBox').classList.toggle('hidden',$('txType').value!=='in');updatePreview()}
 $('txType').onchange=toggleSackBox;
 $('txGroup').onchange=()=>{renderPickers();updatePreview()};
-$('txSacks').oninput=updatePreview;$('txSplit').onchange=updatePreview;$('txAmount').oninput=updatePreview;
+$('txSacks').oninput=updatePreview;$('txSplit').onchange=updatePreview;
 $('txForm').onreset=()=>setTimeout(()=>{$('txDate').value=today;toggleSackBox()},0);
 
 function activeGroups(){const g=$('txGroup').value;return g==='ALL'?['CCR','Bimo']:[g]}
@@ -308,7 +328,7 @@ function updatePreview(){
   const tot=items.reduce((a,x)=>a+x.wage,0);
   const op=items.filter(x=>x.role==='Operator').reduce((a,x)=>a+x.wage,0);
   const br=items.filter(x=>x.role==='Buruh').reduce((a,x)=>a+x.wage,0);
-  const amt=Number($('txAmount').value||0);
+  const amt=parseRp($('txAmount').value);
   box.innerHTML=`<b>Rincian Upah (${sacks.toLocaleString('id-ID')} karung):</b>`
     +items.map(x=>`<div class="preview-row"><span><b>${esc(x.emp.name)}</b> <small>[${x.grp} • ${x.role}] ${x.sacks.toLocaleString('id-ID')} krg × ${money(x.rate)}</small></span><span>${money(x.wage)}</span></div>`).join('')
     +`<div class="preview-row" style="font-weight:700;border-top:1px solid #bfdbfe;padding-top:6px"><span>Operator: ${money(op)} • Buruh: ${money(br)}</span><span class="red">Total: ${money(tot)}</span></div>`
@@ -317,7 +337,8 @@ function updatePreview(){
 
 $('txForm').onsubmit=e=>{
   e.preventDefault();
-  const type=$('txType').value,date=$('txDate').value,cat=$('txCategory').value.trim(),amt=Number($('txAmount').value),note=$('txNote').value.trim();
+  const type=$('txType').value,date=$('txDate').value,cat=$('txCategory').value.trim(),amt=parseRp($('txAmount').value),note=$('txNote').value.trim();
+  if(amt<=0)return alert('Masukkan jumlah uang lebih dari 0.');
   const sacks=type==='in'?Number($('txSacks').value||0):0,wages=sacks>0?calcWages():[],grpLabel=$('txGroup').value==='ALL'?'CCR & Bimo':$('txGroup').value;
   if(sacks>0&&!wages.length)return alert('Centang minimal 1 Operator atau Buruh, atau kosongkan jumlah karung.');
   const txId=uid(),txNote=sacks>0?(note?note+' ('+grpLabel+' • '+sacks+' krg)':grpLabel+' • '+sacks+' karung'):note;
@@ -346,14 +367,14 @@ function delTx(id){
 
 function editEmp(id){
   const emp=empObj(id);if(!emp)return;
-  editId=id;$('empName').value=emp.name;$('empGroup').value=empGroup(emp);$('empRole').value=emp.role;$('empRate').value=empRate(emp);
+  editId=id;$('empName').value=emp.name;$('empGroup').value=empGroup(emp);$('empRole').value=emp.role;$('empRate').value=formatRp(empRate(emp));
   $('empSubmit').textContent='Perbarui Pegawai';$('empCancel').classList.remove('hidden');
   $('empForm').scrollIntoView({behavior:'smooth',block:'center'});
 }
 function cancelEdit(){editId=null;$('empForm').reset();$('empSubmit').textContent='Simpan Pegawai';$('empCancel').classList.add('hidden')}
 $('empForm').onsubmit=e=>{
   e.preventDefault();
-  const name=$('empName').value.trim(),group=$('empGroup').value,role=$('empRole').value,rate=Number($('empRate').value);
+  const name=$('empName').value.trim(),group=$('empGroup').value,role=$('empRole').value,rate=parseRp($('empRate').value);
   if(!name)return;
   if(editId){const emp=empObj(editId);if(emp){emp.name=name;emp.group=group;emp.role=role;emp.salary=rate;emp.ratePerSack=rate}cancelEdit()}
   else{db.employees.push({id:uid(),name,group,role,phone:'',salary:rate,ratePerSack:rate});e.target.reset();$('empGroup').value=group}
@@ -383,7 +404,9 @@ $('loanForm').onsubmit=e=>{
   e.preventDefault();
   const emp=empObj($('loanEmp').value);
   if(!emp)return alert('Isi data pegawai terlebih dahulu.');
-  const l={id:uid(),empId:emp.id,date:$('loanDate').value,amount:Number($('loanAmount').value),note:$('loanNote').value.trim()};
+  const amt=parseRp($('loanAmount').value);
+  if(amt<=0)return alert('Masukkan jumlah pinjaman lebih dari 0.');
+  const l={id:uid(),empId:emp.id,date:$('loanDate').value,amount:amt,note:$('loanNote').value.trim()};
   db.loans.push(l);addTx('out',l.date,'Pinjaman - '+emp.name+' ('+empGroup(emp)+')',l.amount,l.note||'Pencairan pinjaman','loan:'+l.id);
   e.target.reset();$('loanDate').value=today;save();
 };
@@ -391,8 +414,8 @@ $('repayForm').onsubmit=e=>{
   e.preventDefault();
   const l=db.loans.find(x=>x.id===$('repayLoan').value);
   if(!l)return alert('Tidak ada pinjaman aktif.');
-  const paid=db.repayments.filter(r=>r.loanId===l.id).reduce((a,r)=>a+Number(r.amount),0),amt=Number($('repayAmount').value);
-  if(amt<=0||amt>l.amount-paid)return alert('Jumlah melebihi sisa pinjaman.');
+  const paid=db.repayments.filter(r=>r.loanId===l.id).reduce((a,r)=>a+Number(r.amount),0),amt=parseRp($('repayAmount').value);
+  if(amt<=0||amt>l.amount-paid)return alert('Jumlah pembayaran tidak valid atau melebihi sisa pinjaman.');
   const r={id:uid(),loanId:l.id,empId:l.empId,date:$('repayDate').value,amount:amt};
   db.repayments.push(r);addTx('in',r.date,'Angsuran - '+empName(l.empId),amt,'Angsuran pinjaman','repay:'+r.id);
   e.target.reset();$('repayDate').value=today;save();
