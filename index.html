@@ -73,7 +73,7 @@ table{width:100%;border-collapse:collapse;min-width:460px}th,td{text-align:left;
           <div class="field"><label>Jenis Transaksi</label><select id="txType"><option value="in">Pemasukan</option><option value="out">Pengeluaran</option></select></div>
           <div class="field"><label>Tanggal</label><input id="txDate" type="date" required></div>
           <div class="field"><label>Kategori</label><input id="txCategory" placeholder="Contoh: Penjualan, Operasional" required></div>
-          <div class="field"><label>Jumlah Uang (Rp)</label><input id="txAmount" type="text" inputmode="numeric" placeholder="0" required></div>
+          <div class="field"><label>Jumlah Uang (Rp)</label><input id="txAmount" type="text" inputmode="numeric" autocomplete="off" placeholder="Contoh: 100.000" required></div>
           <div class="field full"><label>Keterangan (Opsional)</label><textarea id="txNote" placeholder="Catatan tambahan"></textarea></div>
         </div>
         <div id="txSackBox" class="sack-box">
@@ -121,7 +121,7 @@ table{width:100%;border-collapse:collapse;min-width:460px}th,td{text-align:left;
           <div class="field"><label>Nama Pegawai</label><input id="empName" placeholder="Isi nama pegawai" required></div>
           <div class="field"><label>Bagian Pegawai</label><select id="empGroup"><option value="CCR">Pegawai CCR</option><option value="Bimo">Pegawai Bimo</option></select></div>
           <div class="field"><label>Jenis Pegawai</label><select id="empRole"><option value="Operator">Operator</option><option value="Buruh">Buruh</option></select></div>
-          <div class="field"><label>Upah per Karung (Rp)</label><input id="empRate" type="text" inputmode="numeric" placeholder="Contoh: 1.500" required></div>
+          <div class="field"><label>Upah per Karung (Rp)</label><input id="empRate" type="text" inputmode="numeric" autocomplete="off" placeholder="Contoh: 1.500" required></div>
         </div>
         <div class="actions">
           <button type="submit" class="btn primary" id="empSubmit">Simpan Pegawai</button>
@@ -168,7 +168,7 @@ table{width:100%;border-collapse:collapse;min-width:460px}th,td{text-align:left;
         <div class="formgrid">
           <div class="field"><label>Pegawai</label><select id="loanEmp" required></select></div>
           <div class="field"><label>Tanggal</label><input id="loanDate" type="date" required></div>
-          <div class="field"><label>Jumlah Pinjaman (Rp)</label><input id="loanAmount" type="text" inputmode="numeric" placeholder="0" required></div>
+          <div class="field"><label>Jumlah Pinjaman (Rp)</label><input id="loanAmount" type="text" inputmode="numeric" autocomplete="off" placeholder="Contoh: 500.000" required></div>
           <div class="field"><label>Catatan</label><input id="loanNote" placeholder="Keperluan (opsional)"></div>
         </div>
         <div class="actions"><button type="submit" class="btn primary">Catat Pinjaman</button></div>
@@ -181,7 +181,7 @@ table{width:100%;border-collapse:collapse;min-width:460px}th,td{text-align:left;
         <div class="formgrid">
           <div class="field"><label>Pilih Pinjaman</label><select id="repayLoan" required></select></div>
           <div class="field"><label>Tanggal Bayar</label><input id="repayDate" type="date" required></div>
-          <div class="field"><label>Jumlah Dibayar (Rp)</label><input id="repayAmount" type="text" inputmode="numeric" placeholder="0" required></div>
+          <div class="field"><label>Jumlah Dibayar (Rp)</label><input id="repayAmount" type="text" inputmode="numeric" autocomplete="off" placeholder="Contoh: 100.000" required></div>
         </div>
         <div class="actions"><button type="submit" class="btn green">Simpan Angsuran</button></div>
       </form>
@@ -218,24 +218,30 @@ table{width:100%;border-collapse:collapse;min-width:460px}th,td{text-align:left;
 <script>
 const $=id=>document.getElementById(id);
 const today=new Date().toISOString().slice(0,10);
-const money=n=>'Rp'+Math.round(Number(n||0)).toLocaleString('id-ID');
+const money=n=>{const v=Math.round(Number(n||0));return (v<0?'-Rp':'Rp')+Math.abs(v).toString().replace(/\B(?=(\d{3})+(?!\d))/g,'.')};
+const fmtNum=n=>{const s=Number(Number(n||0).toFixed(2)).toString().split('.');s[0]=s[0].replace(/\B(?=(\d{3})+(?!\d))/g,'.');return s.join(',')};
 const parseRp=v=>Number(String(v??'').replace(/\D/g,''))||0;
-const formatRp=v=>{const d=String(v??'').replace(/\D/g,'');return d?Number(d).toLocaleString('id-ID'):''};
+const formatRp=v=>{const d=String(v??'').replace(/\D/g,'').replace(/^0+(?=\d)/,'');return d?d.replace(/\B(?=(\d{3})+(?!\d))/g,'.'):''};
 const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,7);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 let db=load(),editId=null,unchecked=new Set();
 
 function bindRp(id,onVal){
   const el=$(id);
-  el.addEventListener('input',()=>{
-    const pos=el.selectionStart||0;
-    const before=el.value.slice(0,pos).replace(/\D/g,'').length;
-    el.value=formatRp(el.value);
-    let cur=0,seen=0;
-    while(cur<el.value.length&&seen<before){if(/\d/.test(el.value[cur]))seen++;cur++}
-    if(document.activeElement===el)try{el.setSelectionRange(cur,cur)}catch(e){}
+  const fmt=()=>{
+    const raw=el.value,next=formatRp(raw);
+    if(raw!==next){
+      const pos=el.selectionStart||raw.length,before=raw.slice(0,pos).replace(/\D/g,'').length;
+      el.value=next;
+      let cur=0,seen=0;
+      while(cur<next.length&&seen<before){if(/\d/.test(next[cur]))seen++;cur++}
+      if(document.activeElement===el)try{el.setSelectionRange(cur,cur)}catch(e){}
+    }
     if(onVal)onVal();
-  });
+  };
+  el.addEventListener('input',fmt);
+  el.addEventListener('change',fmt);
+  el.addEventListener('blur',fmt);
 }
 
 function blank(){return {transactions:[],employees:[],payroll:[],loans:[],repayments:[],sackWork:[],sackPayments:[]}}
@@ -329,8 +335,8 @@ function updatePreview(){
   const op=items.filter(x=>x.role==='Operator').reduce((a,x)=>a+x.wage,0);
   const br=items.filter(x=>x.role==='Buruh').reduce((a,x)=>a+x.wage,0);
   const amt=parseRp($('txAmount').value);
-  box.innerHTML=`<b>Rincian Upah (${sacks.toLocaleString('id-ID')} karung):</b>`
-    +items.map(x=>`<div class="preview-row"><span><b>${esc(x.emp.name)}</b> <small>[${x.grp} • ${x.role}] ${x.sacks.toLocaleString('id-ID')} krg × ${money(x.rate)}</small></span><span>${money(x.wage)}</span></div>`).join('')
+  box.innerHTML=`<b>Rincian Upah (${fmtNum(sacks)} karung):</b>`
+    +items.map(x=>`<div class="preview-row"><span><b>${esc(x.emp.name)}</b> <small>[${x.grp} • ${x.role}] ${fmtNum(x.sacks)} krg × ${money(x.rate)}</small></span><span>${money(x.wage)}</span></div>`).join('')
     +`<div class="preview-row" style="font-weight:700;border-top:1px solid #bfdbfe;padding-top:6px"><span>Operator: ${money(op)} • Buruh: ${money(br)}</span><span class="red">Total: ${money(tot)}</span></div>`
     +(amt>0?`<div class="note" style="margin-top:4px">Sisa pemasukan bersih: <b class="${amt-tot>=0?'green':'red'}">${money(amt-tot)}</b></div>`:'');
 }
@@ -341,7 +347,7 @@ $('txForm').onsubmit=e=>{
   if(amt<=0)return alert('Masukkan jumlah uang lebih dari 0.');
   const sacks=type==='in'?Number($('txSacks').value||0):0,wages=sacks>0?calcWages():[],grpLabel=$('txGroup').value==='ALL'?'CCR & Bimo':$('txGroup').value;
   if(sacks>0&&!wages.length)return alert('Centang minimal 1 Operator atau Buruh, atau kosongkan jumlah karung.');
-  const txId=uid(),txNote=sacks>0?(note?note+' ('+grpLabel+' • '+sacks+' krg)':grpLabel+' • '+sacks+' karung'):note;
+  const txId=uid(),txNote=sacks>0?(note?note+' ('+grpLabel+' • '+fmtNum(sacks)+' krg)':grpLabel+' • '+fmtNum(sacks)+' karung'):note;
   addTx(type,date,cat,amt,txNote,'',txId);
   const payNow=sacks>0&&$('txPayNow').checked;
   wages.forEach(x=>{
@@ -349,7 +355,7 @@ $('txForm').onsubmit=e=>{
     db.sackWork.push(w);
     if(payNow&&x.wage>0){
       db.sackPayments.push({id:uid(),workId:w.id,empId:x.emp.id,date,amount:x.wage});
-      db.payroll.push({id:uid(),empId:x.emp.id,period:date.slice(0,7),date,amount:x.wage,note:'Upah '+x.grp+' '+x.role+' ('+x.sacks+' krg)'});
+      db.payroll.push({id:uid(),empId:x.emp.id,period:date.slice(0,7),date,amount:x.wage,note:'Upah '+x.grp+' '+x.role+' ('+fmtNum(x.sacks)+' krg)'});
       addTx('out',date,'Upah '+x.grp+' - '+x.emp.name,x.wage,'Upah otomatis: '+cat,'sackpay:'+w.id);
     }
   });
@@ -454,7 +460,7 @@ function renderEmpGroup(grp,rowId,unpaidId,cntId){
   $(rowId).innerHTML=emps.map(e=>`<tr><td>${esc(e.name)}</td><td><span class="badge blue">${esc(e.role)}</span></td><td>${money(empRate(e))}</td><td style="white-space:nowrap"><button class="btn gray sm" onclick="editEmp('${e.id}')">Edit</button> <button class="btn red sm" onclick="delEmp('${e.id}')">Hapus</button></td></tr>`).join('')||`<tr><td colspan="4" class="empty">Belum ada pegawai ${grp}.</td></tr>`;
   $(unpaidId).innerHTML=emps.map(e=>{
     const ws=db.sackWork.filter(w=>w.empId===e.id),cnt=ws.reduce((a,w)=>a+Number(w.count),0),tot=ws.reduce((a,w)=>a+workTotal(w),0),due=tot-ws.reduce((a,w)=>a+workPaid(w.id),0);
-    return `<tr><td>${esc(e.name)} <small>(${esc(e.role)})</small></td><td>${Number(cnt.toFixed(2)).toLocaleString('id-ID')}</td><td>${money(tot)}</td><td><b>${money(due)}</b></td><td><button class="btn green sm" onclick="paySack('${e.id}')" ${due<=0?'disabled':''}>Bayar</button></td></tr>`;
+    return `<tr><td>${esc(e.name)} <small>(${esc(e.role)})</small></td><td>${fmtNum(cnt)}</td><td>${money(tot)}</td><td><b>${money(due)}</b></td><td><button class="btn green sm" onclick="paySack('${e.id}')" ${due<=0?'disabled':''}>Bayar</button></td></tr>`;
   }).join('')||`<tr><td colspan="5" class="empty">Belum ada pegawai ${grp}.</td></tr>`;
 }
 
@@ -478,7 +484,7 @@ function render(){
   const works=db.sackWork.filter(w=>wf==='all'||(w.group||empGroup(empObj(w.empId)))===wf).slice().sort((a,b)=>(b.date||'').localeCompare(a.date||''));
   $('workRows').innerHTML=works.map(w=>{
     const tot=workTotal(w),rem=tot-workPaid(w.id),grp=w.group||empGroup(empObj(w.empId));
-    return `<tr><td>${esc(w.date)}</td><td><span class="badge ${grp==='CCR'?'blue':'amber'}">${esc(grp)}</span></td><td>${esc(empName(w.empId))}</td><td>${Number(w.count).toLocaleString('id-ID')}</td><td>${money(w.rate)}</td><td>${money(tot)}</td><td>${esc(w.note||'-')}</td><td><span class="badge ${rem?'red':''}">${rem?'Belum lunas':'Lunas'}</span></td><td><button class="btn red sm" onclick="delWork('${w.id}')">Hapus</button></td></tr>`;
+    return `<tr><td>${esc(w.date)}</td><td><span class="badge ${grp==='CCR'?'blue':'amber'}">${esc(grp)}</span></td><td>${esc(empName(w.empId))}</td><td>${fmtNum(w.count)}</td><td>${money(w.rate)}</td><td>${money(tot)}</td><td>${esc(w.note||'-')}</td><td><span class="badge ${rem?'red':''}">${rem?'Belum lunas':'Lunas'}</span></td><td><button class="btn red sm" onclick="delWork('${w.id}')">Hapus</button></td></tr>`;
   }).join('')||'<tr><td colspan="9" class="empty">Belum ada catatan upah karung.</td></tr>';
 
   $('loanEmp').innerHTML=db.employees.map(e=>`<option value="${e.id}">${esc(e.name)} (${empGroup(e)} - ${esc(e.role)})</option>`).join('')||'<option value="">Belum ada pegawai</option>';
