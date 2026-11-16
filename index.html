@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#101827">
+<title>KasKita - Keuangan Usaha</title>
+<style>
+:root{--bg:#f3f6fb;--card:#fff;--ink:#172033;--muted:#6b7280;--line:#e5eaf2;--navy:#101827;--blue:#2563eb;--green:#059669;--red:#dc2626;--orange:#d97706}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+header{background:var(--navy);color:white;padding:20px max(16px,calc((100% - 1180px)/2));display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+header h1{font-size:21px;margin:0}header small{color:#b9c5d8}.wrap{max-width:1180px;margin:auto;padding:18px}
+nav{display:flex;gap:8px;overflow:auto;padding:3px 0 14px}
+nav button,.btn{border:0;border-radius:10px;padding:10px 14px;background:#e7edf7;color:#23314a;font-weight:650;cursor:pointer;white-space:nowrap}
+nav button.active,.btn.primary{background:var(--blue);color:white}.btn.green{background:var(--green);color:white}.btn.red{background:var(--red);color:white}.btn.gray{background:#eef2f7}.btn.sm{padding:5px 9px;font-size:12px}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;box-shadow:0 2px 8px #14213d08}
+.stat small{color:var(--muted)}.stat strong{display:block;font-size:22px;margin-top:7px;overflow-wrap:anywhere}.green-text{color:var(--green)}.red-text{color:var(--red)}
+.panel{display:none}.panel.active{display:block}.section-head{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin:8px 0 14px}.section-head h2{font-size:19px;margin:0}
+.formgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.field{display:flex;flex-direction:column;gap:5px}.field.full{grid-column:1/-1}label{font-size:13px;font-weight:650;color:#46536a}
+input,select,textarea{width:100%;border:1px solid #d8dfeb;border-radius:9px;padding:11px;background:white;color:var(--ink);font:inherit;min-width:0}textarea{min-height:70px;resize:vertical}
+input[type="checkbox"]{width:auto;padding:0;margin:0;accent-color:var(--blue);cursor:pointer;flex-shrink:0}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:12px;background:white}table{width:100%;border-collapse:collapse;min-width:650px}th,td{text-align:left;padding:11px 12px;border-bottom:1px solid var(--line);font-size:13px}th{background:#f8fafc;color:#526078;position:sticky;top:0}td .btn{padding:6px 9px;font-size:12px}.empty{text-align:center;color:var(--muted);padding:28px}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}.filters input,.filters select{max-width:220px}
+.badge{display:inline-block;border-radius:30px;padding:4px 8px;font-size:11px;font-weight:700;background:#e8f5ef;color:#08784f}.badge.red{background:#feecec;color:#b91c1c}.badge.blue{background:#e8f0fe;color:#1d4ed8}
+.note{color:var(--muted);font-size:12px;line-height:1.5}.split{display:grid;grid-template-columns:1fr 1fr;gap:14px}.hidden{display:none!important}
+.sack-box{margin-top:14px;padding:14px;border:1px solid #cfe0ff;border-radius:12px;background:#f8fbff}
+.sack-box-head{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:4px}
+.sack-box-head h3{margin:0;font-size:15px}
+.emp-pick-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px}
+.emp-group{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px}
+.emp-group-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;font-size:13px;font-weight:700}
+.emp-list{display:flex;flex-direction:column;gap:6px;max-height:170px;overflow:auto}
+.emp-item{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:7px 9px;border:1px solid #edf1f7;border-radius:8px;font-size:13px;cursor:pointer;background:#fafcff}
+.emp-item:hover{border-color:#bfd4ff;background:#f1f6ff}
+.emp-item-left{display:flex;align-items:center;gap:8px;font-weight:500}
+.wage-preview{margin-top:12px;padding:12px;background:#fff;border:1px dashed #93c5fd;border-radius:10px;font-size:13px}
+.wage-row{display:flex;justify-content:space-between;gap:10px;padding:4px 0;border-bottom:1px solid #f1f5f9}
+.wage-row:last-child{border-bottom:0}
+.wage-total{display:flex;justify-content:space-between;gap:10px;padding-top:8px;margin-top:6px;border-top:1px solid #dbeafe;font-weight:700;font-size:14px}
+.check-line{display:flex;align-items:center;gap:8px;margin-top:10px;font-size:13px;font-weight:600;color:#334155;cursor:pointer}
+@media(max-width:760px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.wrap{padding:12px}.split,.emp-pick-grid{grid-template-columns:1fr}}
+@media(max-width:430px){.formgrid{grid-template-columns:1fr}.field.full{grid-column:auto}.stat strong{font-size:18px}}
+@media print{header,nav,.no-print,.actions,.filters{display:none!important}body{background:white}.wrap{max-width:none;padding:0}.panel{display:none!important}.panel.active{display:block!important}.card{box-shadow:none;break-inside:avoid}}
+</style>
+</head>
+<body>
+<header><div><h1>💼 KasKita</h1><small>Aplikasi pencatatan keuangan usaha</small></div><div id="today"></div></header>
+<div class="wrap">
+<nav class="no-print">
+<button class="active" data-tab="dashboard">Ringkasan</button><button data-tab="transaksi">Pemasukan & Pengeluaran</button><button data-tab="pegawai">Data Pegawai</button><button data-tab="karung">Hitung Karung</button><button data-tab="gaji">Penggajian</button><button data-tab="pinjaman">Pinjaman Pegawai</button><button data-tab="laporan">Laporan & Cadangan</button>
+</nav>
+
+<section id="dashboard" class="panel active">
+<div class="section-head"><h2>Ringkasan Keuangan</h2><button class="btn gray no-print" onclick="print()">Cetak ringkasan</button></div>
+<div class="grid">
+<div class="card stat"><small>Total pemasukan</small><strong class="green-text" id="sIn">Rp0</strong></div>
+<div class="card stat"><small>Total pengeluaran</small><strong class="red-text" id="sOut">Rp0</strong></div>
+<div class="card stat"><small>Saldo saat ini</small><strong id="sBalance">Rp0</strong></div>
+<div class="card stat"><small>Pinjaman belum lunas</small><strong id="sLoan">Rp0</strong></div>
+</div>
+<div class="split">
+<div class="card"><h3>Transaksi terbaru</h3><div id="recent"></div></div>
+<div class="card"><h3>Informasi</h3><p class="note">Catat seluruh uang masuk dan keluar, data pegawai, pembayaran gaji, serta pinjaman pegawai. Data disimpan di perangkat/browser ini.</p><p class="note">Saat memasukkan <b>Pemasukan</b> beserta <b>Jumlah karung</b>, sistem otomatis menghitung upah untuk <b>Operator</b> dan <b>Buruh</b> sesuai nama pegawai yang Anda isi.</p><p class="note"><b>Upah karung belum dibayar:</b> <span id="sUnpaidSack" class="red-text">Rp0</span></p></div>
+</div>
+</section>
+
+<section id="transaksi" class="panel">
+<div class="section-head"><h2>Pemasukan & Pengeluaran</h2></div>
+<div class="card">
+<form id="txForm">
+<div class="formgrid">
+<div class="field"><label>Jenis transaksi</label><select id="txType"><option value="in">Pemasukan</option><option value="out">Pengeluaran</option></select></div>
+<div class="field"><label>Tanggal</label><input id="txDate" type="date" required></div>
+<div class="field"><label>Kategori</label><input id="txCategory" placeholder="Contoh: Penjualan, operasional" required></div>
+<div class="field"><label>Jumlah (Rp)</label><input id="txAmount" type="number" min="1" step="1" placeholder="0" required></div>
+<div class="field full"><label>Keterangan</label><textarea id="txNote" placeholder="Catatan tambahan (opsional)"></textarea></div>
+</div>
+
+<div id="txSackBox" class="sack-box">
+  <div class="sack-box-head">
+    <h3>📦 Hitung Upah Karung Otomatis (Buruh & Operator)</h3>
+    <button type="button" class="btn gray sm" onclick="openTab('pegawai')">+ Isi / Kelola Nama Pegawai</button>
+  </div>
+  <p class="note" style="margin:2px 0 10px">Isi jumlah karung jika pemasukan hari ini disertai pengerjaan karung. Kosongkan jika hanya mencatat pemasukan biasa.</p>
+  <div class="formgrid">
+    <div class="field">
+      <label>Jumlah karung hari ini</label>
+      <input id="txSacks" type="number" min="0" step="1" placeholder="Contoh: 100 (opsional)">
+    </div>
+    <div class="field">
+      <label>Cara hitung jika lebih dari 1 pegawai per jenis</label>
+      <select id="txSackMode">
+        <option value="per_person">Penuh per pegawai (masing-masing × jumlah karung)</option>
+        <option value="split">Bagi rata per jenis (jumlah karung ÷ jumlah pegawai)</option>
+      </select>
+    </div>
+  </div>
+  <div class="emp-pick-grid">
+    <div class="emp-group">
+      <div class="emp-group-head">
+        <span>Operator</span>
+        <button type="button" class="btn gray sm" onclick="toggleRoleCheck('Operator')">Pilih / Batal semua</button>
+      </div>
+      <div id="txOperatorList" class="emp-list"></div>
+    </div>
+    <div class="emp-group">
+      <div class="emp-group-head">
+        <span>Buruh</span>
+        <button type="button" class="btn gray sm" onclick="toggleRoleCheck('Buruh')">Pilih / Batal semua</button>
+      </div>
+      <div id="txBuruhList" class="emp-list"></div>
+    </div>
+  </div>
+  <div id="txWagePreview" class="wage-preview hidden"></div>
+  <label class="check-line">
+    <input type="checkbox" id="txPayNow">
+    <span>Langsung bayar upah sekarang (otomatis catat sebagai pengeluaran & masuk penggajian)</span>
+  </label>
+</div>
+
+<div class="actions"><button class="btn primary">Simpan transaksi</button><button type="reset" class="btn gray">Kosongkan</button></div>
+</form></div>
+<div class="section-head"><h2>Riwayat transaksi</h2></div><div class="filters"><input id="txSearch" placeholder="Cari kategori/keterangan"><select id="txFilter"><option value="all">Semua</option><option value="in">Pemasukan</option><option value="out">Pengeluaran</option></select></div><div class="table-wrap"><table><thead><tr><th>Tanggal</th><th>Jenis</th><th>Kategori</th><th>Keterangan</th><th>Jumlah</th><th>Aksi</th></tr></thead><tbody id="txRows"></tbody></table></div>
+</section>
+
+<section id="pegawai" class="panel">
+<div class="section-head"><h2>Data Pegawai</h2></div>
+<div class="card">
+<p class="note" style="margin-top:0">Isi sendiri nama-nama pegawai Anda (Operator dan Buruh) beserta tarif upah per karungnya.</p>
+<form id="empForm"><div class="formgrid">
+<div class="field"><label>Nama pegawai</label><input id="empName" required placeholder="Isi nama pegawai"></div>
+<div class="field"><label>Jenis pegawai</label><select id="empRole"><option value="Operator">Operator</option><option value="Buruh">Buruh</option></select></div>
+<div class="field"><label>No. HP</label><input id="empPhone" placeholder="Nomor telepon (opsional)"></div>
+<div class="field"><label>Upah per karung (Rp)</label><input id="empSalary" type="number" min="0" step="1" required placeholder="Contoh: 1500"></div>
+</div><div class="actions"><button class="btn primary" id="empSubmitBtn">Simpan pegawai</button><button type="button" class="btn gray hidden" id="empCancelBtn" onclick="cancelEditEmp()">Batal edit</button><button type="reset" class="btn gray" onclick="cancelEditEmp()">Kosongkan</button></div></form>
+</div>
+<div class="section-head"><h2>Daftar pegawai</h2></div><div class="table-wrap"><table><thead><tr><th>Nama</th><th>Jenis</th><th>No. HP</th><th>Upah per karung</th><th>Aksi</th></tr></thead><tbody id="empRows"></tbody></table></div>
+</section>
+
+<section id="karung" class="panel">
+<div class="section-head"><h2>Hitung Upah Berdasarkan Karung</h2></div>
+<div class="card">
+<p class="note">Selain otomatis dari menu Pemasukan, Anda juga dapat mencatat kerja per karung secara terpisah di sini.</p>
+<form id="sackForm"><div class="formgrid">
+<div class="field"><label>Tanggal kerja</label><input id="sackDate" type="date" required></div>
+<div class="field"><label>Pegawai</label><select id="sackEmp" required></select></div>
+<div class="field"><label>Jumlah karung</label><input id="sackCount" type="number" min="1" step="1" required placeholder="Contoh: 100"></div>
+<div class="field"><label>Tarif per karung (Rp)</label><input id="sackRate" type="number" min="0" required readonly></div>
+<div class="field"><label>Total upah otomatis</label><input id="sackTotal" readonly value="Rp0"></div>
+<div class="field"><label>Catatan</label><input id="sackNote" placeholder="Opsional"></div>
+</div><div class="actions"><button class="btn primary">Simpan hitungan karung</button></div></form>
+<p class="note">Setiap catatan karung otomatis masuk ke daftar upah pegawai. Saat upah dibayarkan, gunakan tombol Bayar agar tercatat sebagai pengeluaran dan masuk ke riwayat penggajian.</p>
+</div>
+<div class="section-head"><h2>Rekap kerja per karung</h2></div>
+<div class="filters"><input id="sackMonth" type="month"><select id="sackEmpFilter"><option value="all">Semua pegawai</option></select></div>
+<div class="table-wrap"><table><thead><tr><th>Tanggal</th><th>Pegawai</th><th>Jenis</th><th>Jumlah karung</th><th>Tarif/karung</th><th>Total upah</th><th>Catatan</th><th>Status</th><th>Aksi</th></tr></thead><tbody id="sackRows"></tbody></table></div>
+<div class="section-head"><h2>Ringkasan upah belum dibayar</h2></div>
+<div class="table-wrap"><table><thead><tr><th>Pegawai</th><th>Total karung</th><th>Total upah</th><th>Sudah dibayar</th><th>Sisa upah</th><th>Aksi</th></tr></thead><tbody id="sackSummary"></tbody></table></div>
+</section>
+
+<section id="gaji" class="panel">
+<div class="section-head"><h2>Penggajian Pegawai</h2></div><div class="card"><form id="payForm"><div class="formgrid">
+<div class="field"><label>Pegawai</label><select id="payEmp" required></select></div><div class="field"><label>Periode gaji</label><input id="payPeriod" type="month" required></div>
+<div class="field"><label>Jumlah dibayarkan (Rp)</label><input id="payAmount" type="number" min="1" required placeholder="0"></div><div class="field"><label>Tanggal pembayaran</label><input id="payDate" type="date" required></div>
+<div class="field full"><label>Catatan</label><input id="payNote" placeholder="Contoh: Gaji bulan November"></div>
+</div><div class="actions"><button class="btn primary">Simpan pembayaran gaji</button></div></form><p class="note">Pembayaran gaji otomatis tercatat sebagai pengeluaran.</p></div>
+<div class="section-head"><h2>Riwayat penggajian</h2></div><div class="table-wrap"><table><thead><tr><th>Tanggal</th><th>Pegawai</th><th>Periode</th><th>Catatan</th><th>Jumlah</th></tr></thead><tbody id="payRows"></tbody></table></div>
+</section>
+
+<section id="pinjaman" class="panel">
+<div class="section-head"><h2>Pinjaman Pegawai</h2></div>
+<div class="card"><form id="loanForm"><div class="formgrid">
+<div class="field"><label>Pegawai</label><select id="loanEmp" required></select></div><div class="field"><label>Tanggal pinjaman</label><input id="loanDate" type="date" required></div>
+<div class="field"><label>Jumlah pinjaman (Rp)</label><input id="loanAmount" type="number" min="1" required placeholder="0"></div><div class="field"><label>Catatan</label><input id="loanNote" placeholder="Keperluan pinjaman"></div>
+</div><div class="actions"><button class="btn primary">Catat pinjaman</button></div></form><p class="note">Pencairan pinjaman otomatis tercatat sebagai pengeluaran. Pengembalian pinjaman dicatat sebagai pemasukan.</p></div>
+<div class="card" style="margin-top:14px"><h3>Catat angsuran / pelunasan</h3><form id="repayForm"><div class="formgrid">
+<div class="field"><label>Pinjaman</label><select id="repayLoan" required></select></div><div class="field"><label>Tanggal pembayaran</label><input id="repayDate" type="date" required></div><div class="field"><label>Jumlah dibayar (Rp)</label><input id="repayAmount" type="number" min="1" required placeholder="0"></div>
+</div><div class="actions"><button class="btn green">Simpan pembayaran</button></div></form></div>
+<div class="section-head"><h2>Daftar pinjaman</h2></div><div class="table-wrap"><table><thead><tr><th>Tanggal</th><th>Pegawai</th><th>Pinjaman awal</th><th>Sudah dibayar</th><th>Sisa</th><th>Status</th></tr></thead><tbody id="loanRows"></tbody></table></div>
+</section>
+
+<section id="laporan" class="panel">
+<div class="section-head"><h2>Laporan & Cadangan Data</h2><button class="btn gray no-print" onclick="print()">Cetak laporan</button></div>
+<div class="grid"><div class="card stat"><small>Total gaji dibayar</small><strong id="sPayroll">Rp0</strong></div><div class="card stat"><small>Total pinjaman dicairkan</small><strong id="sLoanGiven">Rp0</strong></div><div class="card stat"><small>Total angsuran diterima</small><strong id="sRepay">Rp0</strong></div><div class="card stat"><small>Jumlah pegawai</small><strong id="sEmployees">0</strong></div></div>
+<div class="card"><h3>Rekap transaksi per bulan</h3><div class="filters no-print"><input type="month" id="reportMonth"><button class="btn primary" id="makeReport">Tampilkan</button></div><div id="reportResult"></div></div>
+<div class="card" style="margin-top:14px"><h3>Backup & pemulihan</h3><p class="note">Unduh backup secara berkala agar data aman. File backup dapat dipakai untuk memindahkan data ke perangkat lain.</p><div class="actions no-print"><button class="btn green" id="exportData">Unduh backup JSON</button><label class="btn gray" for="importFile">Pulihkan backup JSON</label><input class="hidden" id="importFile" type="file" accept=".json,application/json"><button class="btn gray" id="exportCsv">Ekspor transaksi CSV</button></div></div>
+</section>
+<p class="note" style="text-align:center;margin:22px 0">KasKita • Data tersimpan secara lokal pada perangkat ini.</p>
+</div>
+<script>
+const $=id=>document.getElementById(id);
+const today=new Date().toISOString().slice(0,10);
+const money=n=>'Rp'+Math.round(Number(n||0)).toLocaleString('id-ID');
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,7);
+let db=load();
+let editingEmpId=null;
+let txUncheckedEmps=new Set();
+
+function blank(){return {transactions:[],employees:[],payroll:[],loans:[],repayments:[],sackWork:[],sackPayments:[]}}
+function load(){try{return {...blank(),...JSON.parse(localStorage.getItem('kaskita_data')||'{}')}}catch(e){return blank()}}
+function save(){localStorage.setItem('kaskita_data',JSON.stringify(db));render()}
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function empName(id){return db.employees.find(e=>e.id===id)?.name||'Pegawai dihapus'}
+function empRate(emp){return Number(emp?.ratePerSack??emp?.salary??0)}
+function sackTotalOf(w){return w.amount!=null?Number(w.amount):Math.round(Number(w.count)*Number(w.rate))}
+
+function addTx(type,date,category,amount,note,ref,customId){
+  const id=customId||uid();
+  db.transactions.push({id,type,date,category,amount:Math.round(Number(amount)),note:note||'',ref:ref||''});
+  return id;
+}
+
+function delTx(id){
+  const linked=db.sackWork.filter(w=>w.txId===id);
+  if(linked.some(w=>db.sackPayments.some(p=>p.workId===w.id))){
+    return alert('Transaksi pemasukan ini memiliki upah karung yang sudah dibayar. Data tidak dapat dihapus agar laporan tetap akurat.');
+  }
+  const msg=linked.length?'Hapus transaksi ini beserta '+linked.length+' catatan upah karung terkait?':'Hapus transaksi ini?';
+  if(!confirm(msg))return;
+  db.transactions=db.transactions.filter(x=>x.id!==id);
+  if(linked.length)db.sackWork=db.sackWork.filter(w=>w.txId!==id);
+  save();
+}
+
+function openTab(tab){
+  document.querySelectorAll('nav button').forEach(x=>x.classList.toggle('active',x.dataset.tab===tab));
+  document.querySelectorAll('.panel').forEach(x=>x.classList.toggle('active',x.id===tab));
+  render();
+}
+
+$('today').textContent=new Date().toLocaleDateString('id-ID',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+['txDate','payDate','loanDate','repayDate'].forEach(id=>$(id).value=today);
+$('reportMonth').value=today.slice(0,7);
+document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>openTab(b.dataset.tab));
+
+function toggleTxSackBox(){
+  $('txSackBox').classList.toggle('hidden',$('txType').value!=='in');
+  updateTxWagePreview();
+}
+$('txType').onchange=toggleTxSackBox;
+$('txSacks').oninput=updateTxWagePreview;
+$('txSackMode').onchange=updateTxWagePreview;
+$('txAmount').oninput=updateTxWagePreview;
+$('txForm').onreset=()=>setTimeout(()=>{$('txDate').value=today;toggleTxSackBox()},0);
+
+function onTxEmpCheck(el){
+  if(el.checked)txUncheckedEmps.delete(el.dataset.empId);
+  else txUncheckedEmps.add(el.dataset.empId);
+  updateTxWagePreview();
+}
+
+function renderTxEmpPickers(){
+  const makeList=role=>{
+    const emps=db.employees.filter(e=>e.role===role);
+    if(!emps.length)return `<div class="note">Belum ada pegawai ${esc(role)}. <button type="button" class="btn gray sm" onclick="openTab('pegawai')">Isi di Data Pegawai</button></div>`;
+    return emps.map(e=>{
+      const checked=!txUncheckedEmps.has(e.id);
+      return `<label class="emp-item"><span class="emp-item-left"><input type="checkbox" class="tx-emp-cb" data-emp-id="${e.id}" data-role="${esc(role)}" ${checked?'checked':''} onchange="onTxEmpCheck(this)"><span>${esc(e.name)}</span></span><span class="badge blue">${money(empRate(e))}/krg</span></label>`;
+    }).join('');
+  };
+  $('txOperatorList').innerHTML=makeList('Operator');
+  $('txBuruhList').innerHTML=makeList('Buruh');
+}
+
+function toggleRoleCheck(role){
+  const emps=db.employees.filter(e=>e.role===role);
+  if(!emps.length)return;
+  const allChecked=emps.every(e=>!txUncheckedEmps.has(e.id));
+  emps.forEach(e=>{if(allChecked)txUncheckedEmps.add(e.id);else txUncheckedEmps.delete(e.id)});
+  renderTxEmpPickers();
+  updateTxWagePreview();
+}
+
+function calcTxWages(){
+  if($('txType').value!=='in')return [];
+  const sacks=Number($('txSacks').value||0);
+  if(sacks<=0)return [];
+  const mode=$('txSackMode').value;
+  const out=[];
+  ['Operator','Buruh'].forEach(role=>{
+    const list=db.employees.filter(e=>e.role===role&&!txUncheckedEmps.has(e.id));
+    if(!list.length)return;
+    if(mode==='split'&&list.length>1){
+      const eachSacks=Number((sacks/list.length).toFixed(2));
+      const groupItems=list.map(emp=>{
+        const rate=empRate(emp);
+        const wage=Math.round((sacks*rate)/list.length);
+        return {emp,role,sacks:eachSacks,rate,wage};
+      });
+      if(groupItems.every(x=>x.rate===groupItems[0].rate)){
+        const exact=Math.round(sacks*groupItems[0].rate);
+        groupItems[0].wage+=exact-groupItems.reduce((a,x)=>a+x.wage,0);
+      }
+      out.push(...groupItems);
+    }else{
+      list.forEach(emp=>{
+        const rate=empRate(emp);
+        out.push({emp,role,sacks,rate,wage:Math.round(sacks*rate)});
+      });
+    }
+  });
+  return out;
+}
+
+function updateTxWagePreview(){
+  const box=$('txWagePreview');
+  const sacks=Number($('txSacks').value||0);
+  if($('txType').value!=='in'||sacks<=0){
+    box.classList.add('hidden');
+    box.innerHTML='';
+    return;
+  }
+  const items=calcTxWages();
+  box.classList.remove('hidden');
+  if(!items.length){
+    box.innerHTML='<span class="red-text">Pilih minimal 1 pegawai (Operator atau Buruh) untuk menghitung upah karung.</span>';
+    return;
+  }
+  const total=items.reduce((a,x)=>a+x.wage,0);
+  const opTotal=items.filter(x=>x.role==='Operator').reduce((a,x)=>a+x.wage,0);
+  const buruhTotal=items.filter(x=>x.role==='Buruh').reduce((a,x)=>a+x.wage,0);
+  const txAmt=Number($('txAmount').value||0);
+  const rows=items.map(x=>`<div class="wage-row"><span><b>${esc(x.emp.name)}</b> <small>(${esc(x.role)} • ${x.sacks.toLocaleString('id-ID')} karung × ${money(x.rate)})</small></span><span>${money(x.wage)}</span></div>`).join('');
+  box.innerHTML=`<div style="font-weight:700;margin-bottom:6px">Rincian upah otomatis (${sacks.toLocaleString('id-ID')} karung):</div>${rows}<div class="wage-total"><span>Operator: ${money(opTotal)} • Buruh: ${money(buruhTotal)}</span><span class="red-text">Total: ${money(total)}</span></div>${txAmt>0?`<div class="note" style="margin-top:6px">Sisa pemasukan bersih setelah upah: <b class="${txAmt-total>=0?'green-text':'red-text'}">${money(txAmt-total)}</b></div>`:''}`;
+}
+
+$('txForm').onsubmit=e=>{
+  e.preventDefault();
+  const type=$('txType').value,date=$('txDate').value,cat=$('txCategory').value.trim(),amount=Number($('txAmount').value),note=$('txNote').value.trim();
+  const sacks=type==='in'?Number($('txSacks').value||0):0;
+  const wages=sacks>0?calcTxWages():[];
+  if(sacks>0&&!wages.length){
+    return alert('Pilih minimal 1 pegawai (Operator atau Buruh) untuk menghitung upah, atau kosongkan jumlah karung.');
+  }
+  const txId=uid();
+  const txNote=sacks>0?(note?note+' ('+sacks+' karung)':sacks+' karung'):note;
+  addTx(type,date,cat,amount,txNote,'',txId);
+
+  const payNow=sacks>0&&$('txPayNow').checked;
+  wages.forEach(item=>{
+    const w={id:uid(),date,empId:item.emp.id,count:item.sacks,rate:item.rate,amount:item.wage,note:'Pemasukan: '+cat+' ('+sacks+' karung)',txId};
+    db.sackWork.push(w);
+    if(payNow&&item.wage>0){
+      db.sackPayments.push({id:uid(),workId:w.id,empId:item.emp.id,date,amount:item.wage});
+      db.payroll.push({id:uid(),empId:item.emp.id,period:date.slice(0,7),date,amount:item.wage,note:'Upah '+item.role+' ('+item.sacks+' karung)'});
+      addTx('out',date,'Upah '+item.role+' - '+item.emp.name,item.wage,'Upah otomatis dari pemasukan: '+cat+' ('+item.sacks+' karung)','sackpay:'+w.id);
+    }
+  });
+
+  e.target.reset();
+  $('txDate').value=today;
+  toggleTxSackBox();
+  save();
+};
+
+function editEmp(id){
+  const emp=db.employees.find(e=>e.id===id);
+  if(!emp)return;
+  editingEmpId=id;
+  $('empName').value=emp.name;
+  $('empRole').value=emp.role;
+  $('empPhone').value=emp.phone||'';
+  $('empSalary').value=empRate(emp);
+  $('empSubmitBtn').textContent='Perbarui pegawai';
+  $('empCancelBtn').classList.remove('hidden');
+  $('empForm').scrollIntoView({behavior:'smooth',block:'center'});
+}
+function cancelEditEmp(){
+  editingEmpId=null;
+  $('empSubmitBtn').textContent='Simpan pegawai';
+  $('empCancelBtn').classList.add('hidden');
+}
+
+$('empForm').onsubmit=e=>{
+  e.preventDefault();
+  const name=$('empName').value.trim(),role=$('empRole').value,phone=$('empPhone').value.trim(),rate=Number($('empSalary').value);
+  if(!name)return;
+  if(editingEmpId){
+    const emp=db.employees.find(x=>x.id===editingEmpId);
+    if(emp){emp.name=name;emp.role=role;emp.phone=phone;emp.salary=rate;emp.ratePerSack=rate}
+    cancelEditEmp();
+  }else{
+    db.employees.push({id:uid(),name,role,phone,salary:rate,ratePerSack:rate});
+  }
+  e.target.reset();
+  save();
+};
+
+$('payForm').onsubmit=e=>{e.preventDefault();let emp=db.employees.find(x=>x.id===$('payEmp').value);if(!emp)return alert('Tambahkan data pegawai terlebih dahulu.');let p={id:uid(),empId:emp.id,period:$('payPeriod').value,date:$('payDate').value,amount:Number($('payAmount').value),note:$('payNote').value};db.payroll.push(p);addTx('out',p.date,'Gaji - '+emp.name,p.amount,p.note||('Gaji periode '+p.period),'pay:'+p.id);e.target.reset();$('payDate').value=today;save()};
+$('loanForm').onsubmit=e=>{e.preventDefault();let emp=db.employees.find(x=>x.id===$('loanEmp').value);if(!emp)return alert('Tambahkan data pegawai terlebih dahulu.');let l={id:uid(),empId:emp.id,date:$('loanDate').value,amount:Number($('loanAmount').value),note:$('loanNote').value};db.loans.push(l);addTx('out',l.date,'Pinjaman - '+emp.name,l.amount,l.note||'Pencairan pinjaman','loan:'+l.id);e.target.reset();$('loanDate').value=today;save()};
+$('repayForm').onsubmit=e=>{e.preventDefault();let l=db.loans.find(x=>x.id===$('repayLoan').value);if(!l)return alert('Tidak ada pinjaman yang masih berjalan.');let paid=db.repayments.filter(r=>r.loanId===l.id).reduce((a,r)=>a+r.amount,0),amount=Number($('repayAmount').value);if(amount<=0||amount>l.amount-paid)return alert('Jumlah pembayaran melebihi sisa pinjaman.');let r={id:uid(),loanId:l.id,empId:l.empId,date:$('repayDate').value,amount};db.repayments.push(r);addTx('in',r.date,'Angsuran pinjaman - '+empName(l.empId),amount,'Pengembalian pinjaman pegawai','repay:'+r.id);e.target.reset();$('repayDate').value=today;save()};
+$('txSearch').oninput=renderTx;$('txFilter').onchange=renderTx;
+
+function sackPaid(workId){return db.sackPayments.filter(p=>p.workId===workId).reduce((a,p)=>a+p.amount,0)}
+function updateSackRate(){let emp=db.employees.find(x=>x.id===$('sackEmp').value);let rate=empRate(emp);$('sackRate').value=rate;$('sackTotal').value=money(rate*Number($('sackCount').value||0))}
+$('sackEmp').onchange=updateSackRate;$('sackCount').oninput=updateSackRate;
+$('sackForm').onsubmit=e=>{e.preventDefault();let emp=db.employees.find(x=>x.id===$('sackEmp').value);if(!emp)return alert('Tambahkan data pegawai terlebih dahulu.');let count=Number($('sackCount').value),rate=empRate(emp);if(count<1||rate<0)return alert('Periksa jumlah karung dan tarif.');db.sackWork.push({id:uid(),date:$('sackDate').value,empId:emp.id,count,rate,amount:Math.round(count*rate),note:$('sackNote').value});e.target.reset();$('sackDate').value=today;updateSackRate();save()};
+function paySack(empId){let works=db.sackWork.filter(w=>w.empId===empId),due=works.reduce((a,w)=>a+Math.max(0,sackTotalOf(w)-sackPaid(w.id)),0);if(due<=0)return alert('Tidak ada upah yang belum dibayar.');if(!confirm('Bayarkan seluruh sisa upah '+money(due)+' kepada '+empName(empId)+'?'))return;let date=today;works.forEach(w=>{let rem=sackTotalOf(w)-sackPaid(w.id);if(rem>0)db.sackPayments.push({id:uid(),workId:w.id,empId,date,amount:rem})});db.payroll.push({id:uid(),empId,period:today.slice(0,7),date,amount:due,note:'Pembayaran upah karung'});addTx('out',date,'Upah karung - '+empName(empId),due,'Pembayaran upah berdasarkan jumlah karung','sackpay:'+uid());save()}
+function deleteSack(id){if(db.sackPayments.some(p=>p.workId===id))return alert('Catatan ini sudah dibayar dan tidak bisa dihapus.');if(confirm('Hapus catatan kerja ini?')){db.sackWork=db.sackWork.filter(w=>w.id!==id);save()}}
+
+function render(){
+  let ins=db.transactions.filter(x=>x.type==='in').reduce((a,x)=>a+x.amount,0),outs=db.transactions.filter(x=>x.type==='out').reduce((a,x)=>a+x.amount,0),loanLeft=db.loans.reduce((a,l)=>a+l.amount-db.repayments.filter(r=>r.loanId===l.id).reduce((b,r)=>b+r.amount,0),0);
+  let unpaidSack=db.sackWork.reduce((a,w)=>a+Math.max(0,sackTotalOf(w)-sackPaid(w.id)),0);
+  $('sIn').textContent=money(ins);$('sOut').textContent=money(outs);$('sBalance').textContent=money(ins-outs);$('sLoan').textContent=money(loanLeft);$('sUnpaidSack').textContent=money(unpaidSack);
+  $('sPayroll').textContent=money(db.payroll.reduce((a,x)=>a+x.amount,0));$('sLoanGiven').textContent=money(db.loans.reduce((a,x)=>a+x.amount,0));$('sRepay').textContent=money(db.repayments.reduce((a,x)=>a+x.amount,0));$('sEmployees').textContent=db.employees.length;
+  $('recent').innerHTML=db.transactions.slice().sort((a,b)=>(b.date||'').localeCompare(a.date||'')).slice(0,7).map(x=>`<p style="margin:8px 0"><b>${esc(x.category)}</b><br><small>${esc(x.date)}</small><span style="float:right" class="${x.type==='in'?'green-text':'red-text'}">${x.type==='in'?'+':'−'}${money(x.amount)}</span></p>`).join('')||'<div class="empty">Belum ada transaksi.</div>';
+  $('empRows').innerHTML=db.employees.map(e=>`<tr><td>${esc(e.name)}</td><td><span class="badge blue">${esc(e.role)}</span></td><td>${esc(e.phone||'-')}</td><td>${money(empRate(e))}</td><td style="white-space:nowrap"><button class="btn gray" onclick="editEmp('${e.id}')">Edit</button> <button class="btn red" onclick="delEmp('${e.id}')">Hapus</button></td></tr>`).join('')||'<tr><td colspan="5" class="empty">Belum ada pegawai. Silakan isi nama pegawai di form atas.</td></tr>';
+  renderTxEmpPickers();
+  toggleTxSackBox();
+  $('sackEmp').innerHTML=db.employees.map(e=>`<option value="${e.id}">${esc(e.name)} (${esc(e.role)})</option>`).join('')||'<option value="">Belum ada pegawai</option>';
+  $('sackEmpFilter').innerHTML='<option value="all">Semua pegawai</option>'+db.employees.map(e=>`<option value="${e.id}">${esc(e.name)}</option>`).join('');
+  if($('sackDate')&&!$('sackDate').value)$('sackDate').value=today;
+  if($('sackMonth')&&!$('sackMonth').value)$('sackMonth').value=today.slice(0,7);
+  updateSackRate();renderSack();
+  let opts=db.employees.map(e=>`<option value="${e.id}">${esc(e.name)} (${esc(e.role)})</option>`).join('');$('payEmp').innerHTML=opts||'<option value="">Belum ada pegawai</option>';$('loanEmp').innerHTML=opts||'<option value="">Belum ada pegawai</option>';
+  let openLoans=db.loans.filter(l=>l.amount-db.repayments.filter(r=>r.loanId===l.id).reduce((a,r)=>a+r.amount,0)>0);
+  $('repayLoan').innerHTML=openLoans.map(l=>{let rem=l.amount-db.repayments.filter(r=>r.loanId===l.id).reduce((a,r)=>a+r.amount,0);return `<option value="${l.id}">${esc(empName(l.empId))} • sisa ${money(rem)}</option>`}).join('')||'<option value="">Tidak ada pinjaman aktif</option>';
+  $('payRows').innerHTML=db.payroll.slice().reverse().map(p=>`<tr><td>${esc(p.date)}</td><td>${esc(empName(p.empId))}</td><td>${esc(p.period)}</td><td>${esc(p.note)}</td><td>${money(p.amount)}</td></tr>`).join('')||'<tr><td colspan="5" class="empty">Belum ada pembayaran gaji.</td></tr>';
+  $('loanRows').innerHTML=db.loans.slice().reverse().map(l=>{let paid=db.repayments.filter(r=>r.loanId===l.id).reduce((a,r)=>a+r.amount,0),rem=l.amount-paid;return `<tr><td>${esc(l.date)}</td><td>${esc(empName(l.empId))}</td><td>${money(l.amount)}</td><td>${money(paid)}</td><td>${money(rem)}</td><td><span class="badge ${rem?'red':''}">${rem?'Belum lunas':'Lunas'}</span></td></tr>`}).join('')||'<tr><td colspan="6" class="empty">Belum ada pinjaman.</td></tr>';
+  renderTx();makeReport();
+}
+
+function renderTx(){
+  let q=$('txSearch').value.toLowerCase(),f=$('txFilter').value;
+  let arr=db.transactions.filter(x=>(f==='all'||x.type===f)&&[x.category,x.note,x.date].join(' ').toLowerCase().includes(q)).slice().sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+  $('txRows').innerHTML=arr.map(x=>`<tr><td>${esc(x.date)}</td><td><span class="badge ${x.type==='out'?'red':''}">${x.type==='in'?'Pemasukan':'Pengeluaran'}</span></td><td>${esc(x.category)}</td><td>${esc(x.note)}</td><td class="${x.type==='in'?'green-text':'red-text'}">${money(x.amount)}</td><td>${x.ref?'<small>Otomatis</small>':`<button class="btn red" onclick="delTx('${x.id}')">Hapus</button>`}</td></tr>`).join('')||'<tr><td colspan="6" class="empty">Tidak ada transaksi.</td></tr>';
+}
+
+function renderSack(){
+  let month=$('sackMonth').value,filter=$('sackEmpFilter').value;
+  let works=db.sackWork.filter(w=>(!month||w.date.startsWith(month))&&(filter==='all'||w.empId===filter)).slice().sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+  $('sackRows').innerHTML=works.map(w=>{let total=sackTotalOf(w),paid=sackPaid(w.id),rem=total-paid;return `<tr><td>${esc(w.date)}</td><td>${esc(empName(w.empId))}</td><td>${esc(db.employees.find(e=>e.id===w.empId)?.role||'-')}</td><td>${Number(w.count).toLocaleString('id-ID')}</td><td>${money(w.rate)}</td><td>${money(total)}</td><td>${esc(w.note||'-')}</td><td><span class="badge ${rem?'red':''}">${rem?'Belum lunas':'Lunas'}</span></td><td><button class="btn red" onclick="deleteSack('${w.id}')">Hapus</button></td></tr>`}).join('')||'<tr><td colspan="9" class="empty">Belum ada catatan kerja.</td></tr>';
+  let emps=db.employees;
+  $('sackSummary').innerHTML=emps.map(emp=>{let ws=db.sackWork.filter(w=>w.empId===emp.id),count=ws.reduce((a,w)=>a+Number(w.count),0),total=ws.reduce((a,w)=>a+sackTotalOf(w),0),paid=ws.reduce((a,w)=>a+sackPaid(w.id),0),due=total-paid;return `<tr><td>${esc(emp.name)} (${esc(emp.role)})</td><td>${Number(count.toFixed(2)).toLocaleString('id-ID')}</td><td>${money(total)}</td><td>${money(paid)}</td><td>${money(due)}</td><td><button class="btn green" onclick="paySack('${emp.id}')" ${due<=0?'disabled':''}>Bayar</button></td></tr>`}).join('')||'<tr><td colspan="6" class="empty">Belum ada pegawai.</td></tr>';
+}
+$('sackMonth').onchange=renderSack;$('sackEmpFilter').onchange=renderSack;
+
+function delEmp(id){
+  if(db.payroll.some(x=>x.empId===id)||db.loans.some(x=>x.empId===id)||db.sackWork.some(x=>x.empId===id))return alert('Pegawai memiliki riwayat gaji/pinjaman/karung. Data tidak dapat dihapus agar laporan tetap utuh.');
+  if(confirm('Hapus pegawai ini?')){if(editingEmpId===id){$('empForm').reset();cancelEditEmp()}db.employees=db.employees.filter(x=>x.id!==id);save()}
+}
+function makeReport(){let m=$('reportMonth').value,arr=db.transactions.filter(x=>x.date.startsWith(m)),i=arr.filter(x=>x.type==='in').reduce((a,x)=>a+x.amount,0),o=arr.filter(x=>x.type==='out').reduce((a,x)=>a+x.amount,0);$('reportResult').innerHTML=`<p><b>Periode:</b> ${esc(m||'-')}</p><div class="grid"><div class="card stat"><small>Pemasukan</small><strong class="green-text">${money(i)}</strong></div><div class="card stat"><small>Pengeluaran</small><strong class="red-text">${money(o)}</strong></div><div class="card stat"><small>Selisih</small><strong>${money(i-o)}</strong></div></div><p class="note">${arr.length} transaksi pada periode ini.</p>`}
+$('makeReport').onclick=makeReport;
+$('exportData').onclick=()=>{let blob=new Blob([JSON.stringify(db,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='backup-kaskita-'+today+'.json';a.click();URL.revokeObjectURL(a.href)};
+$('importFile').onchange=async e=>{let f=e.target.files[0];if(!f)return;try{let d=JSON.parse(await f.text());if(!d.transactions||!d.employees||!d.payroll||!d.loans||!d.repayments)throw Error();if(confirm('Pulihkan backup? Data saat ini akan diganti.')){db={...blank(),...d};save();alert('Backup berhasil dipulihkan.')}}catch(err){alert('File backup tidak valid.')}e.target.value=''};
+$('exportCsv').onclick=()=>{let rows=[['Tanggal','Jenis','Kategori','Keterangan','Jumlah'],...db.transactions.map(x=>[x.date,x.type==='in'?'Pemasukan':'Pengeluaran',x.category,x.note,x.amount])],csv=rows.map(r=>r.map(v=>'"'+String(v??'').replace(/"/g,'""')+'"').join(';')).join('\n'),blob=new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='transaksi-kaskita.csv';a.click();URL.revokeObjectURL(a.href)};
+render();
+</script>
+</body></html>
