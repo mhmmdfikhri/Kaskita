@@ -3,29 +3,32 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>KasKita - Keuangan Usaha</title>
+<title>KasKita - CCR & Bimo</title>
 <style>
-:root{--bg:#f3f6fb;--card:#fff;--ink:#172033;--muted:#64748b;--line:#e2e8f0;--navy:#0f172a;--blue:#2563eb;--green:#059669;--red:#dc2626}
+:root{--bg:#f3f6fb;--card:#fff;--ink:#172033;--muted:#64748b;--line:#e2e8f0;--navy:#0f172a;--blue:#2563eb;--green:#059669;--red:#dc2626;--amber:#b45309}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
 header{background:var(--navy);color:#fff;padding:16px 20px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
-header h1{margin:0;font-size:20px}header small{color:#cbd5e1}.wrap{max-width:1050px;margin:auto;padding:16px}
+header h1{margin:0;font-size:20px}header small{color:#cbd5e1}.wrap{max-width:1100px;margin:auto;padding:16px}
 nav{display:flex;gap:8px;overflow:auto;padding-bottom:14px}
 nav button,.btn{border:0;border-radius:10px;padding:10px 14px;background:#e2e8f0;color:#1e293b;font-weight:600;cursor:pointer;white-space:nowrap;font-size:14px}
 nav button.active,.btn.primary{background:var(--blue);color:#fff}.btn.green{background:var(--green);color:#fff}.btn.red{background:var(--red);color:#fff}.btn.gray{background:#eef2f7}.btn.sm{padding:6px 10px;font-size:12px}
 .panel{display:none}.panel.active{display:block}.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:14px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin-bottom:14px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:12px;margin-bottom:14px}
 .stat small{color:var(--muted);display:block}.stat strong{font-size:20px;display:block;margin-top:6px}.green{color:var(--green)}.red{color:var(--red)}
 .formgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.field{display:flex;flex-direction:column;gap:5px}.field.full{grid-column:1/-1}
 label{font-size:13px;font-weight:600;color:#475569}
 input,select,textarea{width:100%;border:1px solid #cbd5e1;border-radius:9px;padding:10px;font:inherit;background:#fff;color:var(--ink)}
 textarea{min-height:60px;resize:vertical}input[type="checkbox"]{width:auto;margin:0;accent-color:var(--blue)}
 .actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:12px;background:#fff}
-table{width:100%;border-collapse:collapse;min-width:560px}th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);font-size:13px}th{background:#f8fafc;color:#475569}
-.empty{text-align:center;color:var(--muted);padding:20px}.badge{display:inline-block;padding:3px 8px;border-radius:20px;font-size:11px;font-weight:700;background:#dcfce7;color:#166534}
-.badge.red{background:#fee2e2;color:#991b1b}.badge.blue{background:#dbeafe;color:#1e40af}.note{font-size:12px;color:var(--muted);line-height:1.5}
+table{width:100%;border-collapse:collapse;min-width:460px}th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);font-size:13px}th{background:#f8fafc;color:#475569}
+.empty{text-align:center;color:var(--muted);padding:18px}.badge{display:inline-block;padding:3px 8px;border-radius:20px;font-size:11px;font-weight:700;background:#dcfce7;color:#166534}
+.badge.red{background:#fee2e2;color:#991b1b}.badge.blue{background:#dbeafe;color:#1e40af}.badge.amber{background:#fef3c7;color:#92400e}
+.note{font-size:12px;color:var(--muted);line-height:1.5}
 .sack-box{margin-top:14px;padding:14px;border:1px solid #bfdbfe;border-radius:12px;background:#f8fbff}
-.split{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px}
-.role-box{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.unit-card{border:1px solid var(--line);border-radius:12px;padding:12px;background:#fff}
+.unit-title{display:flex;justify-content:space-between;align-items:center;margin:0 0 10px;font-size:15px;font-weight:700}
+.role-box{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px;margin-top:8px}
 .role-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;font-weight:700;font-size:13px}
 .chk-list{display:flex;flex-direction:column;gap:6px;max-height:170px;overflow:auto}
 .chk-item{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:7px 9px;border:1px solid #e2e8f0;border-radius:8px;font-size:13px;cursor:pointer;background:#fcfdff}
@@ -33,20 +36,20 @@ table{width:100%;border-collapse:collapse;min-width:560px}th,td{text-align:left;
 .preview-row{display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #f1f5f9}.preview-row:last-child{border-bottom:0}
 .check-line{display:flex;align-items:center;gap:8px;margin-top:10px;font-size:13px;font-weight:600;cursor:pointer}
 .filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}.filters input,.filters select{max-width:210px}.hidden{display:none!important}
-@media(max-width:700px){.formgrid,.split{grid-template-columns:1fr}.field.full{grid-column:auto}}
+@media(max-width:760px){.formgrid,.split{grid-template-columns:1fr}.field.full{grid-column:auto}}
 @media print{header,nav,.no-print,.actions,.filters{display:none!important}.panel{display:none!important}.panel.active{display:block!important}body{background:#fff}}
 </style>
 </head>
 <body>
 <header>
-  <div><h1>💼 KasKita</h1><small>Keuangan Usaha, Karung & Upah Pegawai</small></div>
+  <div><h1>💼 KasKita</h1><small>Keuangan Usaha • Pegawai CCR & Bimo</small></div>
   <div id="today" style="font-size:13px"></div>
 </header>
 <div class="wrap">
   <nav class="no-print">
     <button class="active" data-tab="dashboard">Ringkasan</button>
     <button data-tab="transaksi">Pemasukan & Pengeluaran</button>
-    <button data-tab="pegawai">Pegawai & Upah</button>
+    <button data-tab="pegawai">Pegawai & Upah (CCR / Bimo)</button>
     <button data-tab="pinjaman">Pinjaman</button>
     <button data-tab="laporan">Laporan & Backup</button>
   </nav>
@@ -56,7 +59,7 @@ table{width:100%;border-collapse:collapse;min-width:560px}th,td{text-align:left;
       <div class="card stat"><small>Total Pemasukan</small><strong class="green" id="sIn">Rp0</strong></div>
       <div class="card stat"><small>Total Pengeluaran</small><strong class="red" id="sOut">Rp0</strong></div>
       <div class="card stat"><small>Saldo Saat Ini</small><strong id="sBal">Rp0</strong></div>
-      <div class="card stat"><small>Upah Belum Dibayar</small><strong class="red" id="sUnpaid">Rp0</strong></div>
+      <div class="card stat"><small>Upah Belum Dibayar</small><strong class="red" id="sUnpaid">Rp0</strong><span class="note" id="sUnpaidSplit">CCR: Rp0 • Bimo: Rp0</span></div>
       <div class="card stat"><small>Pinjaman Belum Lunas</small><strong id="sLoan">Rp0</strong></div>
     </div>
     <div class="card"><h3 style="margin-top:0">Transaksi Terbaru</h3><div id="recent"></div></div>
@@ -75,29 +78,27 @@ table{width:100%;border-collapse:collapse;min-width:560px}th,td{text-align:left;
         </div>
         <div id="txSackBox" class="sack-box">
           <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap">
-            <strong>📦 Hitung Upah Karung Otomatis (Buruh & Operator)</strong>
-            <button type="button" class="btn gray sm" onclick="openTab('pegawai')">+ Isi / Kelola Nama Pegawai</button>
+            <strong>📦 Hitung Upah Karung Otomatis (CCR / Bimo)</strong>
+            <button type="button" class="btn gray sm" onclick="openTab('pegawai')">+ Isi / Kelola Pegawai</button>
           </div>
-          <p class="note" style="margin:4px 0 10px">Isi jumlah karung jika pemasukan hari ini disertai pengerjaan karung. Kosongkan jika pemasukan biasa.</p>
+          <p class="note" style="margin:4px 0 10px">Pilih bagian pegawai (CCR atau Bimo) dan isi jumlah karung jika pemasukan hari ini disertai pengerjaan karung.</p>
           <div class="formgrid">
+            <div class="field"><label>Bagian Pegawai</label>
+              <select id="txGroup">
+                <option value="CCR">Pegawai CCR</option>
+                <option value="Bimo">Pegawai Bimo</option>
+                <option value="ALL">Semua (CCR & Bimo)</option>
+              </select>
+            </div>
             <div class="field"><label>Jumlah Karung Hari Ini</label><input id="txSacks" type="number" min="0" step="1" placeholder="Contoh: 100"></div>
-            <div class="field"><label>Hitungan Jika >1 Orang Per Jenis</label>
+            <div class="field full"><label>Hitungan Jika >1 Orang Per Jenis</label>
               <select id="txSplit">
                 <option value="full">Penuh per orang (masing-masing × jumlah karung)</option>
-                <option value="equal">Bagi rata per jenis (karung ÷ jumlah orang)</option>
+                <option value="equal">Bagi rata per jenis (karung ÷ jumlah orang terpilih)</option>
               </select>
             </div>
           </div>
-          <div class="split">
-            <div class="role-box">
-              <div class="role-head"><span>Operator</span><button type="button" class="btn gray sm" onclick="toggleRole('Operator')">Pilih/Batal</button></div>
-              <div id="txOps" class="chk-list"></div>
-            </div>
-            <div class="role-box">
-              <div class="role-head"><span>Buruh</span><button type="button" class="btn gray sm" onclick="toggleRole('Buruh')">Pilih/Batal</button></div>
-              <div id="txBuruh" class="chk-list"></div>
-            </div>
-          </div>
+          <div id="txPickers"></div>
           <div id="txPreview" class="preview hidden"></div>
           <label class="check-line"><input type="checkbox" id="txPayNow"><span>Langsung bayar upah sekarang (otomatis catat sebagai pengeluaran)</span></label>
         </div>
@@ -113,11 +114,12 @@ table{width:100%;border-collapse:collapse;min-width:560px}th,td{text-align:left;
 
   <section id="pegawai" class="panel">
     <div class="card">
-      <h3 style="margin-top:0">Isi Data Pegawai</h3>
-      <p class="note" style="margin-top:0">Isi sendiri nama Operator dan Buruh beserta tarif upah per karungnya.</p>
+      <h3 style="margin-top:0">Isi Data Pegawai (CCR & Bimo)</h3>
+      <p class="note" style="margin-top:0">Isi sendiri nama pegawai, pilih bagiannya (**CCR** atau **Bimo**), jenis (**Operator** atau **Buruh**), dan upah per karungnya.</p>
       <form id="empForm">
         <div class="formgrid">
           <div class="field"><label>Nama Pegawai</label><input id="empName" placeholder="Isi nama pegawai" required></div>
+          <div class="field"><label>Bagian Pegawai</label><select id="empGroup"><option value="CCR">Pegawai CCR</option><option value="Bimo">Pegawai Bimo</option></select></div>
           <div class="field"><label>Jenis Pegawai</label><select id="empRole"><option value="Operator">Operator</option><option value="Buruh">Buruh</option></select></div>
           <div class="field"><label>Upah per Karung (Rp)</label><input id="empRate" type="number" min="0" step="1" placeholder="Contoh: 1500" required></div>
         </div>
@@ -127,17 +129,35 @@ table{width:100%;border-collapse:collapse;min-width:560px}th,td{text-align:left;
         </div>
       </form>
     </div>
-    <div class="card">
-      <h3 style="margin-top:0">Daftar Pegawai</h3>
-      <div class="table-wrap"><table><thead><tr><th>Nama</th><th>Jenis</th><th>Upah / Karung</th><th>Aksi</th></tr></thead><tbody id="empRows"></tbody></table></div>
+
+    <div class="split">
+      <div class="card">
+        <div class="unit-title"><span>1. Daftar Pegawai CCR</span><span class="badge blue" id="cntCCR">0 orang</span></div>
+        <div class="table-wrap"><table><thead><tr><th>Nama</th><th>Jenis</th><th>Upah/Krg</th><th>Aksi</th></tr></thead><tbody id="empCCR"></tbody></table></div>
+      </div>
+      <div class="card">
+        <div class="unit-title"><span>2. Daftar Pegawai Bimo</span><span class="badge amber" id="cntBimo">0 orang</span></div>
+        <div class="table-wrap"><table><thead><tr><th>Nama</th><th>Jenis</th><th>Upah/Krg</th><th>Aksi</th></tr></thead><tbody id="empBimo"></tbody></table></div>
+      </div>
     </div>
-    <div class="card">
-      <h3 style="margin-top:0">Ringkasan Upah Karung Pegawai</h3>
-      <div class="table-wrap"><table><thead><tr><th>Pegawai</th><th>Total Karung</th><th>Total Upah</th><th>Sudah Dibayar</th><th>Sisa Upah</th><th>Aksi</th></tr></thead><tbody id="unpaidRows"></tbody></table></div>
+
+    <div class="split">
+      <div class="card">
+        <h3 style="margin-top:0">Upah Karung — Pegawai CCR</h3>
+        <div class="table-wrap"><table><thead><tr><th>Pegawai</th><th>Karung</th><th>Total Upah</th><th>Sisa Upah</th><th>Aksi</th></tr></thead><tbody id="unpaidCCR"></tbody></table></div>
+      </div>
+      <div class="card">
+        <h3 style="margin-top:0">Upah Karung — Pegawai Bimo</h3>
+        <div class="table-wrap"><table><thead><tr><th>Pegawai</th><th>Karung</th><th>Total Upah</th><th>Sisa Upah</th><th>Aksi</th></tr></thead><tbody id="unpaidBimo"></tbody></table></div>
+      </div>
     </div>
+
     <div class="card">
-      <h3 style="margin-top:0">Rincian Catatan Upah Karung</h3>
-      <div class="table-wrap"><table><thead><tr><th>Tanggal</th><th>Pegawai</th><th>Karung</th><th>Tarif</th><th>Total Upah</th><th>Catatan</th><th>Status</th><th>Aksi</th></tr></thead><tbody id="workRows"></tbody></table></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px">
+        <h3 style="margin:0">Rincian Catatan Upah Karung</h3>
+        <select id="workGroupFilter" style="max-width:180px"><option value="all">Semua (CCR & Bimo)</option><option value="CCR">Pegawai CCR</option><option value="Bimo">Pegawai Bimo</option></select>
+      </div>
+      <div class="table-wrap"><table><thead><tr><th>Tanggal</th><th>Bagian</th><th>Pegawai</th><th>Karung</th><th>Tarif</th><th>Total Upah</th><th>Catatan</th><th>Status</th><th>Aksi</th></tr></thead><tbody id="workRows"></tbody></table></div>
     </div>
   </section>
 
@@ -206,7 +226,9 @@ let db=load(),editId=null,unchecked=new Set();
 function blank(){return {transactions:[],employees:[],payroll:[],loans:[],repayments:[],sackWork:[],sackPayments:[]}}
 function load(){try{return {...blank(),...JSON.parse(localStorage.getItem('kaskita_data')||'{}')}}catch(e){return blank()}}
 function save(){localStorage.setItem('kaskita_data',JSON.stringify(db));render()}
-function empName(id){return db.employees.find(e=>e.id===id)?.name||'Pegawai dihapus'}
+function empObj(id){return db.employees.find(e=>e.id===id)}
+function empName(id){return empObj(id)?.name||'Pegawai dihapus'}
+function empGroup(e){return e?.group==='Bimo'?'Bimo':'CCR'}
 function empRate(e){return Number(e?.ratePerSack??e?.salary??0)}
 function workTotal(w){return w.amount!=null?Number(w.amount):Math.round(Number(w.count)*Number(w.rate))}
 function workPaid(id){return db.sackPayments.filter(p=>p.workId===id).reduce((a,p)=>a+Number(p.amount),0)}
@@ -224,44 +246,54 @@ $('reportMonth').value=today.slice(0,7);
 document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>openTab(b.dataset.tab));
 
 function toggleSackBox(){$('txSackBox').classList.toggle('hidden',$('txType').value!=='in');updatePreview()}
-$('txType').onchange=toggleSackBox;$('txSacks').oninput=updatePreview;$('txSplit').onchange=updatePreview;$('txAmount').oninput=updatePreview;
+$('txType').onchange=toggleSackBox;
+$('txGroup').onchange=()=>{renderPickers();updatePreview()};
+$('txSacks').oninput=updatePreview;$('txSplit').onchange=updatePreview;$('txAmount').oninput=updatePreview;
 $('txForm').onreset=()=>setTimeout(()=>{$('txDate').value=today;toggleSackBox()},0);
 
+function activeGroups(){const g=$('txGroup').value;return g==='ALL'?['CCR','Bimo']:[g]}
 function onCheckEmp(el){if(el.checked)unchecked.delete(el.value);else unchecked.add(el.value);updatePreview()}
-function toggleRole(role){
-  const list=db.employees.filter(e=>e.role===role);
+function toggleRole(grp,role){
+  const list=db.employees.filter(e=>empGroup(e)===grp&&e.role===role);
   if(!list.length)return;
   const allOn=list.every(e=>!unchecked.has(e.id));
   list.forEach(e=>{if(allOn)unchecked.add(e.id);else unchecked.delete(e.id)});
   renderPickers();updatePreview();
 }
+
 function renderPickers(){
-  const mk=role=>{
-    const list=db.employees.filter(e=>e.role===role);
-    if(!list.length)return `<div class="note">Belum ada ${role}. <button type="button" class="btn gray sm" onclick="openTab('pegawai')">Isi Pegawai</button></div>`;
-    return list.map(e=>`<label class="chk-item"><span><input type="checkbox" value="${e.id}" ${unchecked.has(e.id)?'':'checked'} onchange="onCheckEmp(this)"> ${esc(e.name)}</span><span class="badge blue">${money(empRate(e))}/krg</span></label>`).join('');
+  const groups=activeGroups();
+  const mkGroup=grp=>{
+    const mkRole=role=>{
+      const list=db.employees.filter(e=>empGroup(e)===grp&&e.role===role);
+      const body=list.length
+        ?list.map(e=>`<label class="chk-item"><span><input type="checkbox" value="${e.id}" ${unchecked.has(e.id)?'':'checked'} onchange="onCheckEmp(this)"> ${esc(e.name)}</span><span class="badge blue">${money(empRate(e))}/krg</span></label>`).join('')
+        :`<div class="note">Belum ada ${role} ${grp}. <button type="button" class="btn gray sm" onclick="openTab('pegawai')">Isi Pegawai</button></div>`;
+      return `<div class="role-box"><div class="role-head"><span>${role} ${grp}</span><button type="button" class="btn gray sm" onclick="toggleRole('${grp}','${role}')">Pilih/Batal</button></div><div class="chk-list">${body}</div></div>`;
+    };
+    return `<div class="unit-card" style="margin-top:10px"><div class="unit-title" style="margin-bottom:4px"><span>Bagian ${grp}</span><span class="badge ${grp==='CCR'?'blue':'amber'}">${grp}</span></div><div class="split">${mkRole('Operator')}${mkRole('Buruh')}</div></div>`;
   };
-  $('txOps').innerHTML=mk('Operator');$('txBuruh').innerHTML=mk('Buruh');
+  $('txPickers').innerHTML=groups.map(mkGroup).join('');
 }
 
 function calcWages(){
   if($('txType').value!=='in')return [];
   const sacks=Number($('txSacks').value||0);
   if(sacks<=0)return [];
-  const split=$('txSplit').value,out=[];
+  const split=$('txSplit').value,groups=activeGroups(),out=[];
   ['Operator','Buruh'].forEach(role=>{
-    const list=db.employees.filter(e=>e.role===role&&!unchecked.has(e.id));
+    const list=db.employees.filter(e=>groups.includes(empGroup(e))&&e.role===role&&!unchecked.has(e.id));
     if(!list.length)return;
     if(split==='equal'&&list.length>1){
       const each=Number((sacks/list.length).toFixed(2));
-      const items=list.map(emp=>({emp,role,sacks:each,rate:empRate(emp),wage:Math.round((sacks*empRate(emp))/list.length)}));
+      const items=list.map(emp=>({emp,grp:empGroup(emp),role,sacks:each,rate:empRate(emp),wage:Math.round((sacks*empRate(emp))/list.length)}));
       if(items.every(x=>x.rate===items[0].rate)){
         const exact=Math.round(sacks*items[0].rate);
         items[0].wage+=exact-items.reduce((a,x)=>a+x.wage,0);
       }
       out.push(...items);
     }else{
-      list.forEach(emp=>out.push({emp,role,sacks,rate:empRate(emp),wage:Math.round(sacks*empRate(emp))}));
+      list.forEach(emp=>out.push({emp,grp:empGroup(emp),role,sacks,rate:empRate(emp),wage:Math.round(sacks*empRate(emp))}));
     }
   });
   return out;
@@ -278,7 +310,7 @@ function updatePreview(){
   const br=items.filter(x=>x.role==='Buruh').reduce((a,x)=>a+x.wage,0);
   const amt=Number($('txAmount').value||0);
   box.innerHTML=`<b>Rincian Upah (${sacks.toLocaleString('id-ID')} karung):</b>`
-    +items.map(x=>`<div class="preview-row"><span><b>${esc(x.emp.name)}</b> (${x.role} • ${x.sacks.toLocaleString('id-ID')} krg × ${money(x.rate)})</span><span>${money(x.wage)}</span></div>`).join('')
+    +items.map(x=>`<div class="preview-row"><span><b>${esc(x.emp.name)}</b> <small>[${x.grp} • ${x.role}] ${x.sacks.toLocaleString('id-ID')} krg × ${money(x.rate)}</small></span><span>${money(x.wage)}</span></div>`).join('')
     +`<div class="preview-row" style="font-weight:700;border-top:1px solid #bfdbfe;padding-top:6px"><span>Operator: ${money(op)} • Buruh: ${money(br)}</span><span class="red">Total: ${money(tot)}</span></div>`
     +(amt>0?`<div class="note" style="margin-top:4px">Sisa pemasukan bersih: <b class="${amt-tot>=0?'green':'red'}">${money(amt-tot)}</b></div>`:'');
 }
@@ -286,18 +318,18 @@ function updatePreview(){
 $('txForm').onsubmit=e=>{
   e.preventDefault();
   const type=$('txType').value,date=$('txDate').value,cat=$('txCategory').value.trim(),amt=Number($('txAmount').value),note=$('txNote').value.trim();
-  const sacks=type==='in'?Number($('txSacks').value||0):0,wages=sacks>0?calcWages():[];
+  const sacks=type==='in'?Number($('txSacks').value||0):0,wages=sacks>0?calcWages():[],grpLabel=$('txGroup').value==='ALL'?'CCR & Bimo':$('txGroup').value;
   if(sacks>0&&!wages.length)return alert('Centang minimal 1 Operator atau Buruh, atau kosongkan jumlah karung.');
-  const txId=uid(),txNote=sacks>0?(note?note+' ('+sacks+' karung)':sacks+' karung'):note;
+  const txId=uid(),txNote=sacks>0?(note?note+' ('+grpLabel+' • '+sacks+' krg)':grpLabel+' • '+sacks+' karung'):note;
   addTx(type,date,cat,amt,txNote,'',txId);
   const payNow=sacks>0&&$('txPayNow').checked;
   wages.forEach(x=>{
-    const w={id:uid(),date,empId:x.emp.id,count:x.sacks,rate:x.rate,amount:x.wage,note:'Pemasukan: '+cat+' ('+sacks+' krg)',txId};
+    const w={id:uid(),date,empId:x.emp.id,group:x.grp,count:x.sacks,rate:x.rate,amount:x.wage,note:'Pemasukan: '+cat+' ('+x.grp+')',txId};
     db.sackWork.push(w);
     if(payNow&&x.wage>0){
       db.sackPayments.push({id:uid(),workId:w.id,empId:x.emp.id,date,amount:x.wage});
-      db.payroll.push({id:uid(),empId:x.emp.id,period:date.slice(0,7),date,amount:x.wage,note:'Upah '+x.role+' ('+x.sacks+' krg)'});
-      addTx('out',date,'Upah '+x.role+' - '+x.emp.name,x.wage,'Upah otomatis: '+cat,'sackpay:'+w.id);
+      db.payroll.push({id:uid(),empId:x.emp.id,period:date.slice(0,7),date,amount:x.wage,note:'Upah '+x.grp+' '+x.role+' ('+x.sacks+' krg)'});
+      addTx('out',date,'Upah '+x.grp+' - '+x.emp.name,x.wage,'Upah otomatis: '+cat,'sackpay:'+w.id);
     }
   });
   e.target.reset();$('txDate').value=today;toggleSackBox();save();
@@ -313,17 +345,18 @@ function delTx(id){
 }
 
 function editEmp(id){
-  const emp=db.employees.find(e=>e.id===id);if(!emp)return;
-  editId=id;$('empName').value=emp.name;$('empRole').value=emp.role;$('empRate').value=empRate(emp);
+  const emp=empObj(id);if(!emp)return;
+  editId=id;$('empName').value=emp.name;$('empGroup').value=empGroup(emp);$('empRole').value=emp.role;$('empRate').value=empRate(emp);
   $('empSubmit').textContent='Perbarui Pegawai';$('empCancel').classList.remove('hidden');
+  $('empForm').scrollIntoView({behavior:'smooth',block:'center'});
 }
 function cancelEdit(){editId=null;$('empForm').reset();$('empSubmit').textContent='Simpan Pegawai';$('empCancel').classList.add('hidden')}
 $('empForm').onsubmit=e=>{
   e.preventDefault();
-  const name=$('empName').value.trim(),role=$('empRole').value,rate=Number($('empRate').value);
+  const name=$('empName').value.trim(),group=$('empGroup').value,role=$('empRole').value,rate=Number($('empRate').value);
   if(!name)return;
-  if(editId){const emp=db.employees.find(x=>x.id===editId);if(emp){emp.name=name;emp.role=role;emp.salary=rate;emp.ratePerSack=rate}cancelEdit()}
-  else{db.employees.push({id:uid(),name,role,phone:'',salary:rate,ratePerSack:rate});e.target.reset()}
+  if(editId){const emp=empObj(editId);if(emp){emp.name=name;emp.group=group;emp.role=role;emp.salary=rate;emp.ratePerSack=rate}cancelEdit()}
+  else{db.employees.push({id:uid(),name,group,role,phone:'',salary:rate,ratePerSack:rate});e.target.reset();$('empGroup').value=group}
   save();
 };
 function delEmp(id){
@@ -334,10 +367,11 @@ function delEmp(id){
 function paySack(empId){
   const works=db.sackWork.filter(w=>w.empId===empId),due=works.reduce((a,w)=>a+Math.max(0,workTotal(w)-workPaid(w.id)),0);
   if(due<=0)return;
-  if(!confirm('Bayar sisa upah '+money(due)+' untuk '+empName(empId)+'?'))return;
+  const grp=empGroup(empObj(empId));
+  if(!confirm('Bayar sisa upah '+money(due)+' untuk '+empName(empId)+' ('+grp+')?'))return;
   works.forEach(w=>{const rem=workTotal(w)-workPaid(w.id);if(rem>0)db.sackPayments.push({id:uid(),workId:w.id,empId,date:today,amount:rem})});
-  db.payroll.push({id:uid(),empId,period:today.slice(0,7),date:today,amount:due,note:'Pembayaran upah karung'});
-  addTx('out',today,'Upah karung - '+empName(empId),due,'Pembayaran upah karung','sackpay:'+uid());
+  db.payroll.push({id:uid(),empId,period:today.slice(0,7),date:today,amount:due,note:'Pembayaran upah karung ('+grp+')'});
+  addTx('out',today,'Upah '+grp+' - '+empName(empId),due,'Pembayaran upah karung','sackpay:'+uid());
   save();
 }
 function delWork(id){
@@ -347,10 +381,10 @@ function delWork(id){
 
 $('loanForm').onsubmit=e=>{
   e.preventDefault();
-  const emp=db.employees.find(x=>x.id===$('loanEmp').value);
+  const emp=empObj($('loanEmp').value);
   if(!emp)return alert('Isi data pegawai terlebih dahulu.');
   const l={id:uid(),empId:emp.id,date:$('loanDate').value,amount:Number($('loanAmount').value),note:$('loanNote').value.trim()};
-  db.loans.push(l);addTx('out',l.date,'Pinjaman - '+emp.name,l.amount,l.note||'Pencairan pinjaman','loan:'+l.id);
+  db.loans.push(l);addTx('out',l.date,'Pinjaman - '+emp.name+' ('+empGroup(emp)+')',l.amount,l.note||'Pencairan pinjaman','loan:'+l.id);
   e.target.reset();$('loanDate').value=today;save();
 };
 $('repayForm').onsubmit=e=>{
@@ -369,7 +403,7 @@ function renderTx(){
   const arr=db.transactions.filter(x=>(f==='all'||x.type===f)&&[x.category,x.note,x.date].join(' ').toLowerCase().includes(q)).slice().sort((a,b)=>(b.date||'').localeCompare(a.date||''));
   $('txRows').innerHTML=arr.map(x=>`<tr><td>${esc(x.date)}</td><td><span class="badge ${x.type==='out'?'red':''}">${x.type==='in'?'Pemasukan':'Pengeluaran'}</span></td><td>${esc(x.category)}</td><td>${esc(x.note)}</td><td class="${x.type==='in'?'green':'red'}">${money(x.amount)}</td><td>${x.ref?'<small>Otomatis</small>':`<button class="btn red sm" onclick="delTx('${x.id}')">Hapus</button>`}</td></tr>`).join('')||'<tr><td colspan="6" class="empty">Belum ada transaksi.</td></tr>';
 }
-$('txSearch').oninput=renderTx;$('txFilter').onchange=renderTx;
+$('txSearch').oninput=renderTx;$('txFilter').onchange=renderTx;$('workGroupFilter').onchange=render;
 
 function makeReport(){
   const m=$('reportMonth').value,arr=db.transactions.filter(x=>(x.date||'').startsWith(m));
@@ -391,28 +425,40 @@ $('exportCsv').onclick=()=>{
   const b=new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8'}),a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='transaksi-kaskita.csv';a.click();URL.revokeObjectURL(a.href);
 };
 
+function renderEmpGroup(grp,rowId,unpaidId,cntId){
+  const emps=db.employees.filter(e=>empGroup(e)===grp);
+  $(cntId).textContent=emps.length+' orang';
+  $(rowId).innerHTML=emps.map(e=>`<tr><td>${esc(e.name)}</td><td><span class="badge blue">${esc(e.role)}</span></td><td>${money(empRate(e))}</td><td style="white-space:nowrap"><button class="btn gray sm" onclick="editEmp('${e.id}')">Edit</button> <button class="btn red sm" onclick="delEmp('${e.id}')">Hapus</button></td></tr>`).join('')||`<tr><td colspan="4" class="empty">Belum ada pegawai ${grp}.</td></tr>`;
+  $(unpaidId).innerHTML=emps.map(e=>{
+    const ws=db.sackWork.filter(w=>w.empId===e.id),cnt=ws.reduce((a,w)=>a+Number(w.count),0),tot=ws.reduce((a,w)=>a+workTotal(w),0),due=tot-ws.reduce((a,w)=>a+workPaid(w.id),0);
+    return `<tr><td>${esc(e.name)} <small>(${esc(e.role)})</small></td><td>${Number(cnt.toFixed(2)).toLocaleString('id-ID')}</td><td>${money(tot)}</td><td><b>${money(due)}</b></td><td><button class="btn green sm" onclick="paySack('${e.id}')" ${due<=0?'disabled':''}>Bayar</button></td></tr>`;
+  }).join('')||`<tr><td colspan="5" class="empty">Belum ada pegawai ${grp}.</td></tr>`;
+}
+
 function render(){
   const ins=db.transactions.filter(x=>x.type==='in').reduce((a,x)=>a+x.amount,0);
   const outs=db.transactions.filter(x=>x.type==='out').reduce((a,x)=>a+x.amount,0);
-  const unpaid=db.sackWork.reduce((a,w)=>a+Math.max(0,workTotal(w)-workPaid(w.id)),0);
+  let unpaidCCR=0,unpaidBimo=0;
+  db.sackWork.forEach(w=>{const rem=Math.max(0,workTotal(w)-workPaid(w.id));if((w.group||empGroup(empObj(w.empId)))==='Bimo')unpaidBimo+=rem;else unpaidCCR+=rem});
   const loanLeft=db.loans.reduce((a,l)=>a+l.amount-db.repayments.filter(r=>r.loanId===l.id).reduce((b,r)=>b+r.amount,0),0);
-  $('sIn').textContent=money(ins);$('sOut').textContent=money(outs);$('sBal').textContent=money(ins-outs);$('sUnpaid').textContent=money(unpaid);$('sLoan').textContent=money(loanLeft);
+
+  $('sIn').textContent=money(ins);$('sOut').textContent=money(outs);$('sBal').textContent=money(ins-outs);
+  $('sUnpaid').textContent=money(unpaidCCR+unpaidBimo);$('sUnpaidSplit').textContent=`CCR: ${money(unpaidCCR)} • Bimo: ${money(unpaidBimo)}`;
+  $('sLoan').textContent=money(loanLeft);
 
   $('recent').innerHTML=db.transactions.slice().sort((a,b)=>(b.date||'').localeCompare(a.date||'')).slice(0,6).map(x=>`<div class="preview-row"><span><b>${esc(x.category)}</b> <small>(${esc(x.date)})</small></span><span class="${x.type==='in'?'green':'red'}">${x.type==='in'?'+':'−'}${money(x.amount)}</span></div>`).join('')||'<div class="empty">Belum ada transaksi.</div>';
 
-  $('empRows').innerHTML=db.employees.map(e=>`<tr><td>${esc(e.name)}</td><td><span class="badge blue">${esc(e.role)}</span></td><td>${money(empRate(e))}</td><td><button class="btn gray sm" onclick="editEmp('${e.id}')">Edit</button> <button class="btn red sm" onclick="delEmp('${e.id}')">Hapus</button></td></tr>`).join('')||'<tr><td colspan="4" class="empty">Belum ada pegawai.</td></tr>';
+  renderEmpGroup('CCR','empCCR','unpaidCCR','cntCCR');
+  renderEmpGroup('Bimo','empBimo','unpaidBimo','cntBimo');
 
-  $('unpaidRows').innerHTML=db.employees.map(e=>{
-    const ws=db.sackWork.filter(w=>w.empId===e.id),cnt=ws.reduce((a,w)=>a+Number(w.count),0),tot=ws.reduce((a,w)=>a+workTotal(w),0),pd=ws.reduce((a,w)=>a+workPaid(w.id),0),due=tot-pd;
-    return `<tr><td>${esc(e.name)} (${esc(e.role)})</td><td>${Number(cnt.toFixed(2)).toLocaleString('id-ID')}</td><td>${money(tot)}</td><td>${money(pd)}</td><td><b>${money(due)}</b></td><td><button class="btn green sm" onclick="paySack('${e.id}')" ${due<=0?'disabled':''}>Bayar</button></td></tr>`;
-  }).join('')||'<tr><td colspan="6" class="empty">Belum ada pegawai.</td></tr>';
+  const wf=$('workGroupFilter').value;
+  const works=db.sackWork.filter(w=>wf==='all'||(w.group||empGroup(empObj(w.empId)))===wf).slice().sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+  $('workRows').innerHTML=works.map(w=>{
+    const tot=workTotal(w),rem=tot-workPaid(w.id),grp=w.group||empGroup(empObj(w.empId));
+    return `<tr><td>${esc(w.date)}</td><td><span class="badge ${grp==='CCR'?'blue':'amber'}">${esc(grp)}</span></td><td>${esc(empName(w.empId))}</td><td>${Number(w.count).toLocaleString('id-ID')}</td><td>${money(w.rate)}</td><td>${money(tot)}</td><td>${esc(w.note||'-')}</td><td><span class="badge ${rem?'red':''}">${rem?'Belum lunas':'Lunas'}</span></td><td><button class="btn red sm" onclick="delWork('${w.id}')">Hapus</button></td></tr>`;
+  }).join('')||'<tr><td colspan="9" class="empty">Belum ada catatan upah karung.</td></tr>';
 
-  $('workRows').innerHTML=db.sackWork.slice().sort((a,b)=>(b.date||'').localeCompare(a.date||'')).map(w=>{
-    const tot=workTotal(w),rem=tot-workPaid(w.id);
-    return `<tr><td>${esc(w.date)}</td><td>${esc(empName(w.empId))}</td><td>${Number(w.count).toLocaleString('id-ID')}</td><td>${money(w.rate)}</td><td>${money(tot)}</td><td>${esc(w.note||'-')}</td><td><span class="badge ${rem?'red':''}">${rem?'Belum lunas':'Lunas'}</span></td><td><button class="btn red sm" onclick="delWork('${w.id}')">Hapus</button></td></tr>`;
-  }).join('')||'<tr><td colspan="8" class="empty">Belum ada catatan upah karung.</td></tr>';
-
-  $('loanEmp').innerHTML=db.employees.map(e=>`<option value="${e.id}">${esc(e.name)} (${esc(e.role)})</option>`).join('')||'<option value="">Belum ada pegawai</option>';
+  $('loanEmp').innerHTML=db.employees.map(e=>`<option value="${e.id}">${esc(e.name)} (${empGroup(e)} - ${esc(e.role)})</option>`).join('')||'<option value="">Belum ada pegawai</option>';
   const openLoans=db.loans.filter(l=>l.amount-db.repayments.filter(r=>r.loanId===l.id).reduce((a,r)=>a+r.amount,0)>0);
   $('repayLoan').innerHTML=openLoans.map(l=>{const rem=l.amount-db.repayments.filter(r=>r.loanId===l.id).reduce((a,r)=>a+r.amount,0);return `<option value="${l.id}">${esc(empName(l.empId))} • sisa ${money(rem)}</option>`}).join('')||'<option value="">Tidak ada pinjaman aktif</option>';
   $('loanRows').innerHTML=db.loans.slice().reverse().map(l=>{const pd=db.repayments.filter(r=>r.loanId===l.id).reduce((a,r)=>a+r.amount,0),rem=l.amount-pd;return `<tr><td>${esc(l.date)}</td><td>${esc(empName(l.empId))}</td><td>${money(l.amount)}</td><td>${money(pd)}</td><td>${money(rem)}</td><td><span class="badge ${rem?'red':''}">${rem?'Belum lunas':'Lunas'}</span></td></tr>`}).join('')||'<tr><td colspan="6" class="empty">Belum ada pinjaman.</td></tr>';
